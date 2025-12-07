@@ -95,24 +95,27 @@ class VideoCallService {
     }
   }
 
-  subscribeToRemoteUsers(callback: (user: any, mediaType: 'audio' | 'video') => void) {
+  subscribeToRemoteUsers(callback: (user: any, mediaType: string) => void) {
     if (!this.client) return;
 
     this.client.on('user-published', async (user, mediaType) => {
-      await this.client!.subscribe(user, mediaType);
-      callback(user, mediaType);
+      // Only subscribe to audio and video, ignore datachannel
+      if (mediaType === 'video' || mediaType === 'audio') {
+        await this.client!.subscribe(user, mediaType);
+        callback(user, mediaType);
 
-      if (mediaType === 'video') {
-        // Remote user video track
-        const remoteVideoTrack = user.videoTrack;
-        // You can play it in a div with id like `remote-${user.uid}`
-        remoteVideoTrack?.play(`remote-${user.uid}`);
-      }
+        if (mediaType === 'video') {
+          // Remote user video track
+          const remoteVideoTrack = user.videoTrack;
+          // You can play it in a div with id like `remote-${user.uid}`
+          remoteVideoTrack?.play(`remote-${user.uid}`);
+        }
 
-      if (mediaType === 'audio') {
-        // Remote user audio track
-        const remoteAudioTrack = user.audioTrack;
-        remoteAudioTrack?.play();
+        if (mediaType === 'audio') {
+          // Remote user audio track
+          const remoteAudioTrack = user.audioTrack;
+          remoteAudioTrack?.play();
+        }
       }
     });
 
