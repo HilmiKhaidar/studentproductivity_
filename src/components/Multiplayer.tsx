@@ -1,146 +1,270 @@
-import React, { useState } from 'react';
-import { Video, Mic, MicOff, VideoOff, Users, MessageCircle, Share2, Palette, Phone, PhoneOff, UserPlus, Clock, Activity } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Video, Mic, MicOff, VideoOff, Users, MessageCircle, Phone, PhoneOff, UserPlus, Clock, Send, X } from 'lucide-react';
 import { useStore } from '../store/useStore';
+import { collection, query, where, getDocs, addDoc, doc, getDoc, onSnapshot, updateDoc, arrayUnion } from 'firebase/firestore';
+import { db } from '../config/firebase';
 import toast from 'react-hot-toast';
 
 export const Multiplayer: React.FC = () => {
   const { user } = useStore();
-  const [activeTab, setActiveTab] = useState<'sessions' | 'messages' | 'activity' | 'whiteboard'>('sessions');
+  const [activeTab, setActiveTab] = useState<'sessions' | 'messages'>('sessions');
   
   // Study Sessions
-  const [sessions, setSessions] = useState<any[]>([
-    {
-      id: '1',
-      hostName: 'Ahmad',
-      title: 'Belajar Kalkulus Bareng',
-      participants: 3,
-      maxParticipants: 5,
-      subject: 'Matematika',
-      type: 'video',
-      isActive: true,
-      startTime: new Date().toISOString(),
-    },
-    {
-      id: '2',
-      hostName: 'Sarah',
-      title: 'Study Group - Algoritma',
-      participants: 2,
-      maxParticipants: 4,
-      subject: 'Informatika',
-      type: 'audio',
-      isActive: true,
-      startTime: new Date().toISOString(),
-    },
-  ]);
-  
+  const [sessions, setSessions] = useState<any[]>([]);
+  const [friends, setFriends] = useState<any[]>([]);
   const [showCreateSession, setShowCreateSession] = useState(false);
+  const [showInviteFriends, setShowInviteFriends] = useState(false);
+  const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
   const [inSession, setInSession] = useState(false);
   const [currentSession, setCurrentSession] = useState<any>(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(true);
   
-  // Messages
-  const [conversations] = useState<any[]>([
-    {
-      id: '1',
-      friendId: 'friend1',
-      friendName: 'Ahmad',
-      lastMessage: 'Ayo belajar bareng!',
-      timestamp: new Date().toISOString(),
-      unread: 2,
-    },
-    {
-      id: '2',
-      friendId: 'friend2',
-      friendName: 'Sarah',
-      lastMessage: 'Thanks for helping!',
-      timestamp: new Date().toISOString(),
-      unread: 0,
-    },
-  ]);
+  // Session form
+  const [sessionForm, setSessionForm] = useState({
+    title: '',
+    subject: '',
+    type: 'video' as 'video' | 'audio' | 'silent',
+    maxParticipants: 5,
+  });
   
+  // Session chat
+  const [sessionMessages, setSessionMessages] = useState<any[]>([]);
+  const [newSessionMessage, setNewSessionMessage] = useState('');
+  const [showChat, setShowChat] = useState(false);
+  
+  // Private Messages
+  const [conversations, setConversations] = useState<any[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  
-  // Activity Feed
-  const [activities, setActivities] = useState<any[]>([
-    {
-      id: '1',
-      userName: 'Ahmad',
-      userPhoto: null,
-      type: 'task_completed',
-      content: 'completed 5 tasks today! 🎉',
-      timestamp: new Date().toISOString(),
-      likes: [],
-      comments: [],
-    },
-    {
-      id: '2',
-      userName: 'Sarah',
-      userPhoto: null,
-      type: 'streak_milestone',
-      content: 'reached a 30-day streak! 🔥',
-      timestamp: new Date().toISOString(),
-      likes: ['user1'],
-      comments: [],
-    },
-  ]);
 
-  const handleCreateSession = () => {
-    const newSession = {
-      id: Date.now().toString(),
-      hostName: user?.name || 'You',
-      title: 'New Study Session',
-      participants: 1,
-      maxParticipants: 5,
-      subject: 'General',
-      type: 'video',
-      isActive: true,
-      startTime: new Date().toISOString(),
-    };
-    setSessions([newSession, ...sessions]);
-    toast.success('Study session created!');
-    setShowCreateSession(false);
-  };
+  useEffect(() => {
+    if (user) {
+      loadFriends();
+      loadSessions();
+      loadConversations();
+    }
+  }, [user]);
 
-  const handleJoinSession = (session: any) => {
-    setCurrentSession(session);
-    setInSession(true);
-    toast.success(`Joined ${session.title}`);
-  };
+  useEffect(() => {
+    if (currentSession) {
+      // Subscribe to session messages
+      const messagesRef = collection(db, 'sessionMessages');
+      const q = query(messagesRef, where('sessionId', '==', currentSession.id));
+      
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const msgs = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setSessionMessages(msgs.sort((a, b) => 
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        ));
+      });
+      
+      return () => unsubscribe();
+    }
+  }, [currentSession]);
 
-  const handleLeaveSession = () => {
-    setInSession(false);
-    setCurrentSession(null);
-    toast.success('Left the session');
-  };
-
-  const handleSendMessage = () => {
-    if (!newMessage.trim() || !selectedConversation) return;
-    
-    const message = {
-      id: Date.now().toString(),
-      senderId: user?.id,
-      text: newMessage,
-      timestamp: new Date().toISOString(),
-    };
-    
-    setMessages([...messages, message]);
-    setNewMessage('');
-    toast.success('Message sent!');
-  };
-
-  const handleLikeActivity = (activityId: string) => {
-    setActivities(activities.map(a => {
-      if (a.id === activityId) {
-        const likes = a.likes.includes(user?.id)
-          ? a.likes.filter((id: string) => id !== user?.id)
-          : [...a.likes, user?.id];
-        return { ...a, likes };
+  const loadFriends = async () => {
+    if (!user) return;
+    try {
+      const friendsRef = collection(db, 'friends');
+      
+      const q1 = query(friendsRef, where('userId', '==', user.id), where('status', '==', 'accepted'));
+      const q2 = query(friendsRef, where('friendId', '==', user.id), where('status', '==', 'accepted'));
+      
+      const [snapshot1, snapshot2] = await Promise.all([getDocs(q1), getDocs(q2)]);
+      
+      const friendsList: any[] = [];
+      
+      for (const docSnap of snapshot1.docs) {
+        const data = docSnap.data();
+        const userDoc = await getDoc(doc(db, 'users', data.friendId));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          friendsList.push({
+            id: data.friendId,
+            name: userData.name,
+            email: userData.email,
+            photoURL: userData.photoURL,
+          });
+        }
       }
-      return a;
-    }));
+      
+      for (const docSnap of snapshot2.docs) {
+        const data = docSnap.data();
+        const userDoc = await getDoc(doc(db, 'users', data.userId));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          friendsList.push({
+            id: data.userId,
+            name: userData.name,
+            email: userData.email,
+            photoURL: userData.photoURL,
+          });
+        }
+      }
+      
+      setFriends(friendsList);
+    } catch (error) {
+      console.error('Error loading friends:', error);
+    }
+  };
+
+  const loadSessions = async () => {
+    if (!user) return;
+    try {
+      const sessionsRef = collection(db, 'studySessions');
+      const q = query(sessionsRef, where('isActive', '==', true));
+      
+      const unsubscribe = onSnapshot(q, async (snapshot) => {
+        const sessionsList = [];
+        
+        for (const docSnap of snapshot.docs) {
+          const data = docSnap.data();
+          // Only show sessions where user is invited or is host
+          if (data.hostId === user.id || data.invitedUsers?.includes(user.id)) {
+            sessionsList.push({
+              id: docSnap.id,
+              ...data
+            });
+          }
+        }
+        
+        setSessions(sessionsList);
+      });
+      
+      return () => unsubscribe();
+    } catch (error) {
+      console.error('Error loading sessions:', error);
+    }
+  };
+
+  const loadConversations = async () => {
+    if (!user) return;
+    // Load conversations with friends
+    setConversations(friends.map(friend => ({
+      id: friend.id,
+      friendId: friend.id,
+      friendName: friend.name,
+      friendPhoto: friend.photoURL,
+      lastMessage: '',
+      timestamp: new Date().toISOString(),
+      unread: 0,
+    })));
+  };
+
+  const handleCreateSession = async () => {
+    if (!user || !sessionForm.title.trim()) {
+      toast.error('Please fill in session title');
+      return;
+    }
+
+    try {
+      const sessionData = {
+        hostId: user.id,
+        hostName: user.name,
+        title: sessionForm.title,
+        subject: sessionForm.subject,
+        type: sessionForm.type,
+        maxParticipants: sessionForm.maxParticipants,
+        participants: [user.id],
+        invitedUsers: selectedFriends,
+        isActive: true,
+        startTime: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+      };
+
+      await addDoc(collection(db, 'studySessions'), sessionData);
+      
+      toast.success('Study session created!');
+      setShowCreateSession(false);
+      setShowInviteFriends(false);
+      setSelectedFriends([]);
+      setSessionForm({
+        title: '',
+        subject: '',
+        type: 'video',
+        maxParticipants: 5,
+      });
+    } catch (error) {
+      console.error('Error creating session:', error);
+      toast.error('Failed to create session');
+    }
+  };
+
+  const handleJoinSession = async (session: any) => {
+    if (!user) return;
+    
+    try {
+      // Update session participants
+      await updateDoc(doc(db, 'studySessions', session.id), {
+        participants: arrayUnion(user.id)
+      });
+      
+      setCurrentSession(session);
+      setInSession(true);
+      toast.success(`Joined ${session.title}`);
+    } catch (error) {
+      console.error('Error joining session:', error);
+      toast.error('Failed to join session');
+    }
+  };
+
+  const handleLeaveSession = async () => {
+    if (!currentSession || !user) return;
+    
+    try {
+      // Update session participants
+      const sessionRef = doc(db, 'studySessions', currentSession.id);
+      const sessionDoc = await getDoc(sessionRef);
+      
+      if (sessionDoc.exists()) {
+        const data = sessionDoc.data();
+        const updatedParticipants = data.participants.filter((id: string) => id !== user.id);
+        
+        await updateDoc(sessionRef, {
+          participants: updatedParticipants
+        });
+      }
+      
+      setInSession(false);
+      setCurrentSession(null);
+      setSessionMessages([]);
+      toast.success('Left the session');
+    } catch (error) {
+      console.error('Error leaving session:', error);
+      toast.error('Failed to leave session');
+    }
+  };
+
+  const handleSendSessionMessage = async () => {
+    if (!newSessionMessage.trim() || !currentSession || !user) return;
+    
+    try {
+      await addDoc(collection(db, 'sessionMessages'), {
+        sessionId: currentSession.id,
+        senderId: user.id,
+        senderName: user.name,
+        message: newSessionMessage,
+        timestamp: new Date().toISOString(),
+      });
+      
+      setNewSessionMessage('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast.error('Failed to send message');
+    }
+  };
+
+  const toggleFriendSelection = (friendId: string) => {
+    setSelectedFriends(prev =>
+      prev.includes(friendId)
+        ? prev.filter(id => id !== friendId)
+        : [...prev, friendId]
+    );
   };
 
   return (
@@ -163,35 +287,99 @@ export const Multiplayer: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-bold text-white">{currentSession.title}</h3>
-                <p className="text-white/60 text-sm">{currentSession.participants} participants</p>
+                <p className="text-white/60 text-sm">
+                  {currentSession.participants?.length || 0} participants • {currentSession.subject}
+                </p>
               </div>
-              <button
-                onClick={handleLeaveSession}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
-              >
-                <PhoneOff size={18} />
-                Leave
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setShowChat(!showChat)}
+                  className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2"
+                >
+                  <MessageCircle size={18} />
+                  Chat
+                </button>
+                <button
+                  onClick={handleLeaveSession}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                >
+                  <PhoneOff size={18} />
+                  Leave
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Video Grid */}
-          <div className="flex-1 p-4 grid grid-cols-2 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-gray-800 rounded-xl flex items-center justify-center relative">
-                <div className="text-center">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-2">
-                    {i === 1 ? user?.name?.charAt(0).toUpperCase() : 'U'}
+          <div className="flex-1 flex">
+            {/* Video Grid */}
+            <div className="flex-1 p-4 grid grid-cols-2 gap-4">
+              {currentSession.participants?.map((participantId: string, index: number) => (
+                <div key={participantId} className="bg-gray-800 rounded-xl flex items-center justify-center relative">
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-2">
+                      {participantId === user?.id ? user.name.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                    <p className="text-white font-semibold">
+                      {participantId === user?.id ? 'You' : `User ${index + 1}`}
+                    </p>
                   </div>
-                  <p className="text-white font-semibold">{i === 1 ? 'You' : `User ${i}`}</p>
+                  {participantId === user?.id && !isVideoOn && (
+                    <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs">
+                      Camera Off
+                    </div>
+                  )}
                 </div>
-                {i === 1 && !isVideoOn && (
-                  <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs">
-                    Camera Off
+              ))}
+            </div>
+
+            {/* Chat Sidebar */}
+            {showChat && (
+              <div className="w-80 bg-white/10 backdrop-blur-lg border-l border-white/20 flex flex-col">
+                <div className="p-4 border-b border-white/20 flex items-center justify-between">
+                  <h3 className="text-white font-bold">Session Chat</h3>
+                  <button onClick={() => setShowChat(false)} className="text-white/60 hover:text-white">
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="flex-1 p-4 overflow-y-auto space-y-3">
+                  {sessionMessages.map((msg) => (
+                    <div key={msg.id} className={`${msg.senderId === user?.id ? 'text-right' : 'text-left'}`}>
+                      <div className={`inline-block max-w-[80%] p-3 rounded-lg ${
+                        msg.senderId === user?.id
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-white/10 text-white'
+                      }`}>
+                        {msg.senderId !== user?.id && (
+                          <p className="text-xs opacity-70 mb-1">{msg.senderName}</p>
+                        )}
+                        <p>{msg.message}</p>
+                        <p className="text-xs opacity-70 mt-1">
+                          {new Date(msg.timestamp).toLocaleTimeString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-4 border-t border-white/20">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={newSessionMessage}
+                      onChange={(e) => setNewSessionMessage(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && handleSendSessionMessage()}
+                      placeholder="Type a message..."
+                      className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+                    />
+                    <button
+                      onClick={handleSendSessionMessage}
+                      className="bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-lg transition-all"
+                    >
+                      <Send size={18} />
+                    </button>
                   </div>
-                )}
+                </div>
               </div>
-            ))}
+            )}
           </div>
 
           {/* Controls */}
@@ -213,22 +401,16 @@ export const Multiplayer: React.FC = () => {
               >
                 {isVideoOn ? <Video className="text-white" size={24} /> : <VideoOff className="text-white" size={24} />}
               </button>
-              <button className="p-4 rounded-full bg-white/20 hover:bg-white/30 transition-all">
-                <Share2 className="text-white" size={24} />
-              </button>
-              <button className="p-4 rounded-full bg-white/20 hover:bg-white/30 transition-all">
-                <Palette className="text-white" size={24} />
-              </button>
             </div>
           </div>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex gap-4 overflow-x-auto">
+      <div className="flex gap-4">
         <button
           onClick={() => setActiveTab('sessions')}
-          className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
+          className={`px-6 py-3 rounded-lg font-semibold transition-all ${
             activeTab === 'sessions'
               ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
               : 'bg-white/10 text-white/70 hover:bg-white/20'
@@ -239,7 +421,7 @@ export const Multiplayer: React.FC = () => {
         </button>
         <button
           onClick={() => setActiveTab('messages')}
-          className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
+          className={`px-6 py-3 rounded-lg font-semibold transition-all ${
             activeTab === 'messages'
               ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
               : 'bg-white/10 text-white/70 hover:bg-white/20'
@@ -247,28 +429,6 @@ export const Multiplayer: React.FC = () => {
         >
           <MessageCircle size={18} className="inline mr-2" />
           Messages
-        </button>
-        <button
-          onClick={() => setActiveTab('activity')}
-          className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
-            activeTab === 'activity'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
-          }`}
-        >
-          <Activity size={18} className="inline mr-2" />
-          Activity Feed
-        </button>
-        <button
-          onClick={() => setActiveTab('whiteboard')}
-          className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
-            activeTab === 'whiteboard'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
-          }`}
-        >
-          <Palette size={18} className="inline mr-2" />
-          Whiteboard
         </button>
       </div>
 
@@ -286,21 +446,30 @@ export const Multiplayer: React.FC = () => {
             </button>
           </div>
 
+          {/* Create Session Modal */}
           {showCreateSession && (
             <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
               <h4 className="text-white font-bold mb-4">Create Study Session</h4>
               <div className="space-y-3">
                 <input
                   type="text"
-                  placeholder="Session title"
+                  placeholder="Session title *"
+                  value={sessionForm.title}
+                  onChange={(e) => setSessionForm({ ...sessionForm, title: e.target.value })}
                   className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 <input
                   type="text"
                   placeholder="Subject"
+                  value={sessionForm.subject}
+                  onChange={(e) => setSessionForm({ ...sessionForm, subject: e.target.value })}
                   className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
-                <select className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <select
+                  value={sessionForm.type}
+                  onChange={(e) => setSessionForm({ ...sessionForm, type: e.target.value as any })}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                >
                   <option value="video">Video Call</option>
                   <option value="audio">Audio Only</option>
                   <option value="silent">Silent Study</option>
@@ -310,13 +479,61 @@ export const Multiplayer: React.FC = () => {
                   placeholder="Max participants"
                   min="2"
                   max="10"
-                  defaultValue="5"
+                  value={sessionForm.maxParticipants}
+                  onChange={(e) => setSessionForm({ ...sessionForm, maxParticipants: parseInt(e.target.value) })}
                   className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
+                
+                {/* Invite Friends */}
+                <div>
+                  <button
+                    onClick={() => setShowInviteFriends(!showInviteFriends)}
+                    className="w-full bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all flex items-center justify-center gap-2"
+                  >
+                    <UserPlus size={18} />
+                    Invite Friends ({selectedFriends.length})
+                  </button>
+                  
+                  {showInviteFriends && (
+                    <div className="mt-3 max-h-40 overflow-y-auto space-y-2">
+                      {friends.length === 0 ? (
+                        <p className="text-white/60 text-sm text-center py-4">No friends to invite</p>
+                      ) : (
+                        friends.map((friend) => (
+                          <label
+                            key={friend.id}
+                            className="flex items-center gap-3 p-2 bg-white/5 rounded-lg hover:bg-white/10 cursor-pointer"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedFriends.includes(friend.id)}
+                              onChange={() => toggleFriendSelection(friend.id)}
+                              className="w-4 h-4"
+                            />
+                            <div className="flex items-center gap-2 flex-1">
+                              {friend.photoURL ? (
+                                <img src={friend.photoURL} alt={friend.name} className="w-8 h-8 rounded-full" />
+                              ) : (
+                                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                                  {friend.name.charAt(0).toUpperCase()}
+                                </div>
+                              )}
+                              <span className="text-white text-sm">{friend.name}</span>
+                            </div>
+                          </label>
+                        ))
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex gap-3 mt-4">
                 <button
-                  onClick={() => setShowCreateSession(false)}
+                  onClick={() => {
+                    setShowCreateSession(false);
+                    setShowInviteFriends(false);
+                    setSelectedFriends([]);
+                  }}
                   className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all"
                 >
                   Cancel
@@ -331,7 +548,14 @@ export const Multiplayer: React.FC = () => {
             </div>
           )}
 
+          {/* Sessions List */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {sessions.length === 0 && (
+              <div className="col-span-full text-center py-12">
+                <Video size={48} className="text-white/30 mx-auto mb-4" />
+                <p className="text-white/60">No active sessions. Create one to start!</p>
+              </div>
+            )}
             {sessions.map((session) => (
               <div
                 key={session.id}
@@ -342,7 +566,7 @@ export const Multiplayer: React.FC = () => {
                     {session.type === 'video' ? (
                       <Video className="text-purple-400" size={24} />
                     ) : session.type === 'audio' ? (
-                      <Mic className="text-blue-400" size={24} />
+                      <Mic className="text-blue-400" size=  {24} />
                     ) : (
                       <Users className="text-green-400" size={24} />
                     )}
@@ -358,19 +582,22 @@ export const Multiplayer: React.FC = () => {
                 <div className="flex items-center justify-between text-sm text-white/60 mb-4">
                   <span className="flex items-center gap-1">
                     <Users size={14} />
-                    {session.participants}/{session.maxParticipants}
+                    {session.participants?.length || 0}/{session.maxParticipants}
                   </span>
                   <span className="flex items-center gap-1">
                     <Clock size={14} />
                     {new Date(session.startTime).toLocaleTimeString()}
                   </span>
                 </div>
-                <span className="inline-block bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs mb-4">
-                  {session.subject}
-                </span>
+                {session.subject && (
+                  <span className="inline-block bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs mb-4">
+                    {session.subject}
+                  </span>
+                )}
                 <button
                   onClick={() => handleJoinSession(session)}
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2"
+                  disabled={session.participants?.length >= session.maxParticipants}
+                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Phone size={18} />
                   Join Session
@@ -383,159 +610,11 @@ export const Multiplayer: React.FC = () => {
 
       {/* Messages Tab */}
       {activeTab === 'messages' && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Conversations List */}
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-            <h3 className="text-white font-bold mb-4">Conversations</h3>
-            <div className="space-y-2">
-              {conversations.map((conv) => (
-                <div
-                  key={conv.id}
-                  onClick={() => setSelectedConversation(conv)}
-                  className={`p-3 rounded-lg cursor-pointer transition-all ${
-                    selectedConversation?.id === conv.id
-                      ? 'bg-purple-600/30 border border-purple-500/50'
-                      : 'bg-white/5 hover:bg-white/10'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-white font-semibold">{conv.friendName}</span>
-                    {conv.unread > 0 && (
-                      <span className="bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                        {conv.unread}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-white/60 text-sm truncate">{conv.lastMessage}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Chat Area */}
-          <div className="md:col-span-2 bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 flex flex-col">
-            {selectedConversation ? (
-              <>
-                <div className="p-4 border-b border-white/20">
-                  <h3 className="text-white font-bold">{selectedConversation.friendName}</h3>
-                  <p className="text-white/60 text-sm">Online</p>
-                </div>
-                <div className="flex-1 p-4 overflow-y-auto space-y-3">
-                  {messages.map((msg) => (
-                    <div
-                      key={msg.id}
-                      className={`flex ${msg.senderId === user?.id ? 'justify-end' : 'justify-start'}`}
-                    >
-                      <div
-                        className={`max-w-[70%] p-3 rounded-lg ${
-                          msg.senderId === user?.id
-                            ? 'bg-purple-600 text-white'
-                            : 'bg-white/10 text-white'
-                        }`}
-                      >
-                        <p>{msg.text}</p>
-                        <p className="text-xs opacity-70 mt-1">
-                          {new Date(msg.timestamp).toLocaleTimeString()}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="p-4 border-t border-white/20">
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                      placeholder="Type a message..."
-                      className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    />
-                    <button
-                      onClick={handleSendMessage}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-2 rounded-lg font-semibold transition-all"
-                    >
-                      Send
-                    </button>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-center">
-                  <MessageCircle size={48} className="text-white/30 mx-auto mb-4" />
-                  <p className="text-white/60">Select a conversation to start chatting</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Activity Feed Tab */}
-      {activeTab === 'activity' && (
-        <div className="space-y-4">
-          <h3 className="text-xl font-bold text-white">Friend Activity</h3>
-          <div className="space-y-3">
-            {activities.map((activity) => (
-              <div
-                key={activity.id}
-                className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                    {activity.userName.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-white">
-                      <span className="font-bold">{activity.userName}</span> {activity.content}
-                    </p>
-                    <p className="text-white/60 text-sm mt-1">
-                      {new Date(activity.timestamp).toLocaleString()}
-                    </p>
-                    <div className="flex items-center gap-4 mt-3">
-                      <button
-                        onClick={() => handleLikeActivity(activity.id)}
-                        className={`flex items-center gap-2 text-sm transition-all ${
-                          activity.likes.includes(user?.id)
-                            ? 'text-red-400'
-                            : 'text-white/60 hover:text-white'
-                        }`}
-                      >
-                        ❤️ {activity.likes.length}
-                      </button>
-                      <button className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-all">
-                        💬 {activity.comments.length}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Whiteboard Tab */}
-      {activeTab === 'whiteboard' && (
         <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-bold text-white">Shared Whiteboard</h3>
-            <div className="flex gap-2">
-              <button className="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg transition-all">
-                ✏️ Pen
-              </button>
-              <button className="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg transition-all">
-                ⬜ Shape
-              </button>
-              <button className="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg transition-all">
-                🗑️ Clear
-              </button>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl h-[500px] flex items-center justify-center">
-            <p className="text-gray-400">Whiteboard canvas - Draw here to collaborate!</p>
-          </div>
+          <h3 className="text-white font-bold mb-4">Private Messages</h3>
+          <p className="text-white/60 text-center py-8">
+            Private messaging feature coming soon! For now, use session chat during study sessions.
+          </p>
         </div>
       )}
     </div>
