@@ -17,7 +17,19 @@ export const AIAssistant: React.FC = () => {
     {
       id: '1',
       role: 'assistant',
-      content: `Halo ${user?.name || 'User'}! 👋 Saya AI Study Assistant kamu. Saya bisa membantu:\n\n• 📚 Tips belajar efektif\n• 📅 Membuat jadwal belajar\n• 🎯 Prioritas tugas\n• 📊 Analisis produktivitas\n• 💡 Saran peningkatan\n\nAda yang bisa saya bantu?`,
+      content: `Halo ${user?.name || 'User'}! 👋 Senang bertemu denganmu!
+
+Aku adalah AI Study Assistant kamu di StudyHub. Aku di sini untuk membantu meningkatkan produktivitas belajar kamu! ✨
+
+Aku bisa bantu dengan:
+• 📚 Tips & strategi belajar efektif
+• 📅 Membuat jadwal belajar yang optimal
+• 🎯 Menganalisis & prioritaskan tugas
+• 📊 Insights produktivitas kamu
+• 💪 Motivasi & support
+• 💡 Jawab pertanyaan seputar study
+
+Kamu bisa tanya apa aja, atau gunakan Quick Actions di samping untuk mulai! Gimana, ada yang bisa aku bantu hari ini? 😊`,
       timestamp: new Date(),
     },
   ]);
@@ -60,12 +72,40 @@ User Context:
       const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
 
       const context = getProductivityContext();
-      const prompt = `Kamu adalah AI Study Assistant untuk aplikasi produktivitas mahasiswa. 
+      
+      // Build conversation history for better context
+      const conversationHistory = messages.slice(-5).map(m => 
+        `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.content}`
+      ).join('\n');
+
+      const systemPrompt = `Kamu adalah AI Study Assistant yang ramah dan helpful untuk aplikasi produktivitas mahasiswa bernama StudyHub. 
+
+PERSONALITY:
+- Ramah, supportive, dan motivating
+- Gunakan emoji yang relevan untuk membuat percakapan lebih hidup
+- Berikan jawaban yang spesifik, actionable, dan praktis
+- Jika user bertanya hal umum, jawab dengan natural seperti teman
+- Jika user minta analisis, gunakan data produktivitas mereka
+
+DATA PRODUKTIVITAS USER:
 ${context}
 
-User bertanya: ${userMessage}
+CONVERSATION HISTORY:
+${conversationHistory}
 
-Berikan jawaban yang helpful, spesifik, dan actionable dalam Bahasa Indonesia. Jika relevan dengan data user, berikan saran berdasarkan data tersebut.`;
+INSTRUKSI:
+1. Jawab dalam Bahasa Indonesia yang natural dan conversational
+2. Gunakan emoji yang sesuai (📚 🎯 💪 ✨ 🔥 dll)
+3. Jika user minta saran spesifik, berikan 3-5 poin actionable
+4. Jika user curhat atau sharing, respond dengan empati
+5. Jika user bertanya hal umum (greeting, small talk), jawab natural
+6. Format jawaban dengan baik (gunakan bullet points, numbering jika perlu)
+7. Jangan terlalu formal, tapi tetap profesional
+8. Berikan motivasi dan encouragement
+
+USER MESSAGE: ${userMessage}
+
+Jawab dengan natural dan helpful:`;
 
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -75,21 +115,34 @@ Berikan jawaban yang helpful, spesifik, dan actionable dalam Bahasa Indonesia. J
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: prompt
+              text: systemPrompt
             }]
-          }]
+          }],
+          generationConfig: {
+            temperature: 0.9,
+            topK: 40,
+            topP: 0.95,
+            maxOutputTokens: 1024,
+          },
         }),
       });
 
       if (!response.ok) {
+        const errorData = await response.json();
+        console.error('API Error:', errorData);
         throw new Error('API request failed');
       }
 
       const data = await response.json();
+      
+      if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+        throw new Error('Invalid API response');
+      }
+
       return data.candidates[0].content.parts[0].text;
     } catch (error) {
       console.error('Gemini API error:', error);
-      // Fallback responses
+      // Fallback responses only if API completely fails
       return getFallbackResponse(userMessage);
     }
   };
@@ -184,15 +237,22 @@ Mau tips spesifik untuk situasi kamu?`;
 **Target:** 7-8 jam tidur berkualitas untuk performa optimal!`;
     }
 
-    return `Terima kasih atas pertanyaannya! Saya bisa membantu dengan:
+    return `Hmm, aku belum bisa jawab pertanyaan itu dengan baik karena koneksi ke AI sedang bermasalah 😅
 
-• 📚 **Tips Belajar** - Metode belajar efektif
-• 📅 **Jadwal Belajar** - Buat jadwal optimal
-• 🎯 **Prioritas Tugas** - Analisis & rekomendasi
-• 📊 **Produktivitas** - Insights & saran
-• 😴 **Sleep Tips** - Optimasi tidur
+Tapi aku tetap bisa bantu dengan:
 
-Coba tanya: "Buatkan jadwal belajar" atau "Analisis produktivitas saya"`;
+• 📚 **Tips Belajar** - Metode & strategi belajar efektif
+• � ***Jadwal Belajar** - Buat jadwal optimal untukmu
+• 🎯 **Prioritas Tugas** - Analisis & rekomendasi prioritas
+• 📊 **Produktivitas** - Insights & saran peningkatan
+• 😴 **Sleep Tips** - Optimasi kualitas tidur
+
+Coba tanya hal spesifik seperti:
+- "Buatkan jadwal belajar untuk minggu ini"
+- "Analisis produktivitas saya"
+- "Tips fokus saat belajar"
+
+Atau gunakan Quick Actions di samping! 😊`;
   };
 
   const handleSend = async () => {
