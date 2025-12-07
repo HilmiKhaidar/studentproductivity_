@@ -289,3 +289,118 @@ export interface TeamChallenge {
   isActive: boolean;
   winner?: 'A' | 'B' | 'tie';
 }
+
+// Calendar Integration
+export interface CalendarEvent {
+  id: string;
+  title: string;
+  description?: string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  type: 'task' | 'exam' | 'class' | 'meeting' | 'personal' | 'other';
+  color: string;
+  location?: string;
+  isRecurring: boolean;
+  recurringPattern?: RecurringPattern;
+  reminders: number[]; // minutes before event
+  googleEventId?: string;
+  createdAt: string;
+}
+
+export interface RecurringPattern {
+  frequency: 'daily' | 'weekly' | 'monthly';
+  interval: number; // every X days/weeks/months
+  daysOfWeek?: number[]; // 0-6 for weekly
+  endDate?: string;
+  occurrences?: number;
+}
+
+// Study Resources
+export interface StudyFile {
+  id: string;
+  name: string;
+  type: 'pdf' | 'image' | 'document' | 'other';
+  url: string;
+  size: number; // in bytes
+  uploadedBy: string;
+  uploadedAt: string;
+  subject?: string;
+  tags: string[];
+  sharedWith: string[]; // user IDs or group IDs
+  isPublic: boolean;
+}
+
+export interface Flashcard {
+  id: string;
+  front: string;
+  back: string;
+  deckId: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  lastReviewed?: string;
+  nextReview?: string;
+  reviewCount: number;
+  correctCount: number;
+  createdAt: string;
+}
+
+export interface FlashcardDeck {
+  id: string;
+  name: string;
+  description: string;
+  subject: string;
+  color: string;
+  cards: Flashcard[];
+  createdBy: string;
+  createdAt: string;
+  isPublic: boolean;
+  sharedWith: string[];
+}
+
+export interface Quiz {
+  id: string;
+  title: string;
+  description: string;
+  subject: string;
+  questions: QuizQuestion[];
+  timeLimit?: number; // in minutes
+  passingScore: number; // percentage
+  createdBy: string;
+  createdAt: string;
+  isPublic: boolean;
+  attempts: QuizAttempt[];
+}
+
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  type: 'multiple-choice' | 'true-false' | 'short-answer';
+  options?: string[];
+  correctAnswer: string | string[];
+  explanation?: string;
+  points: number;
+}
+
+export interface QuizAttempt {
+  id: string;
+  quizId: string;
+  userId: string;
+  answers: { questionId: string; answer: string }[];
+  score: number;
+  percentage: number;
+  completedAt: string;
+  timeSpent: number; // in seconds
+}
+
+export interface Bookmark {
+  id: string;
+  title: string;
+  url: string;
+  description?: string;
+  category: string;
+  tags: string[];
+  favicon?: string;
+  createdAt: string;
+  isFavorite: boolean;
+}

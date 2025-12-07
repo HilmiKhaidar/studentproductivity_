@@ -11,11 +11,13 @@ import { Goals } from './components/Goals';
 import { Habits } from './components/Habits';
 import { Analytics } from './components/Analytics';
 import { Calendar } from './components/Calendar';
+import { AdvancedCalendar } from './components/AdvancedCalendar';
 import { Notifications } from './components/Notifications';
 import { StudyMusic } from './components/StudyMusic';
 import { SocialSharing } from './components/SocialSharing';
 import { Notes } from './components/Notes';
 import { StudyPlanner } from './components/StudyPlanner';
+import { StudyResources } from './components/StudyResources';
 import { Themes } from './components/Themes';
 import { Friends } from './components/Friends';
 import { StudyGroups } from './components/StudyGroups';
@@ -104,6 +106,8 @@ function App() {
         return <Analytics />;
       case 'calendar':
         return <Calendar />;
+      case 'advanced-calendar':
+        return <AdvancedCalendar />;
       case 'notifications':
         return <Notifications />;
       case 'study-music':
@@ -114,6 +118,8 @@ function App() {
         return <Notes />;
       case 'study-planner':
         return <StudyPlanner />;
+      case 'study-resources':
+        return <StudyResources />;
       case 'themes':
         return <Themes />;
       case 'friends':
