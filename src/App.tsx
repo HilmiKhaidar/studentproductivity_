@@ -11,6 +11,7 @@ import { Goals } from './components/Goals';
 import { Habits } from './components/Habits';
 import { Analytics } from './components/Analytics';
 import { Calendar } from './components/Calendar';
+import { Notifications } from './components/Notifications';
 import { Profile } from './components/Profile';
 import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
@@ -64,6 +65,8 @@ function App() {
         return <Analytics />;
       case 'calendar':
         return <Calendar />;
+      case 'notifications':
+        return <Notifications />;
       case 'profile':
         return <Profile />;
       case 'feedback':

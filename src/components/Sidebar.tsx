@@ -12,6 +12,7 @@ import {
   User,
   MessageSquare,
   Bot,
+  Bell,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -25,6 +26,7 @@ const menuItems = [
   { id: 'habits', label: 'Kebiasaan', icon: Zap },
   { id: 'analytics', label: 'Analitik', icon: TrendingUp },
   { id: 'calendar', label: 'Kalender', icon: Calendar },
+  { id: 'notifications', label: 'Notifikasi', icon: Bell },
   { id: 'profile', label: 'Profil', icon: User },
   { id: 'feedback', label: 'Feedback', icon: MessageSquare },
   { id: 'settings', label: 'Pengaturan', icon: Settings },
