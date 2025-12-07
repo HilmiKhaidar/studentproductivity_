@@ -2,6 +2,7 @@ import AgoraRTC, {
   IAgoraRTCClient,
   ICameraVideoTrack,
   IMicrophoneAudioTrack,
+  IAgoraRTCRemoteUser,
 } from 'agora-rtc-sdk-ng';
 
 // IMPORTANT: Get your App ID from https://console.agora.io/
@@ -95,20 +96,20 @@ class VideoCallService {
     }
   }
 
-  subscribeToRemoteUsers(callback: (user: any, mediaType: string) => void) {
+  subscribeToRemoteUsers(callback: (user: IAgoraRTCRemoteUser, mediaType: string) => void) {
     if (!this.client) return;
 
-    this.client.on('user-published', async (user, mediaType) => {
+    this.client.on('user-published', async (user: IAgoraRTCRemoteUser, mediaType: 'video' | 'audio' | 'datachannel') => {
       // Only subscribe to audio and video, ignore datachannel
       if (mediaType === 'video') {
-        await this.client!.subscribe(user, 'video');
+        await this.client!.subscribe(user, mediaType);
         callback(user, mediaType);
         
         // Remote user video track
         const remoteVideoTrack = user.videoTrack;
         remoteVideoTrack?.play(`remote-${user.uid}`);
       } else if (mediaType === 'audio') {
-        await this.client!.subscribe(user, 'audio');
+        await this.client!.subscribe(user, mediaType);
         callback(user, mediaType);
         
         // Remote user audio track
@@ -118,7 +119,7 @@ class VideoCallService {
       // Ignore datachannel - no subscription needed
     });
 
-    this.client.on('user-unpublished', (user) => {
+    this.client.on('user-unpublished', (user: IAgoraRTCRemoteUser) => {
       console.log('User unpublished:', user.uid);
     });
   }
