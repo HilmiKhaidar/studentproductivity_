@@ -28,6 +28,13 @@ export const Friends: React.FC = () => {
     if (user) {
       loadFriends();
       loadFriendRequests();
+      
+      // Auto-refresh friend requests every 5 seconds
+      const interval = setInterval(() => {
+        loadFriendRequests();
+      }, 5000);
+      
+      return () => clearInterval(interval);
     }
   }, [user]);
 
@@ -35,16 +42,32 @@ export const Friends: React.FC = () => {
     if (!user) return;
     try {
       const friendsRef = collection(db, 'friends');
-      const q = query(
+      
+      // Query where user is userId
+      const q1 = query(
         friendsRef,
+        where('userId', '==', user.id),
         where('status', '==', 'accepted')
       );
-      const snapshot = await getDocs(q);
+      
+      // Query where user is friendId
+      const q2 = query(
+        friendsRef,
+        where('friendId', '==', user.id),
+        where('status', '==', 'accepted')
+      );
+      
+      const [snapshot1, snapshot2] = await Promise.all([
+        getDocs(q1),
+        getDocs(q2)
+      ]);
       
       const friendsList: UserSearchResult[] = [];
-      for (const docSnap of snapshot.docs) {
+      
+      // Process first query results
+      for (const docSnap of snapshot1.docs) {
         const data = docSnap.data();
-        const friendId = data.userId === user.id ? data.friendId : data.userId;
+        const friendId = data.friendId;
         
         const userDoc = await getDoc(doc(db, 'users', friendId));
         if (userDoc.exists()) {
@@ -59,6 +82,26 @@ export const Friends: React.FC = () => {
           });
         }
       }
+      
+      // Process second query results
+      for (const docSnap of snapshot2.docs) {
+        const data = docSnap.data();
+        const friendId = data.userId;
+        
+        const userDoc = await getDoc(doc(db, 'users', friendId));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          friendsList.push({
+            id: friendId,
+            email: userData.email,
+            name: userData.name,
+            level: userData.level || 1,
+            totalTasks: userData.totalTasks || 0,
+            streak: userData.streak || 0,
+          });
+        }
+      }
+      
       setFriends(friendsList);
     } catch (error) {
       console.error('Error loading friends:', error);
@@ -136,14 +179,44 @@ export const Friends: React.FC = () => {
 
   const sendFriendRequest = async (friendId: string) => {
     if (!user) return;
+    
     try {
+      // Check if already friends or request exists
+      const friendsRef = collection(db, 'friends');
+      
+      // Check if already sent request
+      const q1 = query(
+        friendsRef,
+        where('userId', '==', user.id),
+        where('friendId', '==', friendId)
+      );
+      
+      // Check if received request
+      const q2 = query(
+        friendsRef,
+        where('userId', '==', friendId),
+        where('friendId', '==', user.id)
+      );
+      
+      const [snapshot1, snapshot2] = await Promise.all([
+        getDocs(q1),
+        getDocs(q2)
+      ]);
+      
+      if (!snapshot1.empty || !snapshot2.empty) {
+        toast.error('Friend request sudah ada atau kalian sudah berteman!');
+        return;
+      }
+      
+      // Send new request
       await addDoc(collection(db, 'friends'), {
         userId: user.id,
         friendId: friendId,
         status: 'pending',
         createdAt: new Date().toISOString(),
       });
-      toast.success('Friend request terkirim!');
+      
+      toast.success('Friend request berhasil dikirim!');
     } catch (error) {
       console.error('Error sending request:', error);
       toast.error('Gagal mengirim friend request');
