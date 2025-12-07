@@ -10,20 +10,16 @@ import {
   UserSettings,
   User,
 } from '../types';
-import { registerUser, verifyOtpAndCreateUser, loginUser, logoutUser, requestPasswordReset, verifyOtpAndResetPassword } from '../services/authService';
+import { registerUser, loginUser, logoutUser, requestPasswordReset } from '../services/authService';
 
 interface AppState {
   // Auth
   user: User | null;
   isAuthenticated: boolean;
-  pendingEmail: string | null;
-  pendingOtp: string | null;
-  login: (email: string, password: string) => Promise<boolean>;
-  register: (email: string, password: string, name: string) => Promise<boolean>;
-  verifyOtp: (email: string, otp: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<{ success: boolean; message: string; user?: any }>;
+  register: (email: string, password: string, name: string) => Promise<{ success: boolean; message: string }>;
   logout: () => Promise<void>;
-  resetPassword: (email: string) => Promise<boolean>;
-  verifyResetOtp: (email: string, otp: string) => Promise<boolean>;
+  resetPassword: (email: string) => Promise<{ success: boolean; message: string }>;
 
   // Tasks
   tasks: Task[];
@@ -90,51 +86,22 @@ export const useStore = create<AppState>()(
       // Auth
       user: null,
       isAuthenticated: false,
-      pendingEmail: null,
-      pendingOtp: null,
       login: async (email, password) => {
         const result = await loginUser(email, password);
         if (result.success && result.user) {
           set({ user: result.user, isAuthenticated: true });
-          return true;
         }
-        return false;
+        return result;
       },
       register: async (email, password, name) => {
-        const result = await registerUser(email, password, name);
-        if (result.success) {
-          set({ pendingEmail: email });
-          return true;
-        }
-        return false;
-      },
-      verifyOtp: async (email, otp) => {
-        const result = await verifyOtpAndCreateUser(email, otp);
-        if (result.success) {
-          set({ pendingEmail: null, pendingOtp: null });
-          return true;
-        }
-        return false;
+        return await registerUser(email, password, name);
       },
       logout: async () => {
         await logoutUser();
         set({ user: null, isAuthenticated: false });
       },
       resetPassword: async (email) => {
-        const result = await requestPasswordReset(email);
-        if (result.success) {
-          set({ pendingEmail: email });
-          return true;
-        }
-        return false;
-      },
-      verifyResetOtp: async (email, otp) => {
-        const result = await verifyOtpAndResetPassword(email, otp);
-        if (result.success) {
-          set({ pendingEmail: null });
-          return true;
-        }
-        return false;
+        return await requestPasswordReset(email);
       },
       // Tasks
       tasks: [],
