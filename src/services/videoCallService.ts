@@ -100,25 +100,22 @@ class VideoCallService {
 
     this.client.on('user-published', async (user, mediaType) => {
       // Only subscribe to audio and video, ignore datachannel
-      if (mediaType === 'video' || mediaType === 'audio') {
-        // Type assertion to satisfy TypeScript
-        const validMediaType = mediaType as 'video' | 'audio';
-        await this.client!.subscribe(user, validMediaType);
+      if (mediaType === 'video') {
+        await this.client!.subscribe(user, 'video');
         callback(user, mediaType);
-
-        if (mediaType === 'video') {
-          // Remote user video track
-          const remoteVideoTrack = user.videoTrack;
-          // You can play it in a div with id like `remote-${user.uid}`
-          remoteVideoTrack?.play(`remote-${user.uid}`);
-        }
-
-        if (mediaType === 'audio') {
-          // Remote user audio track
-          const remoteAudioTrack = user.audioTrack;
-          remoteAudioTrack?.play();
-        }
+        
+        // Remote user video track
+        const remoteVideoTrack = user.videoTrack;
+        remoteVideoTrack?.play(`remote-${user.uid}`);
+      } else if (mediaType === 'audio') {
+        await this.client!.subscribe(user, 'audio');
+        callback(user, mediaType);
+        
+        // Remote user audio track
+        const remoteAudioTrack = user.audioTrack;
+        remoteAudioTrack?.play();
       }
+      // Ignore datachannel - no subscription needed
     });
 
     this.client.on('user-unpublished', (user) => {
