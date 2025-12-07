@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { Menu, X } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import { Dashboard } from './components/Dashboard';
+import { AIAssistant } from './components/AIAssistant';
 import { Tasks } from './components/Tasks';
 import { Sleep } from './components/Sleep';
 import { Pomodoro } from './components/Pomodoro';
@@ -47,6 +48,8 @@ function App() {
     switch (currentView) {
       case 'dashboard':
         return <Dashboard />;
+      case 'ai-assistant':
+        return <AIAssistant />;
       case 'tasks':
         return <Tasks />;
       case 'sleep':

@@ -11,11 +11,13 @@ import {
   Zap,
   User,
   MessageSquare,
+  Bot,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'ai-assistant', label: 'AI Assistant', icon: Bot },
   { id: 'tasks', label: 'Tugas', icon: CheckSquare },
   { id: 'sleep', label: 'Tidur', icon: Moon },
   { id: 'pomodoro', label: 'Pomodoro', icon: Timer },
