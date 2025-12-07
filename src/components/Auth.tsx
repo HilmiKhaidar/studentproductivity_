@@ -125,14 +125,9 @@ export const Auth: React.FC = () => {
 
   const handleVerifyResetOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!newPassword || newPassword.length < 6) {
-      toast.error('Password minimal 6 karakter!');
-      return;
-    }
 
     setIsSubmitting(true);
-    const success = await verifyResetOtp(email, otp, newPassword);
+    const success = await verifyResetOtp(email, otp);
     setIsSubmitting(false);
     
     if (success) {

@@ -23,7 +23,7 @@ interface AppState {
   verifyOtp: (email: string, otp: string) => Promise<boolean>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<boolean>;
-  verifyResetOtp: (email: string, otp: string, newPassword: string) => Promise<boolean>;
+  verifyResetOtp: (email: string, otp: string) => Promise<boolean>;
 
   // Tasks
   tasks: Task[];
@@ -128,8 +128,8 @@ export const useStore = create<AppState>()(
         }
         return false;
       },
-      verifyResetOtp: async (email, otp, newPassword) => {
-        const result = await verifyOtpAndResetPassword(email, otp, newPassword);
+      verifyResetOtp: async (email, otp) => {
+        const result = await verifyOtpAndResetPassword(email, otp);
         if (result.success) {
           set({ pendingEmail: null });
           return true;
