@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Video, Mic, MicOff, VideoOff, Users, MessageCircle, Share2, Palette, Phone, PhoneOff, UserPlus, Clock, Activity } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import toast from 'react-hot-toast';
@@ -40,7 +40,7 @@ export const Multiplayer: React.FC = () => {
   const [isVideoOn, setIsVideoOn] = useState(true);
   
   // Messages
-  const [conversations, setConversations] = useState<any[]>([
+  const [conversations] = useState<any[]>([
     {
       id: '1',
       friendId: 'friend1',
