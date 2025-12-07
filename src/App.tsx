@@ -12,6 +12,8 @@ import { Habits } from './components/Habits';
 import { Analytics } from './components/Analytics';
 import { Calendar } from './components/Calendar';
 import { Notifications } from './components/Notifications';
+import { StudyMusic } from './components/StudyMusic';
+import { SocialSharing } from './components/SocialSharing';
 import { Profile } from './components/Profile';
 import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
@@ -67,6 +69,10 @@ function App() {
         return <Calendar />;
       case 'notifications':
         return <Notifications />;
+      case 'study-music':
+        return <StudyMusic />;
+      case 'social-sharing':
+        return <SocialSharing />;
       case 'profile':
         return <Profile />;
       case 'feedback':

@@ -13,6 +13,8 @@ import {
   MessageSquare,
   Bot,
   Bell,
+  Music,
+  Share2,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -22,11 +24,13 @@ const menuItems = [
   { id: 'tasks', label: 'Tugas', icon: CheckSquare },
   { id: 'sleep', label: 'Tidur', icon: Moon },
   { id: 'pomodoro', label: 'Pomodoro', icon: Timer },
+  { id: 'study-music', label: 'Study Music', icon: Music },
   { id: 'goals', label: 'Target', icon: Target },
   { id: 'habits', label: 'Kebiasaan', icon: Zap },
   { id: 'analytics', label: 'Analitik', icon: TrendingUp },
   { id: 'calendar', label: 'Kalender', icon: Calendar },
   { id: 'notifications', label: 'Notifikasi', icon: Bell },
+  { id: 'social-sharing', label: 'Social Sharing', icon: Share2 },
   { id: 'profile', label: 'Profil', icon: User },
   { id: 'feedback', label: 'Feedback', icon: MessageSquare },
   { id: 'settings', label: 'Pengaturan', icon: Settings },

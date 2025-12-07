@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   CheckCircle2,
   Clock,
@@ -6,13 +6,21 @@ import {
   Target,
   Zap,
   AlertCircle,
+  Sparkles,
+  RefreshCw,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { formatDate, minutesToHours, calculateProductivityScore } from '../utils/helpers';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { getDailyQuote, getRandomQuote } from '../data/quotes';
 
 export const Dashboard: React.FC = () => {
   const { tasks, sleepRecords, pomodoroSessions, goals, habits } = useStore();
+  const [quote, setQuote] = useState(getDailyQuote());
+
+  const refreshQuote = () => {
+    setQuote(getRandomQuote());
+  };
 
   const stats = useMemo(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -92,6 +100,35 @@ export const Dashboard: React.FC = () => {
         <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
           <p className="text-white/70 text-sm">Skor Produktivitas</p>
           <p className="text-4xl font-bold text-white mt-1">{stats.productivityScore}</p>
+        </div>
+      </div>
+
+      {/* Motivational Quote */}
+      <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20 relative overflow-hidden">
+        <div className="absolute top-0 right-0 opacity-10">
+          <Sparkles size={120} className="text-white" />
+        </div>
+        <div className="relative z-10">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Sparkles className="text-yellow-400" size={24} />
+              <h3 className="text-lg font-bold text-white">Quote Hari Ini</h3>
+            </div>
+            <button
+              onClick={refreshQuote}
+              className="text-white/70 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+              title="Ganti quote"
+            >
+              <RefreshCw size={20} />
+            </button>
+          </div>
+          <blockquote className="text-white text-xl font-medium italic mb-3">
+            "{quote.text}"
+          </blockquote>
+          <p className="text-white/70 text-sm">— {quote.author}</p>
+          <span className="inline-block mt-3 px-3 py-1 bg-white/20 rounded-full text-white text-xs font-medium">
+            #{quote.category}
+          </span>
         </div>
       </div>
 
