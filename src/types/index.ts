@@ -416,7 +416,7 @@ export interface PrivateMessage {
   type: 'text' | 'image' | 'file';
 }
 
-export interface StudySession {
+export interface MultiplayerSession {
   id: string;
   hostId: string;
   hostName: string;
