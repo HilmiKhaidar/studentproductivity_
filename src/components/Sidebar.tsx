@@ -38,6 +38,7 @@ const menuItems = [
   { id: 'notifications', label: 'Notifikasi', icon: Bell },
   { id: 'social-sharing', label: 'Social Sharing', icon: Share2 },
   { id: 'friends', label: 'Friends', icon: Users },
+  { id: 'study-groups', label: 'Study Groups', icon: Users },
   { id: 'themes', label: 'Themes', icon: Palette },
   { id: 'profile', label: 'Profil', icon: User },
   { id: 'feedback', label: 'Feedback', icon: MessageSquare },

@@ -158,10 +158,33 @@ export interface StudyGroup {
   name: string;
   description: string;
   creatorId: string;
-  members: string[];
+  members: string[]; // user IDs
   createdAt: string;
   isActive: boolean;
   color: string;
+  goals: string[];
+  currentSession?: GroupSession;
+}
+
+export interface GroupSession {
+  id: string;
+  groupId: string;
+  type: 'pomodoro' | 'study';
+  startTime: string;
+  endTime?: string;
+  duration: number;
+  activeMembers: string[];
+  isActive: boolean;
+}
+
+export interface GroupMessage {
+  id: string;
+  groupId: string;
+  senderId: string;
+  senderName: string;
+  message: string;
+  timestamp: string;
+  type: 'text' | 'system';
 }
 
 export interface SharedTask {
@@ -169,11 +192,14 @@ export interface SharedTask {
   groupId: string;
   title: string;
   description: string;
-  assignedTo: string[];
+  assignedTo: string[]; // user IDs
   dueDate: string;
   completed: boolean;
+  completedBy: string[];
   createdBy: string;
   createdAt: string;
+  priority: Priority;
+  category: string;
 }
 
 export interface UserProfile {

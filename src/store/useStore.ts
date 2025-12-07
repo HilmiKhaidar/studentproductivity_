@@ -12,6 +12,10 @@ import {
   Note,
   ClassSchedule,
   Exam,
+  StudyGroup,
+  SharedTask,
+  GroupSession,
+  GroupMessage,
 } from '../types';
 import { registerUser, loginUser, logoutUser, requestPasswordReset } from '../services/authService';
 
@@ -79,6 +83,27 @@ interface AppState {
   addExam: (exam: Exam) => void;
   updateExam: (id: string, exam: Partial<Exam>) => void;
   deleteExam: (id: string) => void;
+
+  // Study Groups
+  studyGroups: StudyGroup[];
+  addStudyGroup: (group: StudyGroup) => void;
+  updateStudyGroup: (id: string, group: Partial<StudyGroup>) => void;
+  deleteStudyGroup: (id: string) => void;
+
+  // Shared Tasks
+  sharedTasks: SharedTask[];
+  addSharedTask: (task: SharedTask) => void;
+  updateSharedTask: (id: string, task: Partial<SharedTask>) => void;
+  deleteSharedTask: (id: string) => void;
+
+  // Group Sessions
+  groupSessions: GroupSession[];
+  addGroupSession: (session: GroupSession) => void;
+  updateGroupSession: (id: string, session: Partial<GroupSession>) => void;
+
+  // Group Messages
+  groupMessages: GroupMessage[];
+  addGroupMessage: (message: GroupMessage) => void;
 
   // Settings
   settings: UserSettings;
@@ -293,6 +318,52 @@ export const useStore = create<AppState>()(
         })),
       deleteExam: (id) =>
         set((state) => ({ exams: state.exams.filter((exam) => exam.id !== id) })),
+
+      // Study Groups
+      studyGroups: [],
+      addStudyGroup: (group) =>
+        set((state) => ({ studyGroups: [...state.studyGroups, group] })),
+      updateStudyGroup: (id, updatedGroup) =>
+        set((state) => ({
+          studyGroups: state.studyGroups.map((group) =>
+            group.id === id ? { ...group, ...updatedGroup } : group
+          ),
+        })),
+      deleteStudyGroup: (id) =>
+        set((state) => ({
+          studyGroups: state.studyGroups.filter((group) => group.id !== id),
+        })),
+
+      // Shared Tasks
+      sharedTasks: [],
+      addSharedTask: (task) =>
+        set((state) => ({ sharedTasks: [...state.sharedTasks, task] })),
+      updateSharedTask: (id, updatedTask) =>
+        set((state) => ({
+          sharedTasks: state.sharedTasks.map((task) =>
+            task.id === id ? { ...task, ...updatedTask } : task
+          ),
+        })),
+      deleteSharedTask: (id) =>
+        set((state) => ({
+          sharedTasks: state.sharedTasks.filter((task) => task.id !== id),
+        })),
+
+      // Group Sessions
+      groupSessions: [],
+      addGroupSession: (session) =>
+        set((state) => ({ groupSessions: [...state.groupSessions, session] })),
+      updateGroupSession: (id, updatedSession) =>
+        set((state) => ({
+          groupSessions: state.groupSessions.map((session) =>
+            session.id === id ? { ...session, ...updatedSession } : session
+          ),
+        })),
+
+      // Group Messages
+      groupMessages: [],
+      addGroupMessage: (message) =>
+        set((state) => ({ groupMessages: [...state.groupMessages, message] })),
 
       // Settings
       settings: defaultSettings,
