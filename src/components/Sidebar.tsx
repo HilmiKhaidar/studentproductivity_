@@ -10,6 +10,7 @@ import {
   Settings,
   Zap,
   User,
+  Users,
   MessageSquare,
   Bot,
   Bell,
@@ -17,6 +18,7 @@ import {
   Share2,
   FileText,
   CalendarDays,
+  Palette,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -35,6 +37,8 @@ const menuItems = [
   { id: 'calendar', label: 'Kalender', icon: Calendar },
   { id: 'notifications', label: 'Notifikasi', icon: Bell },
   { id: 'social-sharing', label: 'Social Sharing', icon: Share2 },
+  { id: 'friends', label: 'Friends', icon: Users },
+  { id: 'themes', label: 'Themes', icon: Palette },
   { id: 'profile', label: 'Profil', icon: User },
   { id: 'feedback', label: 'Feedback', icon: MessageSquare },
   { id: 'settings', label: 'Pengaturan', icon: Settings },

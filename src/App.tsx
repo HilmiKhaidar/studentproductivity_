@@ -16,11 +16,14 @@ import { StudyMusic } from './components/StudyMusic';
 import { SocialSharing } from './components/SocialSharing';
 import { Notes } from './components/Notes';
 import { StudyPlanner } from './components/StudyPlanner';
+import { Themes } from './components/Themes';
+import { Friends } from './components/Friends';
 import { Profile } from './components/Profile';
 import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
 import { Auth } from './components/Auth';
 import { useStore } from './store/useStore';
+import { getThemeById } from './data/themes';
 
 function App() {
   const { currentView, isAuthenticated, settings } = useStore();
@@ -43,6 +46,22 @@ function App() {
       document.body.classList.remove('dark');
     }
   }, [settings.darkMode]);
+
+  useEffect(() => {
+    // Apply theme
+    const theme = getThemeById(settings.theme || 'default');
+    document.body.style.background = theme.background;
+    if (theme.backgroundImage) {
+      document.body.style.backgroundImage = theme.backgroundImage;
+    } else {
+      document.body.style.backgroundImage = 'none';
+    }
+    document.body.style.color = theme.textColor;
+    
+    // Apply font size
+    const fontSizes = { small: '14px', medium: '16px', large: '18px' };
+    document.documentElement.style.fontSize = fontSizes[settings.fontSize || 'medium'];
+  }, [settings.theme, settings.fontSize]);
 
   // Show auth screen if not authenticated
   if (!isAuthenticated) {
@@ -79,6 +98,10 @@ function App() {
         return <Notes />;
       case 'study-planner':
         return <StudyPlanner />;
+      case 'themes':
+        return <Themes />;
+      case 'friends':
+        return <Friends />;
       case 'profile':
         return <Profile />;
       case 'feedback':

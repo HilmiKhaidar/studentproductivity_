@@ -100,6 +100,9 @@ const defaultSettings: UserSettings = {
   notifications: true,
   darkMode: false,
   focusSoundEnabled: false,
+  theme: 'default',
+  fontSize: 'medium',
+  compactMode: false,
 };
 
 export const useStore = create<AppState>()(

@@ -94,6 +94,10 @@ export interface UserSettings {
   notifications: boolean;
   darkMode: boolean;
   focusSoundEnabled: boolean;
+  theme: string;
+  customTheme?: Theme;
+  fontSize: 'small' | 'medium' | 'large';
+  compactMode: boolean;
 }
 
 export interface User {
@@ -138,4 +142,63 @@ export interface Exam {
   topics: string[];
   studyProgress: number; // 0-100
   notes?: string;
+}
+
+export interface Friend {
+  id: string;
+  userId: string;
+  friendId: string;
+  status: 'pending' | 'accepted' | 'rejected';
+  createdAt: string;
+  acceptedAt?: string;
+}
+
+export interface StudyGroup {
+  id: string;
+  name: string;
+  description: string;
+  creatorId: string;
+  members: string[];
+  createdAt: string;
+  isActive: boolean;
+  color: string;
+}
+
+export interface SharedTask {
+  id: string;
+  groupId: string;
+  title: string;
+  description: string;
+  assignedTo: string[];
+  dueDate: string;
+  completed: boolean;
+  createdBy: string;
+  createdAt: string;
+}
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  name: string;
+  bio?: string;
+  avatar?: string;
+  level: number;
+  xp: number;
+  totalTasks: number;
+  totalPomodoros: number;
+  streak: number;
+  badges: string[];
+  isPublic: boolean;
+  createdAt: string;
+}
+
+export interface Theme {
+  id: string;
+  name: string;
+  primary: string;
+  secondary: string;
+  background: string;
+  backgroundImage?: string;
+  textColor: string;
+  cardBg: string;
 }
