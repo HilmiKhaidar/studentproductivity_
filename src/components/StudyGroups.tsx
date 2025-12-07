@@ -31,6 +31,7 @@ export const StudyGroups: React.FC = () => {
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [joinCode, setJoinCode] = useState('');
+  const [memberToRemove, setMemberToRemove] = useState<string | null>(null);
 
   const colors = ['#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#ef4444'];
 
@@ -222,6 +223,98 @@ export const StudyGroups: React.FC = () => {
     }
   };
 
+  const handleDeleteGroup = async () => {
+    if (!selectedGroup || !user) return;
+
+    if (selectedGroup.creatorId !== user.id) {
+      toast.error('Hanya creator yang bisa menghapus group!');
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      `Yakin ingin menghapus group "${selectedGroup.name}"? Semua data group akan hilang!`
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      // Delete group from Firestore
+      await updateDoc(doc(db, 'studyGroups', selectedGroup.id), {
+        isActive: false,
+      });
+
+      // Delete from local store
+      updateStudyGroup(selectedGroup.id, { isActive: false });
+      
+      toast.success('Group berhasil dihapus!');
+      setSelectedGroup(null);
+    } catch (error) {
+      console.error('Error deleting group:', error);
+      toast.error('Gagal menghapus group');
+    }
+  };
+
+  const handleLeaveGroup = async () => {
+    if (!selectedGroup || !user) return;
+
+    if (selectedGroup.creatorId === user.id) {
+      toast.error('Creator tidak bisa leave group. Hapus group atau transfer ownership!');
+      return;
+    }
+
+    const confirmLeave = window.confirm(
+      `Yakin ingin keluar dari group "${selectedGroup.name}"?`
+    );
+
+    if (!confirmLeave) return;
+
+    try {
+      const updatedMembers = selectedGroup.members.filter(id => id !== user.id);
+      
+      await updateDoc(doc(db, 'studyGroups', selectedGroup.id), {
+        members: updatedMembers,
+      });
+
+      updateStudyGroup(selectedGroup.id, { members: updatedMembers });
+      
+      toast.success('Berhasil keluar dari group!');
+      setSelectedGroup(null);
+    } catch (error) {
+      console.error('Error leaving group:', error);
+      toast.error('Gagal keluar dari group');
+    }
+  };
+
+  const handleRemoveMember = async (memberId: string) => {
+    if (!selectedGroup || !user) return;
+
+    if (selectedGroup.creatorId !== user.id) {
+      toast.error('Hanya creator yang bisa remove member!');
+      return;
+    }
+
+    if (memberId === user.id) {
+      toast.error('Tidak bisa remove diri sendiri!');
+      return;
+    }
+
+    try {
+      const updatedMembers = selectedGroup.members.filter(id => id !== memberId);
+      
+      await updateDoc(doc(db, 'studyGroups', selectedGroup.id), {
+        members: updatedMembers,
+      });
+
+      updateStudyGroup(selectedGroup.id, { members: updatedMembers });
+      
+      toast.success('Member berhasil dikeluarkan!');
+      setMemberToRemove(null);
+    } catch (error) {
+      console.error('Error removing member:', error);
+      toast.error('Gagal mengeluarkan member');
+    }
+  };
+
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user || !selectedGroup || !taskForm.title.trim()) {
@@ -371,7 +464,7 @@ export const StudyGroups: React.FC = () => {
 
       {/* Groups List */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {studyGroups.map((group) => (
+        {studyGroups.filter(g => g.isActive !== false).map((group) => (
           <button
             key={group.id}
             onClick={() => setSelectedGroup(group)}
@@ -380,15 +473,22 @@ export const StudyGroups: React.FC = () => {
             }`}
             style={{ borderLeftWidth: '4px', borderLeftColor: group.color }}
           >
-            <h3 className="text-lg font-bold text-white mb-2">{group.name}</h3>
+            <div className="flex items-start justify-between mb-2">
+              <h3 className="text-lg font-bold text-white flex-1">{group.name}</h3>
+              {group.creatorId === user?.id && (
+                <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full font-medium">
+                  Creator
+                </span>
+              )}
+            </div>
             <p className="text-white/70 text-sm mb-3">{group.description}</p>
             <div className="flex items-center justify-between text-sm">
               <span className="text-white/60">{group.members.length} members</span>
-              <span className="text-white/60">{groupTasks.length} tasks</span>
+              <span className="text-white/60">{sharedTasks.filter(t => t.groupId === group.id).length} tasks</span>
             </div>
           </button>
         ))}
-        {studyGroups.length === 0 && (
+        {studyGroups.filter(g => g.isActive !== false).length === 0 && (
           <div className="col-span-full text-center py-12">
             <Users size={48} className="text-white/30 mx-auto mb-4" />
             <p className="text-white/60">Belum ada study group. Buat yang pertama!</p>
@@ -440,6 +540,23 @@ export const StudyGroups: React.FC = () => {
                 {isSessionActive ? <Pause size={16} /> : <Play size={16} />}
                 {isSessionActive ? formatTime(sessionTimer) : 'Start'}
               </button>
+              {selectedGroup.creatorId === user?.id ? (
+                <button
+                  onClick={handleDeleteGroup}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                >
+                  <X size={16} />
+                  Hapus Group
+                </button>
+              ) : (
+                <button
+                  onClick={handleLeaveGroup}
+                  className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                >
+                  <X size={16} />
+                  Leave Group
+                </button>
+              )}
             </div>
           </div>
 
@@ -511,23 +628,25 @@ export const StudyGroups: React.FC = () => {
           {/* Members Tab */}
           {activeTab === 'groups' && (
             <div className="space-y-3">
-              <div className="flex justify-end mb-4">
-                <button
-                  onClick={() => {
-                    const friendsNotInGroup = friends.filter(f => !selectedGroup.members.includes(f.id));
-                    if (friendsNotInGroup.length === 0) {
-                      toast.error('Semua teman sudah ada di group!');
-                      return;
-                    }
-                    const friendId = friendsNotInGroup[0].id;
-                    handleInviteMember(friendId);
-                  }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
-                >
-                  <UserPlus size={16} />
-                  Invite Friend
-                </button>
-              </div>
+              {selectedGroup.creatorId === user?.id && (
+                <div className="flex justify-end mb-4">
+                  <button
+                    onClick={() => {
+                      const friendsNotInGroup = friends.filter(f => !selectedGroup.members.includes(f.id));
+                      if (friendsNotInGroup.length === 0) {
+                        toast.error('Semua teman sudah ada di group!');
+                        return;
+                      }
+                      const friendId = friendsNotInGroup[0].id;
+                      handleInviteMember(friendId);
+                    }}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                  >
+                    <UserPlus size={16} />
+                    Invite Friend
+                  </button>
+                </div>
+              )}
               {selectedGroup.members.map((memberId) => (
                 <div key={memberId} className="bg-white/5 rounded-lg p-4 flex items-center gap-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
@@ -539,6 +658,15 @@ export const StudyGroups: React.FC = () => {
                       {memberId === selectedGroup.creatorId ? 'Creator' : 'Member'}
                     </p>
                   </div>
+                  {selectedGroup.creatorId === user?.id && memberId !== user.id && (
+                    <button
+                      onClick={() => setMemberToRemove(memberId)}
+                      className="text-red-400 hover:text-red-300 hover:bg-red-500/20 p-2 rounded-lg transition-all"
+                      title="Remove member"
+                    >
+                      <X size={18} />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -708,6 +836,32 @@ export const StudyGroups: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Remove Member Confirmation */}
+      {memberToRemove && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-red-900/90 to-orange-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
+            <h3 className="text-2xl font-bold text-white mb-4">Keluarkan Member?</h3>
+            <p className="text-white/80 mb-6">
+              Yakin ingin mengeluarkan member ini dari group? Member tidak akan bisa akses group lagi kecuali diundang kembali.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => handleRemoveMember(memberToRemove)}
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition-all"
+              >
+                Ya, Keluarkan
+              </button>
+              <button
+                onClick={() => setMemberToRemove(null)}
+                className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
+              >
+                Batal
+              </button>
+            </div>
           </div>
         </div>
       )}
