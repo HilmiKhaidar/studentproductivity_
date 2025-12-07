@@ -105,6 +105,8 @@ export interface User {
   email: string;
   name: string;
   createdAt: string;
+  photoURL?: string;
+  bio?: string;
 }
 
 export interface Note {

@@ -1,15 +1,56 @@
-import React from 'react';
-import { User as UserIcon, Mail, Calendar, LogOut } from 'lucide-react';
+import React, { useState } from 'react';
+import { User as UserIcon, Mail, Calendar, LogOut, Camera, Edit2, Save } from 'lucide-react';
 import { useStore } from '../store/useStore';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../config/firebase';
 import toast from 'react-hot-toast';
 
 export const Profile: React.FC = () => {
   const { user, logout } = useStore();
+  const [isEditing, setIsEditing] = useState(false);
+  const [photoURL, setPhotoURL] = useState(user?.photoURL || '');
+  const [bio, setBio] = useState(user?.bio || '');
+  const [name, setName] = useState(user?.name || '');
 
   const handleLogout = async () => {
     if (window.confirm('Yakin ingin keluar?')) {
       await logout();
       toast.success('Berhasil logout!');
+    }
+  };
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Convert to base64 for simple storage
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoURL(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    if (!user) return;
+    
+    try {
+      await updateDoc(doc(db, 'users', user.id), {
+        name,
+        photoURL,
+        bio,
+      });
+      
+      // Update local store
+      useStore.setState({
+        user: { ...user, name, photoURL, bio }
+      });
+      
+      toast.success('Profil berhasil diupdate!');
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast.error('Gagal update profil');
     }
   };
 
@@ -33,14 +74,76 @@ export const Profile: React.FC = () => {
 
       {/* Profile Card */}
       <div className="bg-white/10 backdrop-blur-lg rounded-xl p-8 border border-white/20">
-        <div className="flex items-center gap-6 mb-6">
-          <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
-            <UserIcon className="w-12 h-12 text-white" />
+        <div className="flex items-start gap-6 mb-6">
+          <div className="relative">
+            {photoURL ? (
+              <img
+                src={photoURL}
+                alt="Profile"
+                className="w-24 h-24 rounded-full object-cover border-4 border-purple-500"
+              />
+            ) : (
+              <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
+                <UserIcon className="w-12 h-12 text-white" />
+              </div>
+            )}
+            {isEditing && (
+              <label className="absolute bottom-0 right-0 bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-full cursor-pointer transition-all shadow-lg">
+                <Camera size={16} />
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                  className="hidden"
+                />
+              </label>
+            )}
           </div>
-          <div>
-            <h3 className="text-2xl font-bold text-white mb-1">{user.name}</h3>
-            <p className="text-purple-200">Student</p>
+          <div className="flex-1">
+            {isEditing ? (
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="text-2xl font-bold text-white mb-2 bg-white/10 border border-white/20 rounded-lg px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            ) : (
+              <h3 className="text-2xl font-bold text-white mb-1">{user.name}</h3>
+            )}
+            {isEditing ? (
+              <input
+                type="text"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder="Bio singkat tentang kamu..."
+                className="text-purple-200 bg-white/10 border border-white/20 rounded-lg px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            ) : (
+              <p className="text-purple-200">{bio || 'Student'}</p>
+            )}
           </div>
+          <button
+            onClick={() => {
+              if (isEditing) {
+                handleSaveProfile();
+              } else {
+                setIsEditing(true);
+              }
+            }}
+            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+          >
+            {isEditing ? (
+              <>
+                <Save size={18} />
+                Simpan
+              </>
+            ) : (
+              <>
+                <Edit2 size={18} />
+                Edit
+              </>
+            )}
+          </button>
         </div>
 
         <div className="space-y-4">

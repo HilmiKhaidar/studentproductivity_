@@ -12,6 +12,8 @@ interface UserSearchResult {
   level: number;
   totalTasks: number;
   streak: number;
+  photoURL?: string;
+  bio?: string;
 }
 
 export const Friends: React.FC = () => {
@@ -79,6 +81,8 @@ export const Friends: React.FC = () => {
             level: userData.level || 1,
             totalTasks: userData.totalTasks || 0,
             streak: userData.streak || 0,
+            photoURL: userData.photoURL,
+            bio: userData.bio,
           });
         }
       }
@@ -98,6 +102,8 @@ export const Friends: React.FC = () => {
             level: userData.level || 1,
             totalTasks: userData.totalTasks || 0,
             streak: userData.streak || 0,
+            photoURL: userData.photoURL,
+            bio: userData.bio,
           });
         }
       }
@@ -161,6 +167,8 @@ export const Friends: React.FC = () => {
             level: data.level || 1,
             totalTasks: data.totalTasks || 0,
             streak: data.streak || 0,
+            photoURL: data.photoURL,
+            bio: data.bio,
           });
         }
       });
@@ -319,12 +327,20 @@ export const Friends: React.FC = () => {
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                    {friend.name.charAt(0).toUpperCase()}
-                  </div>
+                  {friend.photoURL ? (
+                    <img
+                      src={friend.photoURL}
+                      alt={friend.name}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-purple-500"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                      {friend.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                   <div>
                     <h3 className="font-bold text-white">{friend.name}</h3>
-                    <p className="text-white/60 text-sm">Level {friend.level}</p>
+                    <p className="text-white/60 text-sm">{friend.bio || `Level ${friend.level}`}</p>
                   </div>
                 </div>
               </div>
@@ -387,13 +403,21 @@ export const Friends: React.FC = () => {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3 flex-1">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                      {result.name.charAt(0).toUpperCase()}
-                    </div>
+                    {result.photoURL ? (
+                      <img
+                        src={result.photoURL}
+                        alt={result.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-blue-500"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                        {result.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
                     <div>
                       <h3 className="font-bold text-white">{result.name}</h3>
                       <p className="text-white/60 text-sm">{result.email}</p>
-                      <p className="text-white/60 text-sm">Level {result.level}</p>
+                      <p className="text-white/60 text-sm">{result.bio || `Level ${result.level}`}</p>
                     </div>
                   </div>
                   <button
@@ -460,12 +484,23 @@ export const Friends: React.FC = () => {
           <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-8 max-w-2xl w-full border border-white/20">
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center gap-4">
-                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-3xl">
-                  {selectedProfile.name.charAt(0).toUpperCase()}
-                </div>
+                {selectedProfile.photoURL ? (
+                  <img
+                    src={selectedProfile.photoURL}
+                    alt={selectedProfile.name}
+                    className="w-20 h-20 rounded-full object-cover border-4 border-purple-500"
+                  />
+                ) : (
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-3xl">
+                    {selectedProfile.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <div>
                   <h3 className="text-2xl font-bold text-white">{selectedProfile.name}</h3>
                   <p className="text-white/70">{selectedProfile.email}</p>
+                  {selectedProfile.bio && (
+                    <p className="text-white/80 text-sm mt-2 italic">"{selectedProfile.bio}"</p>
+                  )}
                   <p className="text-white/60 text-sm mt-1">Level {selectedProfile.level}</p>
                 </div>
               </div>
