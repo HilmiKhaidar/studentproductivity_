@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { Menu, X } from 'lucide-react';
 import { Sidebar } from './components/Sidebar';
 import { Dashboard } from './components/Dashboard';
 import { Tasks } from './components/Tasks';
@@ -16,6 +17,7 @@ import { useStore } from './store/useStore';
 
 function App() {
   const { currentView, isAuthenticated, settings } = useStore();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Request notification permission
@@ -69,12 +71,32 @@ function App() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
-      <main className="flex-1 p-8 overflow-y-auto">
-        <div className="max-w-7xl mx-auto">
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 bg-white/10 backdrop-blur-lg text-white p-3 rounded-lg border border-white/20 shadow-lg"
+      >
+        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Overlay for mobile */}
+      {isSidebarOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-30"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
+      {/* Main Content */}
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto lg:ml-0">
+        <div className="max-w-7xl mx-auto mt-16 lg:mt-0">
           {renderView()}
         </div>
       </main>
+
       <Toaster
         position="top-right"
         toastOptions={{

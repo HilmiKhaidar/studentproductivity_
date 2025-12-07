@@ -26,11 +26,29 @@ const menuItems = [
   { id: 'settings', label: 'Pengaturan', icon: Settings },
 ];
 
-export const Sidebar: React.FC = () => {
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const { currentView, setCurrentView } = useStore();
 
+  const handleMenuClick = (viewId: string) => {
+    setCurrentView(viewId);
+    onClose(); // Close sidebar on mobile after selecting
+  };
+
   return (
-    <div className="w-64 bg-white/10 backdrop-blur-lg border-r border-white/20 h-screen sticky top-0 flex flex-col">
+    <div
+      className={`
+        fixed lg:sticky top-0 left-0 z-40
+        w-64 bg-white/10 backdrop-blur-lg border-r border-white/20 h-screen
+        flex flex-col
+        transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}
+    >
       <div className="p-6 border-b border-white/20">
         <h1 className="text-2xl font-bold text-white flex items-center gap-2">
           <Zap className="text-yellow-400" />
@@ -47,7 +65,7 @@ export const Sidebar: React.FC = () => {
             return (
               <li key={item.id}>
                 <button
-                  onClick={() => setCurrentView(item.id)}
+                  onClick={() => handleMenuClick(item.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                     isActive
                       ? 'bg-white text-purple-600 shadow-lg'
