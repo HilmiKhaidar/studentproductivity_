@@ -58,12 +58,12 @@ export const Auth: React.FC = () => {
       setIsSubmitting(false);
       
       if (result.success) {
-        toast.success('Registrasi berhasil! Selamat datang!', { duration: 3000 });
-        // Auto login after successful registration
-        const loginResult = await login(email, password);
-        if (loginResult.success) {
-          setCurrentView('dashboard');
-        }
+        toast.success('Registrasi berhasil! Silakan login.', { duration: 4000 });
+        // Switch to login form
+        setIsLogin(true);
+        // Keep email filled for easier login
+        setPassword('');
+        setName('');
       } else {
         toast.error(result.message);
       }

@@ -37,8 +37,10 @@ export const registerUser = async (email: string, password: string, name: string
     await setDoc(doc(db, 'users', userCredential.user.uid), userData);
 
     console.log('Registration complete!');
-    // Don't sign out - let user stay logged in
-    return { success: true, message: 'Registrasi berhasil! Selamat datang!' };
+    // Sign out after registration - user must login manually
+    await signOut(auth);
+    
+    return { success: true, message: 'Registrasi berhasil! Silakan login.' };
   } catch (error: any) {
     console.error('Register error:', error);
     let message = 'Registrasi gagal';
