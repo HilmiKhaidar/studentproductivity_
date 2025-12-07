@@ -31,7 +31,16 @@ export const Auth: React.FC = () => {
         setCurrentView('dashboard');
         toast.success('Login berhasil! Selamat datang!');
       } else {
-        toast.error(result.message);
+        toast.error(result.message, { duration: 5000 });
+        // If email not verified, show additional help
+        if (result.message.includes('belum diverifikasi')) {
+          setTimeout(() => {
+            toast('Belum dapat email? Cek folder Spam atau gunakan email lain untuk daftar ulang.', {
+              icon: '💡',
+              duration: 7000
+            });
+          }, 1000);
+        }
       }
     } else {
       // Register
@@ -49,9 +58,16 @@ export const Auth: React.FC = () => {
       setIsSubmitting(false);
       
       if (result.success) {
-        toast.success('Registrasi berhasil! Cek email untuk verifikasi.');
+        toast.success('Registrasi berhasil! Cek email untuk verifikasi.', { duration: 5000 });
+        // Show additional info
+        setTimeout(() => {
+          toast('Setelah klik link verifikasi di email, kembali ke sini untuk login.', { 
+            icon: '📧',
+            duration: 7000 
+          });
+        }, 1000);
         setIsLogin(true);
-        setEmail('');
+        // Keep email for easier login
         setPassword('');
         setName('');
       } else {

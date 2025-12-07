@@ -62,30 +62,39 @@ export const registerUser = async (email: string, password: string, name: string
 // Login user
 export const loginUser = async (email: string, password: string): Promise<{ success: boolean; user?: UserData; message: string }> => {
   try {
+    console.log('Attempting login for:', email);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log('Login successful, checking email verification...');
+    console.log('Email verified:', userCredential.user.emailVerified);
     
     // Check if email is verified
     if (!userCredential.user.emailVerified) {
+      console.log('Email not verified, signing out...');
       await signOut(auth);
       return { success: false, message: 'Email belum diverifikasi. Cek inbox email kamu dan klik link verifikasi.' };
     }
 
+    console.log('Email verified, fetching user data from Firestore...');
     // Get user data from Firestore
     const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
     
     if (!userDoc.exists()) {
-      return { success: false, message: 'User data not found' };
+      console.log('User document not found in Firestore');
+      return { success: false, message: 'Data user tidak ditemukan' };
     }
 
     const userData = userDoc.data() as UserData;
+    console.log('User data:', userData);
 
     // Update verified status if needed
     if (!userData.verified) {
+      console.log('Updating verified status in Firestore...');
       await setDoc(doc(db, 'users', userCredential.user.uid), { ...userData, verified: true });
       userData.verified = true;
     }
 
-    return { success: true, user: userData, message: 'Login successful' };
+    console.log('Login complete, returning success');
+    return { success: true, user: userData, message: 'Login berhasil' };
   } catch (error: any) {
     console.error('Login error:', error);
     let message = 'Login gagal';
