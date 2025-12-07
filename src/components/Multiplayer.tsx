@@ -33,17 +33,16 @@ export const Multiplayer: React.FC = () => {
   const [newSessionMessage, setNewSessionMessage] = useState('');
   const [showChat, setShowChat] = useState(false);
   
-  // Private Messages
-  const [conversations, setConversations] = useState<any[]>([]);
-  const [selectedConversation, setSelectedConversation] = useState<any>(null);
-  const [messages, setMessages] = useState<any[]>([]);
-  const [newMessage, setNewMessage] = useState('');
+  // Private Messages (for future use)
+  // const [conversations, setConversations] = useState<any[]>([]);
+  // const [selectedConversation, setSelectedConversation] = useState<any>(null);
+  // const [messages, setMessages] = useState<any[]>([]);
+  // const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
     if (user) {
       loadFriends();
       loadSessions();
-      loadConversations();
     }
   }, [user]);
 
@@ -54,10 +53,14 @@ export const Multiplayer: React.FC = () => {
       const q = query(messagesRef, where('sessionId', '==', currentSession.id));
       
       const unsubscribe = onSnapshot(q, (snapshot) => {
-        const msgs = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+        const msgs = snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            ...data,
+            timestamp: data.timestamp || new Date().toISOString()
+          };
+        });
         setSessionMessages(msgs.sort((a, b) => 
           new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
         ));
@@ -142,19 +145,10 @@ export const Multiplayer: React.FC = () => {
     }
   };
 
-  const loadConversations = async () => {
-    if (!user) return;
-    // Load conversations with friends
-    setConversations(friends.map(friend => ({
-      id: friend.id,
-      friendId: friend.id,
-      friendName: friend.name,
-      friendPhoto: friend.photoURL,
-      lastMessage: '',
-      timestamp: new Date().toISOString(),
-      unread: 0,
-    })));
-  };
+  // const loadConversations = async () => {
+  //   if (!user) return;
+  //   // Load conversations with friends - for future use
+  // };
 
   const handleCreateSession = async () => {
     if (!user || !sessionForm.title.trim()) {
