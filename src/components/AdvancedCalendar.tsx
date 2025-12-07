@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar as CalendarIcon, Plus, Clock, Repeat, MapPin, Bell, X } from 'lucide-react';
-import { useStore } from '../store/useStore';
+import { Calendar as CalendarIcon, Plus, Clock, Repeat, MapPin, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface CalendarEvent {
@@ -16,7 +15,6 @@ interface CalendarEvent {
 }
 
 export const AdvancedCalendar: React.FC = () => {
-  const { user } = useStore();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<'month' | 'week' | 'day'>('month');
   const [showAddEvent, setShowAddEvent] = useState(false);

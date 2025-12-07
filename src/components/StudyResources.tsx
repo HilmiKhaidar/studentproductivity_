@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { BookOpen, FileText, Brain, HelpCircle, Link as LinkIcon, Upload, Plus, Search, Star, Trash2, Edit, Play } from 'lucide-react';
-import { useStore } from '../store/useStore';
 import toast from 'react-hot-toast';
 
 export const StudyResources: React.FC = () => {
-  const { user } = useStore();
   const [activeTab, setActiveTab] = useState<'files' | 'flashcards' | 'quizzes' | 'bookmarks'>('files');
   
   // Files state
@@ -30,11 +28,10 @@ export const StudyResources: React.FC = () => {
       lastStudied: '2024-12-06',
     },
   ]);
-  const [showCreateDeck, setShowCreateDeck] = useState(false);
-  const [selectedDeck, setSelectedDeck] = useState<any>(null);
+
   
   // Quiz state
-  const [quizzes, setQuizzes] = useState<any[]>([
+  const [quizzes] = useState<any[]>([
     {
       id: '1',
       title: 'Kalkulus 1 - Midterm',
@@ -54,7 +51,7 @@ export const StudyResources: React.FC = () => {
       bestScore: 92,
     },
   ]);
-  const [showCreateQuiz, setShowCreateQuiz] = useState(false);
+
   
   // Bookmarks state
   const [bookmarks, setBookmarks] = useState<any[]>([
@@ -113,17 +110,14 @@ export const StudyResources: React.FC = () => {
     };
     setDecks([...decks, newDeck]);
     toast.success('Deck baru berhasil dibuat!');
-    setShowCreateDeck(false);
   };
 
   const handleStudyDeck = (deck: any) => {
-    setSelectedDeck(deck);
     toast.success(`Memulai belajar: ${deck.name}`);
   };
 
   const handleCreateQuiz = () => {
     toast.success('Quiz creator akan segera dibuka!');
-    setShowCreateQuiz(false);
   };
 
   const handleTakeQuiz = (quiz: any) => {
