@@ -17,33 +17,31 @@ export interface UserData {
   verified: boolean;
 }
 
-// Register user and send verification email
+// Register user (email verification disabled for now)
 export const registerUser = async (email: string, password: string, name: string): Promise<{ success: boolean; message: string }> => {
   try {
+    console.log('Creating user account...');
     // Create Firebase user
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-    // Send verification email
-    await sendEmailVerification(userCredential.user);
-
+    console.log('User created, saving to Firestore...');
     // Save user data to Firestore
     const userData: UserData = {
       id: userCredential.user.uid,
       email: email,
       name: name,
       createdAt: new Date().toISOString(),
-      verified: false,
+      verified: true, // Auto-verify for now since email verification is not working
     };
 
     await setDoc(doc(db, 'users', userCredential.user.uid), userData);
 
-    // Sign out immediately after registration
-    await signOut(auth);
-
-    return { success: true, message: 'Verification email sent! Check your inbox.' };
+    console.log('Registration complete!');
+    // Don't sign out - let user stay logged in
+    return { success: true, message: 'Registrasi berhasil! Selamat datang!' };
   } catch (error: any) {
     console.error('Register error:', error);
-    let message = 'Registration failed';
+    let message = 'Registrasi gagal';
     
     if (error.code === 'auth/email-already-in-use') {
       message = 'Email sudah terdaftar. Silakan login atau gunakan email lain.';
@@ -59,22 +57,20 @@ export const registerUser = async (email: string, password: string, name: string
   }
 };
 
-// Login user
+// Login user (email verification check disabled for now)
 export const loginUser = async (email: string, password: string): Promise<{ success: boolean; user?: UserData; message: string }> => {
   try {
     console.log('Attempting login for:', email);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log('Login successful, checking email verification...');
-    console.log('Email verified:', userCredential.user.emailVerified);
+    console.log('Login successful!');
     
-    // Check if email is verified
-    if (!userCredential.user.emailVerified) {
-      console.log('Email not verified, signing out...');
-      await signOut(auth);
-      return { success: false, message: 'Email belum diverifikasi. Cek inbox email kamu dan klik link verifikasi.' };
-    }
+    // Skip email verification check for now since Firebase email is not working
+    // if (!userCredential.user.emailVerified) {
+    //   await signOut(auth);
+    //   return { success: false, message: 'Email belum diverifikasi.' };
+    // }
 
-    console.log('Email verified, fetching user data from Firestore...');
+    console.log('Fetching user data from Firestore...');
     // Get user data from Firestore
     const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
     
@@ -86,14 +82,7 @@ export const loginUser = async (email: string, password: string): Promise<{ succ
     const userData = userDoc.data() as UserData;
     console.log('User data:', userData);
 
-    // Update verified status if needed
-    if (!userData.verified) {
-      console.log('Updating verified status in Firestore...');
-      await setDoc(doc(db, 'users', userCredential.user.uid), { ...userData, verified: true });
-      userData.verified = true;
-    }
-
-    console.log('Login complete, returning success');
+    console.log('Login complete!');
     return { success: true, user: userData, message: 'Login berhasil' };
   } catch (error: any) {
     console.error('Login error:', error);

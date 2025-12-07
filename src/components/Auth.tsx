@@ -58,18 +58,12 @@ export const Auth: React.FC = () => {
       setIsSubmitting(false);
       
       if (result.success) {
-        toast.success('Registrasi berhasil! Cek email untuk verifikasi.', { duration: 5000 });
-        // Show additional info
-        setTimeout(() => {
-          toast('Setelah klik link verifikasi di email, kembali ke sini untuk login.', { 
-            icon: '📧',
-            duration: 7000 
-          });
-        }, 1000);
-        setIsLogin(true);
-        // Keep email for easier login
-        setPassword('');
-        setName('');
+        toast.success('Registrasi berhasil! Selamat datang!', { duration: 3000 });
+        // Auto login after successful registration
+        const loginResult = await login(email, password);
+        if (loginResult.success) {
+          setCurrentView('dashboard');
+        }
       } else {
         toast.error(result.message);
       }
