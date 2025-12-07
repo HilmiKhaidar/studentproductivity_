@@ -3,15 +3,13 @@ import {
   CheckCircle2,
   Clock,
   Moon,
-  TrendingUp,
   Target,
   Zap,
-  Calendar,
   AlertCircle,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { formatDate, minutesToHours, calculateProductivityScore } from '../utils/helpers';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 export const Dashboard: React.FC = () => {
   const { tasks, sleepRecords, pomodoroSessions, goals, habits } = useStore();
@@ -166,7 +164,7 @@ export const Dashboard: React.FC = () => {
                 fill="#8884d8"
                 dataKey="value"
               >
-                {tasksByCategory.map((entry, index) => (
+                {tasksByCategory.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>

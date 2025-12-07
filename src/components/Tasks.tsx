@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Plus, Search, Filter, CheckCircle2, Circle, Trash2, Edit2, Calendar as CalendarIcon } from 'lucide-react';
+import { Plus, Search, CheckCircle2, Circle, Trash2, Edit2, Calendar as CalendarIcon } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { Task, TaskCategory, Priority } from '../types';
 import { generateId, formatDate, getPriorityColor, getCategoryColor } from '../utils/helpers';

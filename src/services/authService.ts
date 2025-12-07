@@ -2,8 +2,7 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
   signOut,
-  User as FirebaseUser,
-  sendPasswordResetEmail
+  User as FirebaseUser
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { auth, db } from '../config/firebase';
@@ -170,7 +169,7 @@ export const requestPasswordReset = async (email: string): Promise<{ success: bo
 };
 
 // Verify OTP and reset password
-export const verifyOtpAndResetPassword = async (email: string, otp: string, newPassword: string): Promise<{ success: boolean; message: string }> => {
+export const verifyOtpAndResetPassword = async (email: string, otp: string): Promise<{ success: boolean; message: string }> => {
   try {
     // Get reset data
     const resetDataStr = localStorage.getItem('password_reset');

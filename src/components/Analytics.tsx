@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { TrendingUp, Award, Target, Zap } from 'lucide-react';
 import { useStore } from '../store/useStore';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 export const Analytics: React.FC = () => {
   const { tasks, sleepRecords, pomodoroSessions, goals, habits } = useStore();
