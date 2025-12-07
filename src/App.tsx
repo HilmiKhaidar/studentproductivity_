@@ -26,13 +26,18 @@ import { useStore } from './store/useStore';
 import { getThemeById } from './data/themes';
 
 function App() {
-  const { currentView, isAuthenticated, settings } = useStore();
+  const { currentView, isAuthenticated, settings, updateSettings } = useStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Request notification permission
     if ('Notification' in window && Notification.permission === 'default') {
       Notification.requestPermission();
+    }
+    
+    // Ensure theme is set on first load
+    if (!settings.theme) {
+      updateSettings({ theme: 'default' });
     }
   }, []);
 
@@ -50,13 +55,22 @@ function App() {
   useEffect(() => {
     // Apply theme
     const theme = getThemeById(settings.theme || 'default');
-    document.body.style.background = theme.background;
+    
+    // Set CSS custom properties for theme
+    document.documentElement.style.setProperty('--theme-primary', theme.primary);
+    document.documentElement.style.setProperty('--theme-secondary', theme.secondary);
+    document.documentElement.style.setProperty('--theme-text', theme.textColor);
+    document.documentElement.style.setProperty('--theme-card-bg', theme.cardBg);
+    
+    // Apply background
+    document.body.style.setProperty('background', theme.background, 'important');
+    document.body.style.setProperty('background-attachment', 'fixed', 'important');
+    
     if (theme.backgroundImage) {
-      document.body.style.backgroundImage = theme.backgroundImage;
+      document.body.style.setProperty('background-image', theme.backgroundImage, 'important');
     } else {
-      document.body.style.backgroundImage = 'none';
+      document.body.style.removeProperty('background-image');
     }
-    document.body.style.color = theme.textColor;
     
     // Apply font size
     const fontSizes = { small: '14px', medium: '16px', large: '18px' };

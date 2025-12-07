@@ -14,9 +14,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   min-height: 100vh;
   transition: background 0.3s ease;
+  background-attachment: fixed !important;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 /* Dark Mode */
