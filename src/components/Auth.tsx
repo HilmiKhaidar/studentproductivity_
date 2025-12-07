@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { LogIn, UserPlus, Mail, Lock, User } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LogIn, UserPlus, Mail, Lock, User, CheckCircle, Sparkles } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import toast from 'react-hot-toast';
 
@@ -11,6 +11,8 @@ export const Auth: React.FC = () => {
   const [name, setName] = useState('');
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successType, setSuccessType] = useState<'register' | 'login'>('register');
   const login = useStore((state) => state.login);
   const register = useStore((state) => state.register);
   const resetPassword = useStore((state) => state.resetPassword);
@@ -28,8 +30,12 @@ export const Auth: React.FC = () => {
       setIsSubmitting(false);
       
       if (result.success) {
-        setCurrentView('dashboard');
-        toast.success('Login berhasil! Selamat datang!');
+        setSuccessType('login');
+        setShowSuccessModal(true);
+        setTimeout(() => {
+          setShowSuccessModal(false);
+          setCurrentView('dashboard');
+        }, 2000);
       } else {
         toast.error(result.message, { duration: 5000 });
         // If email not verified, show additional help
@@ -58,12 +64,16 @@ export const Auth: React.FC = () => {
       setIsSubmitting(false);
       
       if (result.success) {
-        toast.success('Registrasi berhasil! Silakan login.', { duration: 4000 });
-        // Switch to login form
-        setIsLogin(true);
-        // Keep email filled for easier login
-        setPassword('');
-        setName('');
+        setSuccessType('register');
+        setShowSuccessModal(true);
+        setTimeout(() => {
+          setShowSuccessModal(false);
+          // Switch to login form
+          setIsLogin(true);
+          // Keep email filled for easier login
+          setPassword('');
+          setName('');
+        }, 2500);
       } else {
         toast.error(result.message);
       }
@@ -142,7 +152,64 @@ export const Auth: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <>
+      {/* Success Modal */}
+      <AnimatePresence>
+        {showSuccessModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="mb-4"
+              >
+                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle className="text-green-500" size={48} />
+                </div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <h2 className="text-3xl font-bold text-white mb-2">
+                  {successType === 'register' ? '🎉 Registrasi Berhasil!' : '✨ Selamat Datang!'}
+                </h2>
+                <p className="text-white/90 text-lg">
+                  {successType === 'register' 
+                    ? 'Akun kamu berhasil dibuat. Silakan login untuk melanjutkan.'
+                    : `Halo, ${name || 'User'}! Selamat datang kembali di StudyHub.`
+                  }
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: [0, 1.2, 1] }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="mt-6"
+              >
+                <Sparkles className="text-white mx-auto" size={32} />
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="min-h-screen flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -264,5 +331,6 @@ export const Auth: React.FC = () => {
         )}
       </motion.div>
     </div>
+    </>
   );
 };
