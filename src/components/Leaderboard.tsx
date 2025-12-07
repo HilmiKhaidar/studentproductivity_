@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Trophy, Medal, Crown, TrendingUp, Users, Calendar, Target, Zap, Award, Star } from 'lucide-react';
 import { useStore } from '../store/useStore';
-import { collection, query, getDocs, doc, getDoc, orderBy, limit } from 'firebase/firestore';
+import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { LeaderboardEntry, Achievement } from '../types';
 import { achievements } from '../data/achievements';
@@ -273,7 +273,7 @@ export const Leaderboard: React.FC = () => {
             </div>
           ) : (
             <>
-              {leaderboard.slice(0, 10).map((entry, index) => (
+              {leaderboard.slice(0, 10).map((entry) => (
                 <div
                   key={entry.userId}
                   className={`backdrop-blur-lg rounded-xl p-4 border transition-all hover:scale-[1.02] ${
