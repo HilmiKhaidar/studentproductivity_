@@ -101,7 +101,9 @@ class VideoCallService {
     this.client.on('user-published', async (user, mediaType) => {
       // Only subscribe to audio and video, ignore datachannel
       if (mediaType === 'video' || mediaType === 'audio') {
-        await this.client!.subscribe(user, mediaType);
+        // Type assertion to satisfy TypeScript
+        const validMediaType = mediaType as 'video' | 'audio';
+        await this.client!.subscribe(user, validMediaType);
         callback(user, mediaType);
 
         if (mediaType === 'video') {
