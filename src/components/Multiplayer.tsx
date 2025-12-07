@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Video, Mic, MicOff, VideoOff, Users, MessageCircle, Phone, PhoneOff, UserPlus, Clock, Send, X } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { collection, query, where, getDocs, addDoc, doc, getDoc, onSnapshot, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { videoCallService } from '../services/videoCallService';
 import toast from 'react-hot-toast';
 
 export const Multiplayer: React.FC = () => {
@@ -19,6 +20,26 @@ export const Multiplayer: React.FC = () => {
   const [currentSession, setCurrentSession] = useState<any>(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(true);
+  const [remoteUsers, setRemoteUsers] = useState<any[]>([]);
+  const localVideoRef = useRef<HTMLDivElement>(null);
+
+  const toggleMute = () => {
+    if (isMuted) {
+      videoCallService.unmuteAudio();
+    } else {
+      videoCallService.muteAudio();
+    }
+    setIsMuted(!isMuted);
+  };
+
+  const toggleVideo = () => {
+    if (isVideoOn) {
+      videoCallService.muteVideo();
+    } else {
+      videoCallService.unmuteVideo();
+    }
+    setIsVideoOn(!isVideoOn);
+  };
   
   // Session form
   const [sessionForm, setSessionForm] = useState({
@@ -193,17 +214,39 @@ export const Multiplayer: React.FC = () => {
     if (!user) return;
     
     try {
-      // Update session participants
+      // Update session participants in Firebase
       await updateDoc(doc(db, 'studySessions', session.id), {
         participants: arrayUnion(user.id)
       });
       
       setCurrentSession(session);
       setInSession(true);
+      
+      // Join Agora video call
+      const channelName = session.id;
+      await videoCallService.joinChannel(channelName, user.id);
+      
+      // Create and publish local tracks
+      const tracksResult = await videoCallService.createLocalTracks();
+      if (tracksResult.success) {
+        await videoCallService.publishTracks();
+        
+        // Play local video
+        if (localVideoRef.current) {
+          videoCallService.playLocalVideo('local-video');
+        }
+        
+        // Subscribe to remote users
+        videoCallService.subscribeToRemoteUsers((remoteUser, mediaType) => {
+          console.log('Remote user published:', remoteUser.uid, mediaType);
+          setRemoteUsers(videoCallService.getRemoteUsers());
+        });
+      }
+      
       toast.success(`Joined ${session.title}`);
     } catch (error) {
       console.error('Error joining session:', error);
-      toast.error('Failed to join session');
+      toast.error('Failed to join session. Make sure camera/mic permissions are granted.');
     }
   };
 
@@ -211,7 +254,10 @@ export const Multiplayer: React.FC = () => {
     if (!currentSession || !user) return;
     
     try {
-      // Update session participants
+      // Leave Agora video call first
+      await videoCallService.leaveChannel();
+      
+      // Update session participants in Firebase
       const sessionRef = doc(db, 'studySessions', currentSession.id);
       const sessionDoc = await getDoc(sessionRef);
       
@@ -227,6 +273,7 @@ export const Multiplayer: React.FC = () => {
       setInSession(false);
       setCurrentSession(null);
       setSessionMessages([]);
+      setRemoteUsers([]);
       toast.success('Left the session');
     } catch (error) {
       console.error('Error leaving session:', error);
@@ -307,21 +354,40 @@ export const Multiplayer: React.FC = () => {
           <div className="flex-1 flex">
             {/* Video Grid */}
             <div className="flex-1 p-4 grid grid-cols-2 gap-4">
-              {currentSession.participants?.map((participantId: string, index: number) => (
-                <div key={participantId} className="bg-gray-800 rounded-xl flex items-center justify-center relative">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-2">
-                      {participantId === user?.id ? user.name.charAt(0).toUpperCase() : 'U'}
+              {/* Local Video */}
+              <div className="bg-gray-800 rounded-xl relative overflow-hidden">
+                <div 
+                  id="local-video" 
+                  ref={localVideoRef}
+                  className="w-full h-full"
+                  style={{ minHeight: '300px' }}
+                />
+                {!isVideoOn && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
+                    <div className="text-center">
+                      <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-2">
+                        {user?.name.charAt(0).toUpperCase()}
+                      </div>
+                      <p className="text-white font-semibold">You</p>
                     </div>
-                    <p className="text-white font-semibold">
-                      {participantId === user?.id ? 'You' : `User ${index + 1}`}
-                    </p>
                   </div>
-                  {participantId === user?.id && !isVideoOn && (
-                    <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs">
-                      Camera Off
-                    </div>
-                  )}
+                )}
+                <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-sm">
+                  You {isMuted && '🔇'}
+                </div>
+              </div>
+
+              {/* Remote Videos */}
+              {remoteUsers.map((remoteUser) => (
+                <div key={remoteUser.uid} className="bg-gray-800 rounded-xl relative overflow-hidden">
+                  <div 
+                    id={`remote-${remoteUser.uid}`}
+                    className="w-full h-full"
+                    style={{ minHeight: '300px' }}
+                  />
+                  <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-sm">
+                    User {remoteUser.uid}
+                  </div>
                 </div>
               ))}
             </div>
@@ -380,7 +446,7 @@ export const Multiplayer: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-lg border-t border-white/20 p-4">
             <div className="flex items-center justify-center gap-4">
               <button
-                onClick={() => setIsMuted(!isMuted)}
+                onClick={toggleMute}
                 className={`p-4 rounded-full transition-all ${
                   isMuted ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'
                 }`}
@@ -388,7 +454,7 @@ export const Multiplayer: React.FC = () => {
                 {isMuted ? <MicOff className="text-white" size={24} /> : <Mic className="text-white" size={24} />}
               </button>
               <button
-                onClick={() => setIsVideoOn(!isVideoOn)}
+                onClick={toggleVideo}
                 className={`p-4 rounded-full transition-all ${
                   !isVideoOn ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'
                 }`}
