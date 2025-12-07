@@ -11,6 +11,7 @@ import { Habits } from './components/Habits';
 import { Analytics } from './components/Analytics';
 import { Calendar } from './components/Calendar';
 import { Profile } from './components/Profile';
+import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
 import { Auth } from './components/Auth';
 import { useStore } from './store/useStore';
@@ -62,6 +63,8 @@ function App() {
         return <Calendar />;
       case 'profile':
         return <Profile />;
+      case 'feedback':
+        return <Feedback />;
       case 'settings':
         return <Settings />;
       default:

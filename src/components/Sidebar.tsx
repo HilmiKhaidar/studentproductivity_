@@ -10,6 +10,7 @@ import {
   Settings,
   Zap,
   User,
+  MessageSquare,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -23,6 +24,7 @@ const menuItems = [
   { id: 'analytics', label: 'Analitik', icon: TrendingUp },
   { id: 'calendar', label: 'Kalender', icon: Calendar },
   { id: 'profile', label: 'Profil', icon: User },
+  { id: 'feedback', label: 'Feedback', icon: MessageSquare },
   { id: 'settings', label: 'Pengaturan', icon: Settings },
 ];
 
