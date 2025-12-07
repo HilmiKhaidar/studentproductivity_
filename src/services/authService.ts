@@ -46,11 +46,13 @@ export const registerUser = async (email: string, password: string, name: string
     let message = 'Registration failed';
     
     if (error.code === 'auth/email-already-in-use') {
-      message = 'Email already registered';
+      message = 'Email sudah terdaftar. Silakan login atau gunakan email lain.';
     } else if (error.code === 'auth/weak-password') {
-      message = 'Password too weak (min 6 characters)';
+      message = 'Password terlalu lemah (minimal 6 karakter)';
     } else if (error.code === 'auth/invalid-email') {
-      message = 'Invalid email format';
+      message = 'Format email tidak valid';
+    } else if (error.code === 'auth/network-request-failed') {
+      message = 'Koneksi internet bermasalah';
     }
 
     return { success: false, message };
@@ -65,7 +67,7 @@ export const loginUser = async (email: string, password: string): Promise<{ succ
     // Check if email is verified
     if (!userCredential.user.emailVerified) {
       await signOut(auth);
-      return { success: false, message: 'Please verify your email first. Check your inbox.' };
+      return { success: false, message: 'Email belum diverifikasi. Cek inbox email kamu dan klik link verifikasi.' };
     }
 
     // Get user data from Firestore
@@ -86,14 +88,18 @@ export const loginUser = async (email: string, password: string): Promise<{ succ
     return { success: true, user: userData, message: 'Login successful' };
   } catch (error: any) {
     console.error('Login error:', error);
-    let message = 'Login failed';
+    let message = 'Login gagal';
     
     if (error.code === 'auth/user-not-found') {
-      message = 'User not found';
+      message = 'Email tidak terdaftar';
     } else if (error.code === 'auth/wrong-password') {
-      message = 'Wrong password';
+      message = 'Password salah';
     } else if (error.code === 'auth/invalid-credential') {
-      message = 'Invalid email or password';
+      message = 'Email atau password salah';
+    } else if (error.code === 'auth/too-many-requests') {
+      message = 'Terlalu banyak percobaan. Coba lagi nanti.';
+    } else if (error.code === 'auth/network-request-failed') {
+      message = 'Koneksi internet bermasalah';
     }
 
     return { success: false, message };
@@ -113,12 +119,14 @@ export const requestPasswordReset = async (email: string): Promise<{ success: bo
     return { success: true, message: 'Password reset email sent! Check your inbox.' };
   } catch (error: any) {
     console.error('Request reset error:', error);
-    let message = 'Failed to send reset email';
+    let message = 'Gagal mengirim email reset';
     
     if (error.code === 'auth/user-not-found') {
-      message = 'Email not registered';
+      message = 'Email tidak terdaftar';
     } else if (error.code === 'auth/invalid-email') {
-      message = 'Invalid email format';
+      message = 'Format email tidak valid';
+    } else if (error.code === 'auth/network-request-failed') {
+      message = 'Koneksi internet bermasalah';
     }
     
     return { success: false, message };
