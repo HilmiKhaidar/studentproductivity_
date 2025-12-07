@@ -159,6 +159,7 @@ export interface StudyGroup {
   description: string;
   creatorId: string;
   members: string[]; // user IDs
+  inviteCode: string; // 6-digit code for inviting
   createdAt: string;
   isActive: boolean;
   color: string;

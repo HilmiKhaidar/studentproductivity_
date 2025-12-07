@@ -29,8 +29,14 @@ export const StudyGroups: React.FC = () => {
   const [chatMessage, setChatMessage] = useState('');
   const [sessionTimer, setSessionTimer] = useState(0);
   const [isSessionActive, setIsSessionActive] = useState(false);
+  const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [joinCode, setJoinCode] = useState('');
 
   const colors = ['#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#ef4444'];
+
+  const generateInviteCode = () => {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  };
 
   useEffect(() => {
     if (user) {
@@ -98,12 +104,12 @@ export const StudyGroups: React.FC = () => {
     const q = query(messagesRef, where('groupId', '==', groupId));
     
     return onSnapshot(q, (snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === 'added') {
-          const messageData = { id: change.doc.id, ...change.doc.data() } as GroupMessage;
-          addGroupMessage(messageData);
-        }
+      const messages: GroupMessage[] = [];
+      snapshot.forEach((doc) => {
+        messages.push({ id: doc.id, ...doc.data() } as GroupMessage);
       });
+      // Clear and set all messages to avoid duplicates
+      messages.forEach(msg => addGroupMessage(msg));
     });
   };
 
@@ -134,6 +140,7 @@ export const StudyGroups: React.FC = () => {
         description: groupForm.description,
         creatorId: user.id,
         members: [user.id],
+        inviteCode: generateInviteCode(),
         createdAt: new Date().toISOString(),
         isActive: true,
         color: groupForm.color,
@@ -166,6 +173,52 @@ export const StudyGroups: React.FC = () => {
     } catch (error) {
       console.error('Error inviting member:', error);
       toast.error('Gagal mengundang teman');
+    }
+  };
+
+  const handleJoinByCode = async () => {
+    if (!user || !joinCode.trim()) {
+      toast.error('Masukkan kode invite!');
+      return;
+    }
+
+    try {
+      const groupsRef = collection(db, 'studyGroups');
+      const q = query(groupsRef, where('inviteCode', '==', joinCode.toUpperCase()));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        toast.error('Kode invite tidak valid!');
+        return;
+      }
+
+      const groupDoc = snapshot.docs[0];
+      const groupData = groupDoc.data() as StudyGroup;
+
+      if (groupData.members.includes(user.id)) {
+        toast.error('Kamu sudah menjadi member group ini!');
+        return;
+      }
+
+      const updatedMembers = [...groupData.members, user.id];
+      await updateDoc(doc(db, 'studyGroups', groupDoc.id), {
+        members: updatedMembers,
+      });
+
+      addStudyGroup({ ...groupData, id: groupDoc.id, members: updatedMembers });
+      toast.success(`Berhasil join group "${groupData.name}"!`);
+      setJoinCode('');
+      setIsInviteModalOpen(false);
+    } catch (error) {
+      console.error('Error joining group:', error);
+      toast.error('Gagal join group');
+    }
+  };
+
+  const copyInviteCode = () => {
+    if (selectedGroup) {
+      navigator.clipboard.writeText(selectedGroup.inviteCode);
+      toast.success('Kode invite berhasil disalin!');
     }
   };
 
@@ -277,13 +330,20 @@ export const StudyGroups: React.FC = () => {
   };
 
   const groupTasks = sharedTasks.filter(t => t.groupId === selectedGroup?.id);
-  const groupChats = groupMessages.filter(m => m.groupId === selectedGroup?.id).sort((a, b) => 
-    new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-  );
+  
+  // Remove duplicates and sort messages
+  const groupChats = groupMessages
+    .filter(m => m.groupId === selectedGroup?.id)
+    .filter((msg, index, self) => 
+      index === self.findIndex((m) => m.id === msg.id)
+    )
+    .sort((a, b) => 
+      new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    );
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h2 className="text-3xl font-bold text-white flex items-center gap-2">
             <Users size={32} />
@@ -291,13 +351,22 @@ export const StudyGroups: React.FC = () => {
           </h2>
           <p className="text-white/70 mt-1">Belajar bersama teman-temanmu</p>
         </div>
-        <button
-          onClick={() => setIsCreateModalOpen(true)}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
-        >
-          <Plus size={20} />
-          Buat Group
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={() => setIsInviteModalOpen(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all flex items-center gap-2"
+          >
+            <UserPlus size={20} />
+            Join via Code
+          </button>
+          <button
+            onClick={() => setIsCreateModalOpen(true)}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+          >
+            <Plus size={20} />
+            Buat Group
+          </button>
+        </div>
       </div>
 
       {/* Groups List */}
@@ -330,12 +399,24 @@ export const StudyGroups: React.FC = () => {
       {/* Selected Group Details */}
       {selectedGroup && (
         <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <div className="flex items-center justify-between mb-6">
-            <div>
+          <div className="flex items-start justify-between mb-4 flex-wrap gap-4">
+            <div className="flex-1">
               <h3 className="text-2xl font-bold text-white">{selectedGroup.name}</h3>
-              <p className="text-white/70">{selectedGroup.description}</p>
+              <p className="text-white/70 mb-3">{selectedGroup.description}</p>
+              <div className="flex items-center gap-3 bg-white/5 rounded-lg p-3 inline-flex">
+                <div>
+                  <p className="text-white/60 text-xs mb-1">Invite Code</p>
+                  <p className="text-white font-mono text-lg font-bold">{selectedGroup.inviteCode}</p>
+                </div>
+                <button
+                  onClick={copyInviteCode}
+                  className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded-lg text-sm font-semibold transition-all"
+                >
+                  Copy
+                </button>
+              </div>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => setIsTaskModalOpen(true)}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
@@ -357,7 +438,7 @@ export const StudyGroups: React.FC = () => {
                 } text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2`}
               >
                 {isSessionActive ? <Pause size={16} /> : <Play size={16} />}
-                {isSessionActive ? formatTime(sessionTimer) : 'Start Session'}
+                {isSessionActive ? formatTime(sessionTimer) : 'Start'}
               </button>
             </div>
           </div>
@@ -467,46 +548,102 @@ export const StudyGroups: React.FC = () => {
 
       {/* Chat Sidebar */}
       {isChatOpen && selectedGroup && (
-        <div className="fixed right-0 top-0 h-full w-96 bg-gradient-to-br from-purple-900/95 to-indigo-900/95 backdrop-blur-lg border-l border-white/20 z-50 flex flex-col">
-          <div className="p-4 border-b border-white/20 flex items-center justify-between">
-            <h3 className="text-lg font-bold text-white">Group Chat</h3>
-            <button onClick={() => setIsChatOpen(false)} className="text-white/70 hover:text-white">
+        <div className="fixed right-0 top-0 h-full w-96 bg-gradient-to-br from-purple-900/98 to-indigo-900/98 backdrop-blur-xl border-l border-white/20 shadow-2xl z-50 flex flex-col">
+          <div className="p-4 border-b border-white/20 flex items-center justify-between bg-white/5">
+            <div>
+              <h3 className="text-lg font-bold text-white">Group Chat</h3>
+              <p className="text-white/60 text-xs">{selectedGroup.name}</p>
+            </div>
+            <button 
+              onClick={() => setIsChatOpen(false)} 
+              className="text-white/70 hover:text-white hover:bg-white/10 p-2 rounded-lg transition-all"
+            >
               <X size={20} />
             </button>
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            {groupChats.length === 0 && (
+              <div className="text-center py-12">
+                <MessageCircle size={48} className="text-white/20 mx-auto mb-3" />
+                <p className="text-white/50 text-sm">Belum ada pesan. Mulai chat!</p>
+              </div>
+            )}
             {groupChats.map((msg) => (
-              <div key={msg.id} className={`${msg.senderId === user?.id ? 'text-right' : 'text-left'}`}>
-                <div className={`inline-block max-w-[80%] ${
+              <div key={msg.id} className={`flex ${msg.senderId === user?.id ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[80%] ${
                   msg.senderId === user?.id
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-white/10 text-white'
-                } rounded-lg p-3`}>
-                  <p className="text-xs opacity-70 mb-1">{msg.senderName}</p>
-                  <p>{msg.message}</p>
-                  <p className="text-xs opacity-50 mt-1">
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600'
+                    : 'bg-white/10'
+                } rounded-2xl p-3 shadow-lg`}>
+                  {msg.senderId !== user?.id && (
+                    <p className="text-xs font-semibold text-white/90 mb-1">{msg.senderName}</p>
+                  )}
+                  <p className="text-white break-words">{msg.message}</p>
+                  <p className="text-xs text-white/50 mt-1 text-right">
                     {new Date(msg.timestamp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="p-4 border-t border-white/20">
+          <div className="p-4 border-t border-white/20 bg-white/5">
             <div className="flex gap-2">
               <input
                 type="text"
                 value={chatMessage}
                 onChange={(e) => setChatMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                 placeholder="Ketik pesan..."
-                className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="flex-1 bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
               <button
                 onClick={handleSendMessage}
-                className="bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-lg transition-all"
+                disabled={!chatMessage.trim()}
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white p-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
               >
                 <Send size={20} />
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Join by Code Modal */}
+      {isInviteModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
+            <h3 className="text-2xl font-bold text-white mb-6">Join Study Group</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-white/80 mb-2">Masukkan Kode Invite</label>
+                <input
+                  type="text"
+                  value={joinCode}
+                  onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white text-center font-mono text-xl font-bold uppercase focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="ABC123"
+                  maxLength={6}
+                />
+                <p className="text-white/60 text-sm mt-2">Minta kode invite dari teman yang sudah ada di group</p>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleJoinByCode}
+                  disabled={joinCode.length !== 6}
+                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Join Group
+                </button>
+                <button
+                  onClick={() => {
+                    setIsInviteModalOpen(false);
+                    setJoinCode('');
+                  }}
+                  className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
+                >
+                  Batal
+                </button>
+              </div>
             </div>
           </div>
         </div>
