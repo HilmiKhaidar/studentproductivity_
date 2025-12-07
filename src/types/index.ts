@@ -404,3 +404,81 @@ export interface Bookmark {
   createdAt: string;
   isFavorite: boolean;
 }
+
+// Multiplayer Features
+export interface PrivateMessage {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  message: string;
+  timestamp: string;
+  read: boolean;
+  type: 'text' | 'image' | 'file';
+}
+
+export interface StudySession {
+  id: string;
+  hostId: string;
+  hostName: string;
+  title: string;
+  description: string;
+  participants: SessionParticipant[];
+  startTime: string;
+  endTime?: string;
+  isActive: boolean;
+  type: 'video' | 'audio' | 'silent';
+  maxParticipants: number;
+  isPublic: boolean;
+  subject?: string;
+}
+
+export interface SessionParticipant {
+  userId: string;
+  name: string;
+  photoURL?: string;
+  joinedAt: string;
+  isActive: boolean;
+  isMuted?: boolean;
+  isVideoOn?: boolean;
+}
+
+export interface ActivityFeedItem {
+  id: string;
+  userId: string;
+  userName: string;
+  userPhoto?: string;
+  type: 'task_completed' | 'goal_achieved' | 'streak_milestone' | 'badge_earned' | 'study_session';
+  content: string;
+  timestamp: string;
+  likes: string[];
+  comments: ActivityComment[];
+}
+
+export interface ActivityComment {
+  id: string;
+  userId: string;
+  userName: string;
+  comment: string;
+  timestamp: string;
+}
+
+export interface WhiteboardData {
+  id: string;
+  sessionId: string;
+  elements: WhiteboardElement[];
+  createdBy: string;
+  lastModified: string;
+}
+
+export interface WhiteboardElement {
+  id: string;
+  type: 'line' | 'rectangle' | 'circle' | 'text' | 'image';
+  x: number;
+  y: number;
+  width?: number;
+  height?: number;
+  color: string;
+  strokeWidth?: number;
+  text?: string;
+  points?: { x: number; y: number }[];
+}

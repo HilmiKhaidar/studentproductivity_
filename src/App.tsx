@@ -21,6 +21,7 @@ import { StudyResources } from './components/StudyResources';
 import { Themes } from './components/Themes';
 import { Friends } from './components/Friends';
 import { StudyGroups } from './components/StudyGroups';
+import { Multiplayer } from './components/Multiplayer';
 import { Leaderboard } from './components/Leaderboard';
 import { Profile } from './components/Profile';
 import { Feedback } from './components/Feedback';
@@ -126,6 +127,8 @@ function App() {
         return <Friends />;
       case 'study-groups':
         return <StudyGroups />;
+      case 'multiplayer':
+        return <Multiplayer />;
       case 'leaderboard':
         return <Leaderboard />;
       case 'profile':

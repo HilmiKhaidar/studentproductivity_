@@ -20,6 +20,7 @@ import {
   CalendarDays,
   Palette,
   Trophy,
+  Video,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -42,6 +43,7 @@ const menuItems = [
   { id: 'social-sharing', label: 'Social Sharing', icon: Share2 },
   { id: 'friends', label: 'Friends', icon: Users },
   { id: 'study-groups', label: 'Study Groups', icon: Users },
+  { id: 'multiplayer', label: 'Multiplayer Study', icon: Video },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
   { id: 'themes', label: 'Themes', icon: Palette },
   { id: 'profile', label: 'Profil', icon: User },
