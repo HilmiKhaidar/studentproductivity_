@@ -231,3 +231,61 @@ export interface Theme {
   textColor: string;
   cardBg: string;
 }
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  category: 'tasks' | 'pomodoro' | 'streak' | 'social' | 'special';
+  requirement: number;
+  unlockedAt?: string;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+}
+
+export interface LeaderboardEntry {
+  userId: string;
+  name: string;
+  photoURL?: string;
+  score: number;
+  rank: number;
+  tasksCompleted: number;
+  pomodoroSessions: number;
+  streak: number;
+  level: number;
+  badges: string[];
+}
+
+export interface WeeklyCompetition {
+  id: string;
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  type: 'tasks' | 'pomodoro' | 'streak' | 'mixed';
+  participants: string[];
+  leaderboard: LeaderboardEntry[];
+  prizes: string[];
+  isActive: boolean;
+}
+
+export interface TeamChallenge {
+  id: string;
+  name: string;
+  description: string;
+  teamA: {
+    name: string;
+    members: string[];
+    score: number;
+  };
+  teamB: {
+    name: string;
+    members: string[];
+    score: number;
+  };
+  startDate: string;
+  endDate: string;
+  type: 'tasks' | 'pomodoro' | 'study-hours';
+  isActive: boolean;
+  winner?: 'A' | 'B' | 'tie';
+}

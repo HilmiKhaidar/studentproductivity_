@@ -19,6 +19,7 @@ import { StudyPlanner } from './components/StudyPlanner';
 import { Themes } from './components/Themes';
 import { Friends } from './components/Friends';
 import { StudyGroups } from './components/StudyGroups';
+import { Leaderboard } from './components/Leaderboard';
 import { Profile } from './components/Profile';
 import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
@@ -119,6 +120,8 @@ function App() {
         return <Friends />;
       case 'study-groups':
         return <StudyGroups />;
+      case 'leaderboard':
+        return <Leaderboard />;
       case 'profile':
         return <Profile />;
       case 'feedback':
