@@ -102,3 +102,40 @@ export interface User {
   name: string;
   createdAt: string;
 }
+
+export interface Note {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+  tags: string[];
+  taskId?: string;
+  createdAt: string;
+  updatedAt: string;
+  isPinned: boolean;
+  color?: string;
+}
+
+export interface ClassSchedule {
+  id: string;
+  subject: string;
+  day: number; // 0-6 (Sunday-Saturday)
+  startTime: string; // HH:mm
+  endTime: string; // HH:mm
+  room?: string;
+  instructor?: string;
+  color: string;
+  notes?: string;
+}
+
+export interface Exam {
+  id: string;
+  subject: string;
+  date: string;
+  time: string;
+  duration: number; // in minutes
+  room?: string;
+  topics: string[];
+  studyProgress: number; // 0-100
+  notes?: string;
+}

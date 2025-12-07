@@ -15,6 +15,8 @@ import {
   Bell,
   Music,
   Share2,
+  FileText,
+  CalendarDays,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -25,6 +27,8 @@ const menuItems = [
   { id: 'sleep', label: 'Tidur', icon: Moon },
   { id: 'pomodoro', label: 'Pomodoro', icon: Timer },
   { id: 'study-music', label: 'Study Music', icon: Music },
+  { id: 'notes', label: 'Notes', icon: FileText },
+  { id: 'study-planner', label: 'Study Planner', icon: CalendarDays },
   { id: 'goals', label: 'Target', icon: Target },
   { id: 'habits', label: 'Kebiasaan', icon: Zap },
   { id: 'analytics', label: 'Analitik', icon: TrendingUp },

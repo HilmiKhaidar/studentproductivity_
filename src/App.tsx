@@ -14,6 +14,8 @@ import { Calendar } from './components/Calendar';
 import { Notifications } from './components/Notifications';
 import { StudyMusic } from './components/StudyMusic';
 import { SocialSharing } from './components/SocialSharing';
+import { Notes } from './components/Notes';
+import { StudyPlanner } from './components/StudyPlanner';
 import { Profile } from './components/Profile';
 import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
@@ -73,6 +75,10 @@ function App() {
         return <StudyMusic />;
       case 'social-sharing':
         return <SocialSharing />;
+      case 'notes':
+        return <Notes />;
+      case 'study-planner':
+        return <StudyPlanner />;
       case 'profile':
         return <Profile />;
       case 'feedback':

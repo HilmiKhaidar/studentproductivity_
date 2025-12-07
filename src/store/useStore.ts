@@ -9,6 +9,9 @@ import {
   StudySession,
   UserSettings,
   User,
+  Note,
+  ClassSchedule,
+  Exam,
 } from '../types';
 import { registerUser, loginUser, logoutUser, requestPasswordReset } from '../services/authService';
 
@@ -57,6 +60,25 @@ interface AppState {
   // Study Sessions
   studySessions: StudySession[];
   addStudySession: (session: StudySession) => void;
+
+  // Notes
+  notes: Note[];
+  addNote: (note: Note) => void;
+  updateNote: (id: string, note: Partial<Note>) => void;
+  deleteNote: (id: string) => void;
+  togglePinNote: (id: string) => void;
+
+  // Class Schedule
+  classSchedules: ClassSchedule[];
+  addClassSchedule: (schedule: ClassSchedule) => void;
+  updateClassSchedule: (id: string, schedule: Partial<ClassSchedule>) => void;
+  deleteClassSchedule: (id: string) => void;
+
+  // Exams
+  exams: Exam[];
+  addExam: (exam: Exam) => void;
+  updateExam: (id: string, exam: Partial<Exam>) => void;
+  deleteExam: (id: string) => void;
 
   // Settings
   settings: UserSettings;
@@ -223,6 +245,51 @@ export const useStore = create<AppState>()(
       studySessions: [],
       addStudySession: (session) =>
         set((state) => ({ studySessions: [...state.studySessions, session] })),
+
+      // Notes
+      notes: [],
+      addNote: (note) => set((state) => ({ notes: [...state.notes, note] })),
+      updateNote: (id, updatedNote) =>
+        set((state) => ({
+          notes: state.notes.map((note) =>
+            note.id === id ? { ...note, ...updatedNote, updatedAt: new Date().toISOString() } : note
+          ),
+        })),
+      deleteNote: (id) =>
+        set((state) => ({ notes: state.notes.filter((note) => note.id !== id) })),
+      togglePinNote: (id) =>
+        set((state) => ({
+          notes: state.notes.map((note) =>
+            note.id === id ? { ...note, isPinned: !note.isPinned } : note
+          ),
+        })),
+
+      // Class Schedule
+      classSchedules: [],
+      addClassSchedule: (schedule) =>
+        set((state) => ({ classSchedules: [...state.classSchedules, schedule] })),
+      updateClassSchedule: (id, updatedSchedule) =>
+        set((state) => ({
+          classSchedules: state.classSchedules.map((schedule) =>
+            schedule.id === id ? { ...schedule, ...updatedSchedule } : schedule
+          ),
+        })),
+      deleteClassSchedule: (id) =>
+        set((state) => ({
+          classSchedules: state.classSchedules.filter((schedule) => schedule.id !== id),
+        })),
+
+      // Exams
+      exams: [],
+      addExam: (exam) => set((state) => ({ exams: [...state.exams, exam] })),
+      updateExam: (id, updatedExam) =>
+        set((state) => ({
+          exams: state.exams.map((exam) =>
+            exam.id === id ? { ...exam, ...updatedExam } : exam
+          ),
+        })),
+      deleteExam: (id) =>
+        set((state) => ({ exams: state.exams.filter((exam) => exam.id !== id) })),
 
       // Settings
       settings: defaultSettings,
