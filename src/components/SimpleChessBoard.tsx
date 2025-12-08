@@ -88,8 +88,9 @@ export const SimpleChessBoard: React.FC<SimpleChessBoardProps> = ({ game, onMove
     <div style={{
       display: 'grid',
       gridTemplateColumns: 'repeat(8, 1fr)',
-      width: '600px',
-      height: '600px',
+      width: '100%',
+      maxWidth: '600px',
+      aspectRatio: '1',
       margin: '0 auto',
       border: '3px solid #333',
       boxShadow: '0 8px 16px rgba(0,0,0,0.2)',
@@ -126,8 +127,7 @@ export const SimpleChessBoard: React.FC<SimpleChessBoardProps> = ({ game, onMove
                 position: 'relative',
                 userSelect: 'none',
                 transition: 'background-color 0.15s ease',
-                width: '75px',
-                height: '75px'
+                aspectRatio: '1'
               }}
               onMouseEnter={(e) => {
                 if (!isSelected && !isPossibleMove && !kingInCheck) {

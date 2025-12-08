@@ -671,11 +671,11 @@ export const ChessGame: React.FC = () => {
   if (!user) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 sm:px-6 max-w-7xl mx-auto">
       {/* Page Title */}
       <div className="space-y-1">
-        <h1 className="text-[40px] font-bold notion-heading leading-tight">♟️ Chess Online</h1>
-        <p className="notion-text-secondary text-sm">Play chess with friends or random players</p>
+        <h1 className="text-2xl sm:text-3xl lg:text-[40px] font-bold notion-heading leading-tight">♟️ Chess Online</h1>
+        <p className="notion-text-secondary text-xs sm:text-sm">Play chess with friends or random players</p>
       </div>
 
       <div className="border-b border-[#E9E9E7] dark:border-[#373737]"></div>
@@ -878,26 +878,26 @@ export const ChessGame: React.FC = () => {
           )}
         </>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
           {/* Chess Board */}
           <div className="lg:col-span-2">
-            <div className="notion-card p-6">
+            <div className="notion-card p-3 sm:p-4 lg:p-6">
               {/* Players Info */}
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   {currentMatch.blackPlayer.photoURL ? (
-                    <img src={currentMatch.blackPlayer.photoURL} alt={currentMatch.blackPlayer.name} className="w-8 h-8 rounded-full" />
+                    <img src={currentMatch.blackPlayer.photoURL} alt={currentMatch.blackPlayer.name} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full" />
                   ) : (
-                    <div className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-800 rounded-full flex items-center justify-center text-white text-xs font-semibold">
                       {currentMatch.blackPlayer.name.charAt(0).toUpperCase()}
                     </div>
                   )}
-                  <span className="notion-text text-sm font-medium">{currentMatch.blackPlayer.name}</span>
+                  <span className="notion-text text-xs sm:text-sm font-medium truncate max-w-[120px] sm:max-w-none">{currentMatch.blackPlayer.name}</span>
                   {currentMatch.currentTurn === 'black' && (
-                    <Clock size={14} className="text-blue-500" />
+                    <Clock size={12} className="text-blue-500 sm:w-3.5 sm:h-3.5" />
                   )}
                 </div>
-                <span className="notion-text-secondary text-sm">
+                <span className="notion-text-secondary text-xs sm:text-sm">
                   {Math.floor(currentMatch.blackTime / 60)}:{(currentMatch.blackTime % 60).toString().padStart(2, '0')}
                 </span>
               </div>
@@ -922,50 +922,51 @@ export const ChessGame: React.FC = () => {
                 )}
               </div>
 
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between mt-3 sm:mt-4">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   {currentMatch.whitePlayer.photoURL ? (
-                    <img src={currentMatch.whitePlayer.photoURL} alt={currentMatch.whitePlayer.name} className="w-8 h-8 rounded-full" />
+                    <img src={currentMatch.whitePlayer.photoURL} alt={currentMatch.whitePlayer.name} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full" />
                   ) : (
-                    <div className="w-8 h-8 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center text-gray-800 text-xs font-semibold">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center text-gray-800 text-xs font-semibold">
                       {currentMatch.whitePlayer.name.charAt(0).toUpperCase()}
                     </div>
                   )}
-                  <span className="notion-text text-sm font-medium">{currentMatch.whitePlayer.name}</span>
+                  <span className="notion-text text-xs sm:text-sm font-medium truncate max-w-[120px] sm:max-w-none">{currentMatch.whitePlayer.name}</span>
                   {currentMatch.currentTurn === 'white' && (
-                    <Clock size={14} className="text-blue-500" />
+                    <Clock size={12} className="text-blue-500 sm:w-3.5 sm:h-3.5" />
                   )}
                 </div>
-                <span className="notion-text-secondary text-sm">
+                <span className="notion-text-secondary text-xs sm:text-sm">
                   {Math.floor(currentMatch.whiteTime / 60)}:{(currentMatch.whiteTime % 60).toString().padStart(2, '0')}
                 </span>
               </div>
 
               {/* Game Controls */}
-              <div className="flex gap-2 mt-4">
+              <div className="flex flex-wrap gap-2 mt-3 sm:mt-4">
                 {currentMatch.status === 'waiting' ? (
                   <button
                     onClick={cancelMatch}
-                    className="notion-button px-4 py-2 flex items-center gap-2 text-red-600"
+                    className="notion-button px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-1.5 sm:gap-2 text-red-600 text-xs sm:text-sm"
                   >
-                    <X size={16} />
-                    Cancel Match
+                    <X size={14} className="sm:w-4 sm:h-4" />
+                    <span className="hidden sm:inline">Cancel Match</span>
+                    <span className="sm:hidden">Cancel</span>
                   </button>
                 ) : (
                   <button
                     onClick={resignGame}
-                    className="notion-button px-4 py-2 flex items-center gap-2 text-red-600"
+                    className="notion-button px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-1.5 sm:gap-2 text-red-600 text-xs sm:text-sm"
                   >
-                    <Flag size={16} />
+                    <Flag size={14} className="sm:w-4 sm:h-4" />
                     Resign
                   </button>
                 )}
                 {!playingWithBot && (
                   <button
                     onClick={() => setShowChat(!showChat)}
-                    className="notion-button px-4 py-2 flex items-center gap-2"
+                    className="notion-button px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm"
                   >
-                    <MessageCircle size={16} />
+                    <MessageCircle size={14} className="sm:w-4 sm:h-4" />
                     Chat
                   </button>
                 )}
@@ -1021,9 +1022,9 @@ export const ChessGame: React.FC = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {/* Moves History */}
-            <div className="notion-card p-4">
+            <div className="notion-card p-3 sm:p-4">
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-sm font-semibold notion-heading">Move History</h4>
                 {playingWithBot && moveHistory.length > 0 && currentMatch.status === 'active' && (
