@@ -606,6 +606,34 @@ export const ChessGame: React.FC = () => {
     }
   };
 
+  const cancelMatch = async () => {
+    if (!currentMatch || !user) return;
+
+    if (!confirm('Cancel this match?')) return;
+
+    try {
+      if (playingWithBot) {
+        setCurrentMatch(null);
+        setPlayingWithBot(false);
+        setGame(new Chess());
+        setMoveHistory([]);
+        toast('Match cancelled');
+      } else {
+        // Delete the match from Firebase
+        await updateDoc(doc(db, 'chessMatches', currentMatch.id), {
+          status: 'cancelled',
+        });
+        setCurrentMatch(null);
+        setGame(new Chess());
+        setMoveHistory([]);
+        toast('Match cancelled');
+      }
+    } catch (error) {
+      console.error('Error cancelling match:', error);
+      toast.error('Failed to cancel match');
+    }
+  };
+
   const resignGame = async () => {
     if (!currentMatch || !user) return;
 
@@ -617,6 +645,8 @@ export const ChessGame: React.FC = () => {
         toast('You resigned');
         setCurrentMatch(null);
         setPlayingWithBot(false);
+        setGame(new Chess());
+        setMoveHistory([]);
       } else {
         // For online games, update Firebase
         const playerColor = currentMatch.whitePlayer.id === user.id ? 'white' : 'black';
@@ -629,9 +659,12 @@ export const ChessGame: React.FC = () => {
 
         toast('You resigned');
         setCurrentMatch(null);
+        setGame(new Chess());
+        setMoveHistory([]);
       }
     } catch (error) {
       console.error('Error resigning:', error);
+      toast.error('Failed to resign');
     }
   };
 
@@ -869,12 +902,25 @@ export const ChessGame: React.FC = () => {
                 </span>
               </div>
 
-              <SimpleChessBoard
-                key={game.fen()} 
-                game={game}
-                onMove={(from, to) => makeMove(from, to)}
-                orientation={currentMatch.whitePlayer.id === user.id ? 'white' : 'black'}
-              />
+              <div className="relative">
+                <SimpleChessBoard
+                  key={game.fen()} 
+                  game={game}
+                  onMove={(from, to) => makeMove(from, to)}
+                  orientation={currentMatch.whitePlayer.id === user.id ? 'white' : 'black'}
+                />
+                
+                {/* Waiting Overlay */}
+                {currentMatch.status === 'waiting' && (
+                  <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center rounded">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                      <p className="text-white text-lg font-semibold">Waiting for opponent...</p>
+                      <p className="text-white/70 text-sm mt-2">Match will start when someone joins</p>
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <div className="flex items-center justify-between mt-4">
                 <div className="flex items-center gap-2">
@@ -897,20 +943,32 @@ export const ChessGame: React.FC = () => {
 
               {/* Game Controls */}
               <div className="flex gap-2 mt-4">
-                <button
-                  onClick={resignGame}
-                  className="notion-button px-4 py-2 flex items-center gap-2 text-red-600"
-                >
-                  <Flag size={16} />
-                  Resign
-                </button>
-                <button
-                  onClick={() => setShowChat(!showChat)}
-                  className="notion-button px-4 py-2 flex items-center gap-2"
-                >
-                  <MessageCircle size={16} />
-                  Chat
-                </button>
+                {currentMatch.status === 'waiting' ? (
+                  <button
+                    onClick={cancelMatch}
+                    className="notion-button px-4 py-2 flex items-center gap-2 text-red-600"
+                  >
+                    <X size={16} />
+                    Cancel Match
+                  </button>
+                ) : (
+                  <button
+                    onClick={resignGame}
+                    className="notion-button px-4 py-2 flex items-center gap-2 text-red-600"
+                  >
+                    <Flag size={16} />
+                    Resign
+                  </button>
+                )}
+                {!playingWithBot && (
+                  <button
+                    onClick={() => setShowChat(!showChat)}
+                    className="notion-button px-4 py-2 flex items-center gap-2"
+                  >
+                    <MessageCircle size={16} />
+                    Chat
+                  </button>
+                )}
               </div>
 
               {currentMatch.status === 'finished' && (
