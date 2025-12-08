@@ -29,8 +29,8 @@ import {
   serverTimestamp,
   setDoc,
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../config/firebase';
+// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db } from '../config/firebase';
 import toast from 'react-hot-toast';
 
 interface User {
@@ -64,15 +64,15 @@ export const Messaging: React.FC = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showStickerPicker, setShowStickerPicker] = useState(false);
   const [showWallpaperPicker, setShowWallpaperPicker] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
+  // const [isRecording, setIsRecording] = useState(false); // Disabled - requires Storage
   const [wallpaper, setWallpaper] = useState<string>('');
   const [incomingCall, setIncomingCall] = useState<any>(null);
   const [callHistory, setCallHistory] = useState<any[]>([]);
   const [showCallHistory, setShowCallHistory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
+  // const fileInputRef = useRef<HTMLInputElement>(null);
+  // const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  // const audioChunksRef = useRef<Blob[]>([]);
 
   // Detect online/offline status
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -334,10 +334,15 @@ export const Messaging: React.FC = () => {
     }
   };
 
-  // Upload and send media
-  const handleFileUpload = async (file: File, type: 'image' | 'video') => {
+  // Upload and send media (DISABLED - requires Firebase Storage upgrade)
+  const handleFileUpload = async (_file: File, _type: 'image' | 'video') => {
     if (!user || !selectedUser || !isOnline) return;
 
+    toast.error('Media upload requires Firebase Storage upgrade to Blaze Plan. Feature disabled for now.');
+    return;
+
+    // Uncomment below if you upgrade to Blaze Plan
+    /*
     try {
       toast.loading('Uploading...');
       const storageRef = ref(storage, `messages/${user.id}/${Date.now()}_${file.name}`);
@@ -382,9 +387,12 @@ export const Messaging: React.FC = () => {
       toast.dismiss();
       toast.error('Failed to upload');
     }
+    */
   };
 
-  // Start voice recording
+  // Voice recording disabled - requires Firebase Storage upgrade
+  // Uncomment below if you upgrade to Blaze Plan
+  /*
   const startVoiceRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -398,7 +406,7 @@ export const Messaging: React.FC = () => {
 
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        await handleFileUpload(audioBlob as File, 'image'); // Using 'image' type for audio
+        await handleFileUpload(audioBlob as File, 'image');
         stream.getTracks().forEach(track => track.stop());
       };
 
@@ -411,13 +419,13 @@ export const Messaging: React.FC = () => {
     }
   };
 
-  // Stop voice recording
   const stopVoiceRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
     }
   };
+  */
 
   // Send sticker
   const sendSticker = async (stickerUrl: string) => {
@@ -898,6 +906,7 @@ export const Messaging: React.FC = () => {
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                   className="notion-button p-2"
                   disabled={!isOnline}
+                  title="Add Emoji"
                 >
                   <Smile size={20} />
                 </button>
@@ -905,29 +914,19 @@ export const Messaging: React.FC = () => {
                   onClick={() => setShowStickerPicker(!showStickerPicker)}
                   className="notion-button p-2"
                   disabled={!isOnline}
+                  title="Send Sticker"
                 >
                   <StickerIcon size={20} />
                 </button>
                 <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="notion-button p-2"
-                  disabled={!isOnline}
+                  onClick={() => toast.error('Media upload disabled. Upgrade to Blaze Plan to enable.')}
+                  className="notion-button p-2 opacity-50 cursor-not-allowed"
+                  disabled={true}
+                  title="Media Upload (Disabled - Requires Storage)"
                 >
                   <Paperclip size={20} />
                 </button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*,video/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      const type = file.type.startsWith('image/') ? 'image' : 'video';
-                      handleFileUpload(file, type);
-                    }
-                  }}
-                />
+
                 <input
                   type="text"
                   placeholder={isOnline ? "Type a message..." : "Offline - Connect to send messages"}
@@ -937,22 +936,14 @@ export const Messaging: React.FC = () => {
                   className="flex-1 notion-input"
                   disabled={!isOnline}
                 />
-                {isRecording ? (
-                  <button
-                    onClick={stopVoiceRecording}
-                    className="notion-button p-2 bg-red-500 text-white"
-                  >
-                    <Mic size={20} />
-                  </button>
-                ) : (
-                  <button
-                    onClick={startVoiceRecording}
-                    className="notion-button p-2"
-                    disabled={!isOnline}
-                  >
-                    <Mic size={20} />
-                  </button>
-                )}
+                <button
+                  onClick={() => toast.error('Voice recording disabled. Upgrade to Blaze Plan to enable.')}
+                  className="notion-button p-2 opacity-50 cursor-not-allowed"
+                  disabled={true}
+                  title="Voice Recording (Disabled - Requires Storage)"
+                >
+                  <Mic size={20} />
+                </button>
                 <button
                   onClick={sendMessage}
                   className="notion-button-primary p-2"
