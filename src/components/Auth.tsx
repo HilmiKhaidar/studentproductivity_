@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LogIn, UserPlus, Mail, Lock, User, CheckCircle, Sparkles } from 'lucide-react';
+import { LogIn, UserPlus, Mail, Lock, User, CheckCircle, Sparkles, Zap } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import toast from 'react-hot-toast';
 
@@ -24,7 +24,6 @@ export const Auth: React.FC = () => {
     if (isSubmitting) return;
     
     if (isLogin) {
-      // Login
       setIsSubmitting(true);
       const result = await login(email, password);
       setIsSubmitting(false);
@@ -38,10 +37,9 @@ export const Auth: React.FC = () => {
         }, 2000);
       } else {
         toast.error(result.message, { duration: 5000 });
-        // If email not verified, show additional help
         if (result.message.includes('belum diverifikasi')) {
           setTimeout(() => {
-            toast('Belum dapat email? Cek folder Spam atau gunakan email lain untuk daftar ulang.', {
+            toast('Check your Spam folder or use another email to register.', {
               icon: '💡',
               duration: 7000
             });
@@ -49,13 +47,12 @@ export const Auth: React.FC = () => {
         }
       }
     } else {
-      // Register
       if (!name || !email || !password) {
-        toast.error('Semua field harus diisi!');
+        toast.error('All fields are required!');
         return;
       }
       if (password.length < 6) {
-        toast.error('Password minimal 6 karakter!');
+        toast.error('Password must be at least 6 characters!');
         return;
       }
       
@@ -68,9 +65,7 @@ export const Auth: React.FC = () => {
         setShowSuccessModal(true);
         setTimeout(() => {
           setShowSuccessModal(false);
-          // Switch to login form
           setIsLogin(true);
-          // Keep email filled for easier login
           setPassword('');
           setName('');
         }, 2500);
@@ -84,7 +79,7 @@ export const Auth: React.FC = () => {
     e.preventDefault();
     
     if (!email) {
-      toast.error('Masukkan email terlebih dahulu!');
+      toast.error('Please enter your email!');
       return;
     }
 
@@ -103,47 +98,47 @@ export const Auth: React.FC = () => {
 
   if (showResetPassword) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-[#191919]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md border border-white/20 shadow-2xl"
+          className="w-full max-w-md"
         >
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white mb-2">Reset Password</h2>
-            <p className="text-white/70">Masukkan email untuk reset password</p>
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-4">
+              <Zap className="text-white" size={24} />
+            </div>
+            <h2 className="text-2xl font-bold notion-heading mb-2">Reset Password</h2>
+            <p className="notion-text-secondary text-sm">Enter your email to reset password</p>
           </div>
 
           <form onSubmit={handleResetPassword} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-                  placeholder="email@example.com"
-                />
-              </div>
+              <label className="block text-sm font-medium notion-text mb-2">Email</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="notion-input w-full"
+                placeholder="email@example.com"
+              />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-white text-purple-600 py-3 rounded-lg font-semibold hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="notion-button-primary w-full py-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Mengirim...' : 'Kirim Link Reset'}
+              {isSubmitting ? 'Sending...' : 'Send Reset Link'}
             </button>
 
             <button
               type="button"
               onClick={() => setShowResetPassword(false)}
-              className="w-full text-white/70 hover:text-white transition-colors"
+              className="w-full notion-text-secondary hover:notion-text transition-colors text-sm"
             >
-              Kembali ke Login
+              Back to Login
             </button>
           </form>
         </motion.div>
@@ -152,185 +147,154 @@ export const Auth: React.FC = () => {
   }
 
   return (
-    <>
-      {/* Success Modal */}
-      <AnimatePresence>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-white dark:bg-[#191919]">
+      <AnimatePresence mode="wait">
         {showSuccessModal && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50"
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: 20 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="notion-card p-8 max-w-sm mx-4 text-center notion-shadow"
             >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="mb-4"
-              >
-                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircle className="text-green-500" size={48} />
-                </div>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <h2 className="text-3xl font-bold text-white mb-2">
-                  {successType === 'register' ? '🎉 Registrasi Berhasil!' : '✨ Selamat Datang!'}
-                </h2>
-                <p className="text-white/90 text-lg">
-                  {successType === 'register' 
-                    ? 'Akun kamu berhasil dibuat. Silakan login untuk melanjutkan.'
-                    : `Halo, ${name || 'User'}! Selamat datang kembali di StudyHub.`
-                  }
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: [0, 1.2, 1] }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="mt-6"
-              >
-                <Sparkles className="text-white mx-auto" size={32} />
-              </motion.div>
+              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="text-green-600 dark:text-green-400" size={32} />
+              </div>
+              <h3 className="text-xl font-bold notion-heading mb-2">
+                {successType === 'register' ? 'Registration Successful!' : 'Welcome Back!'}
+              </h3>
+              <p className="notion-text-secondary text-sm">
+                {successType === 'register' 
+                  ? 'You can now login with your credentials' 
+                  : 'Redirecting to dashboard...'}
+              </p>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="min-h-screen flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md border border-white/20 shadow-2xl"
-      >
+      <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">StudyHub</h1>
-          <p className="text-white/70">Produktivitas Mahasiswa</p>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-4">
+            <Zap className="text-white" size={32} />
+          </div>
+          <h1 className="text-3xl font-bold notion-heading mb-2">StudyHub</h1>
+          <p className="notion-text-secondary">Your productivity workspace</p>
         </div>
 
-        <div className="flex gap-2 mb-6">
-          <button
-            onClick={() => setIsLogin(true)}
-            className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
-              isLogin
-                ? 'bg-white text-purple-600'
-                : 'bg-white/10 text-white hover:bg-white/20'
-            }`}
-          >
-            Login
-          </button>
-          <button
-            onClick={() => setIsLogin(false)}
-            className={`flex-1 py-2 rounded-lg font-medium transition-colors ${
-              !isLogin
-                ? 'bg-white text-purple-600'
-                : 'bg-white/10 text-white hover:bg-white/20'
-            }`}
-          >
-            Daftar
-          </button>
-        </div>
+        <div className="notion-card p-6 notion-shadow">
+          {/* Tabs */}
+          <div className="flex gap-2 mb-6 border-b border-[#E9E9E7] dark:border-[#373737]">
+            <button
+              onClick={() => setIsLogin(true)}
+              className={`flex-1 py-2 text-sm font-medium transition-all border-b-2 ${
+                isLogin
+                  ? 'border-[#2383E2] notion-text'
+                  : 'border-transparent notion-text-secondary hover:notion-text'
+              }`}
+            >
+              <LogIn size={16} className="inline mr-2" />
+              Login
+            </button>
+            <button
+              onClick={() => setIsLogin(false)}
+              className={`flex-1 py-2 text-sm font-medium transition-all border-b-2 ${
+                !isLogin
+                  ? 'border-[#2383E2] notion-text'
+                  : 'border-transparent notion-text-secondary hover:notion-text'
+              }`}
+            >
+              <UserPlus size={16} className="inline mr-2" />
+              Register
+            </button>
+          </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {!isLogin && (
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Nama Lengkap</label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div>
+                <label className="block text-sm font-medium notion-text mb-2">Name</label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
-                  placeholder="Nama lengkap"
+                  className="notion-input w-full"
+                  placeholder="Your name"
                 />
               </div>
-            </div>
-          )}
+            )}
 
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <div>
+              <label className="block text-sm font-medium notion-text mb-2">Email</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="notion-input w-full"
                 placeholder="email@example.com"
               />
             </div>
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <div>
+              <label className="block text-sm font-medium notion-text mb-2">Password</label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="notion-input w-full"
                 placeholder="••••••••"
               />
             </div>
-          </div>
 
-          {isLogin && (
-            <div className="text-right">
-              <button
-                type="button"
-                onClick={() => setShowResetPassword(true)}
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Lupa password?
-              </button>
+            {isLogin && (
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={() => setShowResetPassword(true)}
+                  className="text-sm notion-text-secondary hover:notion-text transition-colors"
+                >
+                  Forgot password?
+                </button>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="notion-button-primary w-full py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  Processing...
+                </span>
+              ) : (
+                isLogin ? 'Login' : 'Create Account'
+              )}
+            </button>
+          </form>
+
+          {!isLogin && (
+            <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/10 rounded border border-blue-100 dark:border-blue-900/30">
+              <p className="notion-text-secondary text-xs">
+                <Sparkles size={12} className="inline mr-1 text-blue-500" />
+                After registration, you can login immediately
+              </p>
             </div>
           )}
+        </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-white text-purple-600 py-3 rounded-lg font-semibold hover:bg-white/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? (
-              'Loading...'
-            ) : isLogin ? (
-              <>
-                <LogIn size={20} />
-                Masuk
-              </>
-            ) : (
-              <>
-                <UserPlus size={20} />
-                Daftar
-              </>
-            )}
-          </button>
-        </form>
-
-        {!isLogin && (
-          <p className="text-white/60 text-xs text-center mt-4">
-            Setelah daftar, cek email untuk verifikasi akun
-          </p>
-        )}
-      </motion.div>
+        <p className="text-center mt-6 notion-text-secondary text-xs">
+          © 2024 StudyHub. All rights reserved.
+        </p>
+      </div>
     </div>
-    </>
   );
 };
