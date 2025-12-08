@@ -140,8 +140,8 @@ export const Pomodoro: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Pomodoro Timer</h2>
-          <p className="text-white/70 mt-1">Tingkatkan fokus dengan teknik Pomodoro</p>
+          <h2 className="text-[40px] font-bold notion-heading leading-tight">Pomodoro Timer</h2>
+          <p className="notion-text-secondary text-sm mt-2">Tingkatkan fokus dengan teknik Pomodoro</p>
         </div>
       </div>
 
@@ -156,7 +156,7 @@ export const Pomodoro: React.FC = () => {
                 className={`flex-1 py-3 rounded-lg font-medium transition-all ${
                   timerType === 'work'
                     ? 'bg-white text-purple-600 shadow-lg'
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                    : 'bg-white/10 notion-text hover:bg-white/20'
                 }`}
               >
                 <Zap className="inline mr-2" size={18} />
@@ -167,7 +167,7 @@ export const Pomodoro: React.FC = () => {
                 className={`flex-1 py-3 rounded-lg font-medium transition-all ${
                   timerType === 'short-break'
                     ? 'bg-white text-purple-600 shadow-lg'
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                    : 'bg-white/10 notion-text hover:bg-white/20'
                 }`}
               >
                 <Coffee className="inline mr-2" size={18} />
@@ -178,7 +178,7 @@ export const Pomodoro: React.FC = () => {
                 className={`flex-1 py-3 rounded-lg font-medium transition-all ${
                   timerType === 'long-break'
                     ? 'bg-white text-purple-600 shadow-lg'
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                    : 'bg-white/10 notion-text hover:bg-white/20'
                 }`}
               >
                 <Coffee className="inline mr-2" size={18} />
@@ -212,8 +212,8 @@ export const Pomodoro: React.FC = () => {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <p className="text-7xl font-bold text-white mb-2">{formatTime(timeLeft)}</p>
-                <p className="text-white/70 text-lg capitalize">
+                <p className="text-7xl font-bold notion-text mb-2">{formatTime(timeLeft)}</p>
+                <p className="notion-text-secondary text-lg capitalize">
                   {timerType === 'work' ? 'Fokus' : timerType === 'short-break' ? 'Istirahat Pendek' : 'Istirahat Panjang'}
                 </p>
               </div>
@@ -240,7 +240,7 @@ export const Pomodoro: React.FC = () => {
               )}
               <button
                 onClick={handleReset}
-                className="bg-white/10 text-white px-6 py-4 rounded-lg font-bold hover:bg-white/20 transition-colors flex items-center gap-2"
+                className="bg-white/10 notion-text px-6 py-4 rounded-lg font-bold hover:bg-white/20 transition-colors flex items-center gap-2"
               >
                 <RotateCcw size={24} />
                 Reset
@@ -249,7 +249,7 @@ export const Pomodoro: React.FC = () => {
 
             {/* Session Counter */}
             <div className="mt-6 text-center">
-              <p className="text-white/70 text-sm">Sesi Selesai Hari Ini</p>
+              <p className="notion-text-secondary text-sm">Sesi Selesai Hari Ini</p>
               <div className="flex items-center justify-center gap-2 mt-2">
                 {Array.from({ length: settings.pomodoroSessionsBeforeLongBreak }).map((_, i) => (
                   <div
@@ -270,31 +270,31 @@ export const Pomodoro: React.FC = () => {
         <div className="space-y-4">
           <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-white/80 text-sm">Sesi Hari Ini</p>
-              <BarChart3 className="text-white/80" size={24} />
+              <p className="notion-text/80 text-sm">Sesi Hari Ini</p>
+              <BarChart3 className="notion-text/80" size={24} />
             </div>
-            <p className="text-4xl font-bold text-white">{todayStats.length}</p>
+            <p className="text-4xl font-bold notion-text">{todayStats.length}</p>
           </div>
 
           <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-white/80 text-sm">Waktu Fokus</p>
-              <Zap className="text-white/80" size={24} />
+              <p className="notion-text/80 text-sm">Waktu Fokus</p>
+              <Zap className="notion-text/80" size={24} />
             </div>
-            <p className="text-4xl font-bold text-white">{totalWorkTime}m</p>
+            <p className="text-4xl font-bold notion-text">{totalWorkTime}m</p>
           </div>
 
           <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between mb-2">
-              <p className="text-white/80 text-sm">Streak</p>
-              <Zap className="text-white/80" size={24} />
+              <p className="notion-text/80 text-sm">Streak</p>
+              <Zap className="notion-text/80" size={24} />
             </div>
-            <p className="text-4xl font-bold text-white">{sessionsCompleted}</p>
+            <p className="text-4xl font-bold notion-text">{sessionsCompleted}</p>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-white font-bold mb-3">Tips Pomodoro</h3>
-            <ul className="space-y-2 text-white/70 text-sm">
+          <div className="notion-card p-6">
+            <h3 className="notion-text font-bold mb-3">Tips Pomodoro</h3>
+            <ul className="space-y-2 notion-text-secondary text-sm">
               <li>• Fokus penuh saat sesi kerja</li>
               <li>• Hindari distraksi</li>
               <li>• Istirahat dengan benar</li>
@@ -306,8 +306,8 @@ export const Pomodoro: React.FC = () => {
       </div>
 
       {/* Recent Sessions */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-4">Sesi Terakhir</h3>
+      <div className="notion-card p-6">
+        <h3 className="text-lg font-semibold notion-heading mb-4">Sesi Terakhir</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {pomodoroSessions
             .slice(-6)
@@ -315,7 +315,7 @@ export const Pomodoro: React.FC = () => {
             .map((session) => (
               <div
                 key={session.id}
-                className={`bg-white/5 rounded-lg p-4 border ${
+                className={`notion-card p-4 border ${
                   session.completed ? 'border-green-500/30' : 'border-red-500/30'
                 }`}
               >
@@ -323,8 +323,8 @@ export const Pomodoro: React.FC = () => {
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
                       session.type === 'work'
-                        ? 'bg-purple-500 text-white'
-                        : 'bg-blue-500 text-white'
+                        ? 'bg-purple-500 notion-text'
+                        : 'bg-blue-500 notion-text'
                     }`}
                   >
                     {session.type === 'work' ? 'Fokus' : 'Istirahat'}
@@ -337,13 +337,13 @@ export const Pomodoro: React.FC = () => {
                     {session.completed ? '✓ Selesai' : '✗ Terputus'}
                   </span>
                 </div>
-                <p className="text-white/70 text-sm">
+                <p className="notion-text-secondary text-sm">
                   {new Date(session.startTime).toLocaleTimeString('id-ID', {
                     hour: '2-digit',
                     minute: '2-digit',
                   })}
                 </p>
-                <p className="text-white font-medium">{session.duration} menit</p>
+                <p className="notion-text font-medium">{session.duration} menit</p>
               </div>
             ))}
         </div>

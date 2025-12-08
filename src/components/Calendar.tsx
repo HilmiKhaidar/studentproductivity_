@@ -49,33 +49,33 @@ export const Calendar: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Kalender</h2>
-          <p className="text-white/70 mt-1">Lihat aktivitas dan jadwal kamu</p>
+          <h2 className="text-[40px] font-bold notion-heading leading-tight">Kalender</h2>
+          <p className="notion-text-secondary text-sm mt-2">Lihat aktivitas dan jadwal kamu</p>
         </div>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+      <div className="notion-card p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-2xl font-bold text-white">
+          <h3 className="text-2xl font-bold notion-heading">
             {format(currentDate, 'MMMM yyyy', { locale: id })}
           </h3>
           <div className="flex gap-2">
             <button
               onClick={previousMonth}
-              className="bg-white/10 text-white p-2 rounded-lg hover:bg-white/20 transition-colors"
+              className="bg-white/10 notion-text p-2 rounded-lg hover:bg-white/20 transition-colors"
             >
               <ChevronLeft size={20} />
             </button>
             <button
               onClick={() => setCurrentDate(new Date())}
-              className="bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-colors"
+              className="bg-white/10 notion-text px-4 py-2 rounded-lg hover:bg-white/20 transition-colors"
             >
               Hari Ini
             </button>
             <button
               onClick={nextMonth}
-              className="bg-white/10 text-white p-2 rounded-lg hover:bg-white/20 transition-colors"
+              className="bg-white/10 notion-text p-2 rounded-lg hover:bg-white/20 transition-colors"
             >
               <ChevronRight size={20} />
             </button>
@@ -85,7 +85,7 @@ export const Calendar: React.FC = () => {
         {/* Weekday Headers */}
         <div className="grid grid-cols-7 gap-2 mb-2">
           {['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'].map((day) => (
-            <div key={day} className="text-center text-white/70 font-medium text-sm py-2">
+            <div key={day} className="text-center notion-text-secondary font-medium text-sm py-2">
               {day}
             </div>
           ))}
@@ -113,7 +113,7 @@ export const Calendar: React.FC = () => {
                 <div className="flex items-center justify-between mb-2">
                   <span
                     className={`text-sm font-medium ${
-                      isToday ? 'text-white font-bold' : isCurrentMonth ? 'text-white/90' : 'text-white/40'
+                      isToday ? 'notion-text font-bold' : isCurrentMonth ? 'notion-text/90' : 'notion-text/40'
                     }`}
                   >
                     {format(day, 'd')}
@@ -142,24 +142,24 @@ export const Calendar: React.FC = () => {
       </div>
 
       {/* Legend */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-white font-bold mb-3">Legenda</h3>
+      <div className="notion-card p-6">
+        <h3 className="notion-text font-bold mb-3">Legenda</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-blue-500/30 rounded"></div>
-            <span className="text-white/80 text-sm">Tugas</span>
+            <span className="notion-text/80 text-sm">Tugas</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-purple-500/30 rounded"></div>
-            <span className="text-white/80 text-sm">Pomodoro</span>
+            <span className="notion-text/80 text-sm">Pomodoro</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-lg">🌙</span>
-            <span className="text-white/80 text-sm">Tidur Tercatat</span>
+            <span className="notion-text/80 text-sm">Tidur Tercatat</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-white/20 border-2 border-white rounded"></div>
-            <span className="text-white/80 text-sm">Hari Ini</span>
+            <span className="notion-text/80 text-sm">Hari Ini</span>
           </div>
         </div>
       </div>

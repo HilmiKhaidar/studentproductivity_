@@ -54,8 +54,8 @@ export const Sleep: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Pelacak Tidur</h2>
-          <p className="text-white/70 mt-1">Monitor pola tidur dan kualitas istirahat</p>
+          <h2 className="text-[40px] font-bold notion-heading leading-tight">Pelacak Tidur</h2>
+          <p className="notion-text-secondary text-sm mt-2">Monitor pola tidur dan kualitas istirahat</p>
         </div>
         <button
           onClick={() => setShowModal(true)}
@@ -71,47 +71,47 @@ export const Sleep: React.FC = () => {
         <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Rata-rata Durasi</p>
-              <p className="text-3xl font-bold text-white mt-2">{minutesToHours(stats.avgDuration)}</p>
+              <p className="notion-text/80 text-sm">Rata-rata Durasi</p>
+              <p className="text-[40px] font-bold notion-heading leading-tight mt-2">{minutesToHours(stats.avgDuration)}</p>
             </div>
-            <Moon className="text-white/80" size={32} />
+            <Moon className="notion-text/80" size={32} />
           </div>
         </div>
         <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Kualitas Rata-rata</p>
-              <p className="text-3xl font-bold text-white mt-2">{stats.avgQuality.toFixed(1)}/4</p>
+              <p className="notion-text/80 text-sm">Kualitas Rata-rata</p>
+              <p className="text-[40px] font-bold notion-heading leading-tight mt-2">{stats.avgQuality.toFixed(1)}/4</p>
             </div>
-            <TrendingUp className="text-white/80" size={32} />
+            <TrendingUp className="notion-text/80" size={32} />
           </div>
         </div>
         <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Target Tercapai</p>
-              <p className="text-3xl font-bold text-white mt-2">
+              <p className="notion-text/80 text-sm">Target Tercapai</p>
+              <p className="text-[40px] font-bold notion-heading leading-tight mt-2">
                 {stats.totalNights > 0 ? Math.round((stats.targetAchieved / stats.totalNights) * 100) : 0}%
               </p>
             </div>
-            <Sun className="text-white/80" size={32} />
+            <Sun className="notion-text/80" size={32} />
           </div>
         </div>
         <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Total Malam</p>
-              <p className="text-3xl font-bold text-white mt-2">{stats.totalNights}</p>
+              <p className="notion-text/80 text-sm">Total Malam</p>
+              <p className="text-[40px] font-bold notion-heading leading-tight mt-2">{stats.totalNights}</p>
             </div>
-            <Calendar className="text-white/80" size={32} />
+            <Calendar className="notion-text/80" size={32} />
           </div>
         </div>
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4">Durasi Tidur (14 Hari Terakhir)</h3>
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4">Durasi Tidur (14 Hari Terakhir)</h3>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
@@ -131,8 +131,8 @@ export const Sleep: React.FC = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4">Distribusi Kualitas Tidur</h3>
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4">Distribusi Kualitas Tidur</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={qualityDistribution}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
@@ -153,11 +153,11 @@ export const Sleep: React.FC = () => {
       </div>
 
       {/* Sleep Records */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-4">Riwayat Tidur</h3>
+      <div className="notion-card p-6">
+        <h3 className="text-lg font-semibold notion-heading mb-4">Riwayat Tidur</h3>
         <div className="space-y-3">
           {sleepRecords.length === 0 ? (
-            <p className="text-white/60 text-center py-8">Belum ada catatan tidur</p>
+            <p className="notion-text-secondary text-center py-8">Belum ada catatan tidur</p>
           ) : (
             sleepRecords
               .slice()
@@ -165,26 +165,26 @@ export const Sleep: React.FC = () => {
               .map((record) => (
                 <div
                   key={record.id}
-                  className="bg-white/5 rounded-lg p-4 border border-white/10 hover:bg-white/10 transition-colors"
+                  className="notion-card p-4 border border-white/10 hover:bg-white/10 transition-colors"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-4">
                         <div>
-                          <p className="text-white font-medium">{formatDate(record.date)}</p>
-                          <p className="text-white/60 text-sm mt-1">
+                          <p className="notion-text font-medium">{formatDate(record.date)}</p>
+                          <p className="notion-text-secondary text-sm mt-1">
                             {new Date(record.bedTime).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} -{' '}
                             {new Date(record.wakeTime).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
                           </p>
                         </div>
                         <div className="h-12 w-px bg-white/20" />
                         <div>
-                          <p className="text-white/70 text-sm">Durasi</p>
-                          <p className="text-white font-bold text-lg">{minutesToHours(record.duration)}</p>
+                          <p className="notion-text-secondary text-sm">Durasi</p>
+                          <p className="notion-text font-bold text-lg">{minutesToHours(record.duration)}</p>
                         </div>
                         <div className="h-12 w-px bg-white/20" />
                         <div>
-                          <p className="text-white/70 text-sm">Kualitas</p>
+                          <p className="notion-text-secondary text-sm">Kualitas</p>
                           <p className={`font-bold text-lg capitalize ${getSleepQualityColor(record.quality)}`}>
                             {record.quality}
                           </p>
@@ -193,14 +193,14 @@ export const Sleep: React.FC = () => {
                           <>
                             <div className="h-12 w-px bg-white/20" />
                             <div>
-                              <p className="text-white/70 text-sm">Gangguan</p>
-                              <p className="text-white font-bold text-lg">{record.interruptions}x</p>
+                              <p className="notion-text-secondary text-sm">Gangguan</p>
+                              <p className="notion-text font-bold text-lg">{record.interruptions}x</p>
                             </div>
                           </>
                         )}
                       </div>
                       {record.notes && (
-                        <p className="text-white/60 text-sm mt-3 italic">"{record.notes}"</p>
+                        <p className="notion-text-secondary text-sm mt-3 italic">"{record.notes}"</p>
                       )}
                     </div>
                   </div>
@@ -260,46 +260,46 @@ const SleepModal: React.FC<SleepModalProps> = ({ onClose, onSubmit }) => {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-2xl p-6 max-w-lg w-full border border-white/20 shadow-2xl">
-        <h3 className="text-2xl font-bold text-white mb-6">Catat Tidur</h3>
+        <h3 className="text-2xl font-bold notion-heading mb-6">Catat Tidur</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Tanggal</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Tanggal</label>
             <input
               type="date"
               required
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-white/90 text-sm font-medium mb-2">Jam Tidur</label>
+              <label className="block notion-text/90 text-sm font-medium mb-2">Jam Tidur</label>
               <input
                 type="time"
                 required
                 value={formData.bedTime}
                 onChange={(e) => setFormData({ ...formData, bedTime: e.target.value })}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-white/30"
               />
             </div>
             <div>
-              <label className="block text-white/90 text-sm font-medium mb-2">Jam Bangun</label>
+              <label className="block notion-text/90 text-sm font-medium mb-2">Jam Bangun</label>
               <input
                 type="time"
                 required
                 value={formData.wakeTime}
                 onChange={(e) => setFormData({ ...formData, wakeTime: e.target.value })}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-white/30"
               />
             </div>
           </div>
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Kualitas Tidur</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Kualitas Tidur</label>
             <select
               value={formData.quality}
               onChange={(e) => setFormData({ ...formData, quality: e.target.value as SleepQuality })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-white/30"
             >
               <option value="excellent">Sangat Baik</option>
               <option value="good">Baik</option>
@@ -308,21 +308,21 @@ const SleepModal: React.FC<SleepModalProps> = ({ onClose, onSubmit }) => {
             </select>
           </div>
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Jumlah Gangguan</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Jumlah Gangguan</label>
             <input
               type="number"
               min="0"
               value={formData.interruptions}
               onChange={(e) => setFormData({ ...formData, interruptions: parseInt(e.target.value) || 0 })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Catatan (opsional)</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Catatan (opsional)</label>
             <textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 h-20 resize-none"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 h-20 resize-none"
               placeholder="Mimpi, perasaan saat bangun, dll."
             />
           </div>
@@ -330,7 +330,7 @@ const SleepModal: React.FC<SleepModalProps> = ({ onClose, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-white/10 text-white px-6 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors"
+              className="flex-1 bg-white/10 notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors"
             >
               Batal
             </button>

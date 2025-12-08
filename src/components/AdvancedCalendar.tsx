@@ -129,11 +129,11 @@ export const AdvancedCalendar: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
             <CalendarIcon size={32} />
             Advanced Calendar
           </h2>
-          <p className="text-white/70 mt-1">Manage your schedule with advanced features</p>
+          <p className="notion-text-secondary text-sm mt-2">Manage your schedule with advanced features</p>
         </div>
         <button
           onClick={handleGoogleCalendarSync}
@@ -150,7 +150,7 @@ export const AdvancedCalendar: React.FC = () => {
           <button
             onClick={() => setView('month')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-              view === 'month' ? 'bg-white text-purple-600' : 'bg-white/10 text-white hover:bg-white/20'
+              view === 'month' ? 'bg-white text-purple-600' : 'bg-white/10 notion-text hover:bg-white/20'
             }`}
           >
             Month
@@ -158,7 +158,7 @@ export const AdvancedCalendar: React.FC = () => {
           <button
             onClick={() => setView('week')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-              view === 'week' ? 'bg-white text-purple-600' : 'bg-white/10 text-white hover:bg-white/20'
+              view === 'week' ? 'bg-white text-purple-600' : 'bg-white/10 notion-text hover:bg-white/20'
             }`}
           >
             Week
@@ -166,7 +166,7 @@ export const AdvancedCalendar: React.FC = () => {
           <button
             onClick={() => setView('day')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-              view === 'day' ? 'bg-white text-purple-600' : 'bg-white/10 text-white hover:bg-white/20'
+              view === 'day' ? 'bg-white text-purple-600' : 'bg-white/10 notion-text hover:bg-white/20'
             }`}
           >
             Day
@@ -174,7 +174,7 @@ export const AdvancedCalendar: React.FC = () => {
         </div>
         <button
           onClick={() => setShowAddEvent(true)}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+          className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
         >
           <Plus size={18} />
           Add Event
@@ -186,8 +186,8 @@ export const AdvancedCalendar: React.FC = () => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-white">Add New Event</h3>
-              <button onClick={() => setShowAddEvent(false)} className="text-white/70 hover:text-white">
+              <h3 className="text-lg font-semibold notion-heading">Add New Event</h3>
+              <button onClick={() => setShowAddEvent(false)} className="notion-text-secondary hover:notion-text">
                 <X size={24} />
               </button>
             </div>
@@ -197,32 +197,32 @@ export const AdvancedCalendar: React.FC = () => {
                 placeholder="Event title *"
                 value={newEvent.title}
                 onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <input
                 type="date"
                 value={newEvent.date}
                 onChange={(e) => setNewEvent({ ...newEvent, date: e.target.value })}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <div className="grid grid-cols-2 gap-3">
                 <input
                   type="time"
                   value={newEvent.startTime}
                   onChange={(e) => setNewEvent({ ...newEvent, startTime: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 <input
                   type="time"
                   value={newEvent.endTime}
                   onChange={(e) => setNewEvent({ ...newEvent, endTime: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
               <select
                 value={newEvent.type}
                 onChange={(e) => setNewEvent({ ...newEvent, type: e.target.value as any })}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 <option value="personal">Personal</option>
                 <option value="task">Task</option>
@@ -235,9 +235,9 @@ export const AdvancedCalendar: React.FC = () => {
                 placeholder="Location (optional)"
                 value={newEvent.location}
                 onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
-              <label className="flex items-center gap-2 text-white">
+              <label className="flex items-center gap-2 notion-text">
                 <input
                   type="checkbox"
                   checked={newEvent.isRecurring}
@@ -251,7 +251,7 @@ export const AdvancedCalendar: React.FC = () => {
                 <select
                   value={newEvent.recurringPattern}
                   onChange={(e) => setNewEvent({ ...newEvent, recurringPattern: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>
@@ -262,13 +262,13 @@ export const AdvancedCalendar: React.FC = () => {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setShowAddEvent(false)}
-                className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all"
+                className="flex-1 bg-white/10 hover:bg-white/20 notion-text py-2 rounded-lg transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddEvent}
-                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg transition-all"
+                className="flex-1 notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text py-2 rounded-lg transition-all"
               >
                 Add Event
               </button>
@@ -279,27 +279,27 @@ export const AdvancedCalendar: React.FC = () => {
 
       {/* Calendar View */}
       {view === 'month' && (
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+        <div className="notion-card p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold text-white">
+            <h3 className="text-2xl font-bold notion-heading">
               {currentDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
             </h3>
             <div className="flex gap-2">
               <button
                 onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))}
-                className="bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-all"
+                className="bg-white/10 notion-text px-4 py-2 rounded-lg hover:bg-white/20 transition-all"
               >
                 Previous
               </button>
               <button
                 onClick={() => setCurrentDate(new Date())}
-                className="bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-all"
+                className="bg-white/10 notion-text px-4 py-2 rounded-lg hover:bg-white/20 transition-all"
               >
                 Today
               </button>
               <button
                 onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))}
-                className="bg-white/10 text-white px-4 py-2 rounded-lg hover:bg-white/20 transition-all"
+                className="bg-white/10 notion-text px-4 py-2 rounded-lg hover:bg-white/20 transition-all"
               >
                 Next
               </button>
@@ -309,7 +309,7 @@ export const AdvancedCalendar: React.FC = () => {
           {/* Weekday headers */}
           <div className="grid grid-cols-7 gap-2 mb-2">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-              <div key={day} className="text-center text-white/70 font-semibold py-2">
+              <div key={day} className="text-center notion-text-secondary font-semibold py-2">
                 {day}
               </div>
             ))}
@@ -336,7 +336,7 @@ export const AdvancedCalendar: React.FC = () => {
                 >
                   {day && (
                     <>
-                      <div className="text-white font-semibold mb-1">{day}</div>
+                      <div className="notion-text font-semibold mb-1">{day}</div>
                       <div className="space-y-1">
                         {dayEvents.map((event) => (
                           <div
@@ -358,15 +358,15 @@ export const AdvancedCalendar: React.FC = () => {
       )}
 
       {/* Upcoming Events */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-4">Upcoming Events</h3>
+      <div className="notion-card p-6">
+        <h3 className="text-lg font-semibold notion-heading mb-4">Upcoming Events</h3>
         <div className="space-y-3">
           {events.slice(0, 5).map((event) => (
-            <div key={event.id} className="flex items-center gap-4 bg-white/5 rounded-lg p-3">
+            <div key={event.id} className="flex items-center gap-4 notion-card p-3">
               <div className={`w-1 h-12 bg-${event.color}-500 rounded-full`}></div>
               <div className="flex-1">
-                <h4 className="text-white font-bold">{event.title}</h4>
-                <div className="flex items-center gap-3 text-white/60 text-sm mt-1">
+                <h4 className="notion-text font-bold">{event.title}</h4>
+                <div className="flex items-center gap-3 notion-text-secondary text-sm mt-1">
                   <span className="flex items-center gap-1">
                     <CalendarIcon size={14} />
                     {event.date}

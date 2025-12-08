@@ -438,23 +438,23 @@ export const StudyGroups: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
             <Users size={32} />
             Study Groups
           </h2>
-          <p className="text-white/70 mt-1">Belajar bersama teman-temanmu</p>
+          <p className="notion-text-secondary text-sm mt-2">Belajar bersama teman-temanmu</p>
         </div>
         <div className="flex gap-3">
           <button
             onClick={() => setIsInviteModalOpen(true)}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all flex items-center gap-2"
+            className="bg-blue-600 hover:bg-blue-700 notion-text px-6 py-3 rounded-lg font-semibold transition-all flex items-center gap-2"
           >
             <UserPlus size={20} />
             Join via Code
           </button>
           <button
             onClick={() => setIsCreateModalOpen(true)}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+            className="notion-button-primary notion-text px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
           >
             <Plus size={20} />
             Buat Group
@@ -474,43 +474,43 @@ export const StudyGroups: React.FC = () => {
             style={{ borderLeftWidth: '4px', borderLeftColor: group.color }}
           >
             <div className="flex items-start justify-between mb-2">
-              <h3 className="text-lg font-bold text-white flex-1">{group.name}</h3>
+              <h3 className="text-lg font-bold notion-text flex-1">{group.name}</h3>
               {group.creatorId === user?.id && (
                 <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full font-medium">
                   Creator
                 </span>
               )}
             </div>
-            <p className="text-white/70 text-sm mb-3">{group.description}</p>
+            <p className="notion-text-secondary text-sm mb-3">{group.description}</p>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-white/60">{group.members.length} members</span>
-              <span className="text-white/60">{sharedTasks.filter(t => t.groupId === group.id).length} tasks</span>
+              <span className="notion-text-secondary">{group.members.length} members</span>
+              <span className="notion-text-secondary">{sharedTasks.filter(t => t.groupId === group.id).length} tasks</span>
             </div>
           </button>
         ))}
         {studyGroups.filter(g => g.isActive !== false).length === 0 && (
           <div className="col-span-full text-center py-12">
-            <Users size={48} className="text-white/30 mx-auto mb-4" />
-            <p className="text-white/60">Belum ada study group. Buat yang pertama!</p>
+            <Users size={48} className="notion-text/30 mx-auto mb-4" />
+            <p className="notion-text-secondary">Belum ada study group. Buat yang pertama!</p>
           </div>
         )}
       </div>
 
       {/* Selected Group Details */}
       {selectedGroup && (
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+        <div className="notion-card p-6">
           <div className="flex items-start justify-between mb-4 flex-wrap gap-4">
             <div className="flex-1">
-              <h3 className="text-2xl font-bold text-white">{selectedGroup.name}</h3>
-              <p className="text-white/70 mb-3">{selectedGroup.description}</p>
-              <div className="flex items-center gap-3 bg-white/5 rounded-lg p-3 inline-flex">
+              <h3 className="text-2xl font-bold notion-heading">{selectedGroup.name}</h3>
+              <p className="notion-text-secondary mb-3">{selectedGroup.description}</p>
+              <div className="flex items-center gap-3 notion-card p-3 inline-flex">
                 <div>
-                  <p className="text-white/60 text-xs mb-1">Invite Code</p>
-                  <p className="text-white font-mono text-lg font-bold">{selectedGroup.inviteCode}</p>
+                  <p className="notion-text-secondary text-xs mb-1">Invite Code</p>
+                  <p className="notion-text font-mono text-lg font-bold">{selectedGroup.inviteCode}</p>
                 </div>
                 <button
                   onClick={copyInviteCode}
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded-lg text-sm font-semibold transition-all"
+                  className="bg-purple-600 hover:bg-purple-700 notion-text px-3 py-2 rounded-lg text-sm font-semibold transition-all"
                 >
                   Copy
                 </button>
@@ -519,14 +519,14 @@ export const StudyGroups: React.FC = () => {
             <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => setIsTaskModalOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                className="bg-blue-600 hover:bg-blue-700 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
               >
                 <Plus size={16} />
                 Task
               </button>
               <button
                 onClick={() => setIsChatOpen(!isChatOpen)}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                className="bg-green-600 hover:bg-green-700 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
               >
                 <MessageCircle size={16} />
                 Chat
@@ -535,7 +535,7 @@ export const StudyGroups: React.FC = () => {
                 onClick={isSessionActive ? () => setIsSessionActive(false) : handleStartSession}
                 className={`${
                   isSessionActive ? 'bg-red-600 hover:bg-red-700' : 'bg-purple-600 hover:bg-purple-700'
-                } text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2`}
+                } notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2`}
               >
                 {isSessionActive ? <Pause size={16} /> : <Play size={16} />}
                 {isSessionActive ? formatTime(sessionTimer) : 'Start'}
@@ -543,7 +543,7 @@ export const StudyGroups: React.FC = () => {
               {selectedGroup.creatorId === user?.id ? (
                 <button
                   onClick={handleDeleteGroup}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                  className="bg-red-600 hover:bg-red-700 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
                 >
                   <X size={16} />
                   Hapus Group
@@ -551,7 +551,7 @@ export const StudyGroups: React.FC = () => {
               ) : (
                 <button
                   onClick={handleLeaveGroup}
-                  className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                  className="bg-orange-600 hover:bg-orange-700 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
                 >
                   <X size={16} />
                   Leave Group
@@ -565,7 +565,7 @@ export const StudyGroups: React.FC = () => {
             <button
               onClick={() => setActiveTab('tasks')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                activeTab === 'tasks' ? 'bg-purple-600 text-white' : 'bg-white/10 text-white/70'
+                activeTab === 'tasks' ? 'bg-purple-600 notion-text' : 'bg-white/10 notion-text-secondary'
               }`}
             >
               Tasks ({groupTasks.length})
@@ -573,7 +573,7 @@ export const StudyGroups: React.FC = () => {
             <button
               onClick={() => setActiveTab('groups')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                activeTab === 'groups' ? 'bg-purple-600 text-white' : 'bg-white/10 text-white/70'
+                activeTab === 'groups' ? 'bg-purple-600 notion-text' : 'bg-white/10 notion-text-secondary'
               }`}
             >
               Members ({selectedGroup.members.length})
@@ -584,7 +584,7 @@ export const StudyGroups: React.FC = () => {
           {activeTab === 'tasks' && (
             <div className="space-y-3">
               {groupTasks.map((task) => (
-                <div key={task.id} className="bg-white/5 rounded-lg p-4">
+                <div key={task.id} className="notion-card p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3 flex-1">
                       <button
@@ -595,14 +595,14 @@ export const StudyGroups: React.FC = () => {
                             : 'border-white/30 hover:border-white/50'
                         }`}
                       >
-                        {task.completedBy.includes(user?.id || '') && <CheckCircle size={14} className="text-white" />}
+                        {task.completedBy.includes(user?.id || '') && <CheckCircle size={14} className="notion-text" />}
                       </button>
                       <div className="flex-1">
-                        <h4 className={`font-bold text-white ${task.completed ? 'line-through opacity-50' : ''}`}>
+                        <h4 className={`font-bold notion-text ${task.completed ? 'line-through opacity-50' : ''}`}>
                           {task.title}
                         </h4>
-                        <p className="text-white/60 text-sm mt-1">{task.description}</p>
-                        <div className="flex items-center gap-3 mt-2 text-xs text-white/50">
+                        <p className="notion-text-secondary text-sm mt-1">{task.description}</p>
+                        <div className="flex items-center gap-3 mt-2 text-xs notion-text/50">
                           <span>Due: {new Date(task.dueDate).toLocaleDateString('id-ID')}</span>
                           <span>•</span>
                           <span>{task.completedBy.length}/{task.assignedTo.length} completed</span>
@@ -613,14 +613,14 @@ export const StudyGroups: React.FC = () => {
                       task.priority === 'urgent' ? 'bg-red-500' :
                       task.priority === 'high' ? 'bg-orange-500' :
                       task.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
-                    } text-white`}>
+                    } notion-text`}>
                       {task.priority}
                     </span>
                   </div>
                 </div>
               ))}
               {groupTasks.length === 0 && (
-                <p className="text-white/60 text-center py-8">Belum ada task. Buat task pertama!</p>
+                <p className="notion-text-secondary text-center py-8">Belum ada task. Buat task pertama!</p>
               )}
             </div>
           )}
@@ -640,7 +640,7 @@ export const StudyGroups: React.FC = () => {
                       const friendId = friendsNotInGroup[0].id;
                       handleInviteMember(friendId);
                     }}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                    className="bg-blue-600 hover:bg-blue-700 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
                   >
                     <UserPlus size={16} />
                     Invite Friend
@@ -648,13 +648,13 @@ export const StudyGroups: React.FC = () => {
                 </div>
               )}
               {selectedGroup.members.map((memberId) => (
-                <div key={memberId} className="bg-white/5 rounded-lg p-4 flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                <div key={memberId} className="notion-card p-4 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center notion-text font-bold">
                     {memberId.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-medium">Member {memberId.slice(0, 8)}</p>
-                    <p className="text-white/60 text-sm">
+                    <p className="notion-text font-medium">Member {memberId.slice(0, 8)}</p>
+                    <p className="notion-text-secondary text-sm">
                       {memberId === selectedGroup.creatorId ? 'Creator' : 'Member'}
                     </p>
                   </div>
@@ -679,12 +679,12 @@ export const StudyGroups: React.FC = () => {
         <div className="fixed right-0 top-0 h-full w-96 bg-gradient-to-br from-purple-900/98 to-indigo-900/98 backdrop-blur-xl border-l border-white/20 shadow-2xl z-50 flex flex-col">
           <div className="p-4 border-b border-white/20 flex items-center justify-between bg-white/5">
             <div>
-              <h3 className="text-lg font-bold text-white">Group Chat</h3>
-              <p className="text-white/60 text-xs">{selectedGroup.name}</p>
+              <h3 className="text-lg font-bold notion-text">Group Chat</h3>
+              <p className="notion-text-secondary text-xs">{selectedGroup.name}</p>
             </div>
             <button 
               onClick={() => setIsChatOpen(false)} 
-              className="text-white/70 hover:text-white hover:bg-white/10 p-2 rounded-lg transition-all"
+              className="notion-text-secondary hover:notion-text hover:bg-white/10 p-2 rounded-lg transition-all"
             >
               <X size={20} />
             </button>
@@ -692,22 +692,22 @@ export const StudyGroups: React.FC = () => {
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {groupChats.length === 0 && (
               <div className="text-center py-12">
-                <MessageCircle size={48} className="text-white/20 mx-auto mb-3" />
-                <p className="text-white/50 text-sm">Belum ada pesan. Mulai chat!</p>
+                <MessageCircle size={48} className="notion-text/20 mx-auto mb-3" />
+                <p className="notion-text/50 text-sm">Belum ada pesan. Mulai chat!</p>
               </div>
             )}
             {groupChats.map((msg) => (
               <div key={msg.id} className={`flex ${msg.senderId === user?.id ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[80%] ${
                   msg.senderId === user?.id
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600'
+                    ? 'notion-button-primary'
                     : 'bg-white/10'
                 } rounded-2xl p-3 shadow-lg`}>
                   {msg.senderId !== user?.id && (
-                    <p className="text-xs font-semibold text-white/90 mb-1">{msg.senderName}</p>
+                    <p className="text-xs font-semibold notion-text/90 mb-1">{msg.senderName}</p>
                   )}
-                  <p className="text-white break-words">{msg.message}</p>
-                  <p className="text-xs text-white/50 mt-1 text-right">
+                  <p className="notion-text break-words">{msg.message}</p>
+                  <p className="text-xs notion-text/50 mt-1 text-right">
                     {new Date(msg.timestamp).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}
                   </p>
                 </div>
@@ -722,12 +722,12 @@ export const StudyGroups: React.FC = () => {
                 onChange={(e) => setChatMessage(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                 placeholder="Ketik pesan..."
-                className="flex-1 bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="flex-1 bg-white/10 border border-white/20 rounded-xl px-4 py-3 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!chatMessage.trim()}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white p-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                className="notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text p-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
               >
                 <Send size={20} />
               </button>
@@ -740,25 +740,25 @@ export const StudyGroups: React.FC = () => {
       {isInviteModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
-            <h3 className="text-2xl font-bold text-white mb-6">Join Study Group</h3>
+            <h3 className="text-2xl font-bold notion-heading mb-6">Join Study Group</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-white/80 mb-2">Masukkan Kode Invite</label>
+                <label className="block notion-text/80 mb-2">Masukkan Kode Invite</label>
                 <input
                   type="text"
                   value={joinCode}
                   onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white text-center font-mono text-xl font-bold uppercase focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 notion-text text-center font-mono text-xl font-bold uppercase focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="ABC123"
                   maxLength={6}
                 />
-                <p className="text-white/60 text-sm mt-2">Minta kode invite dari teman yang sudah ada di group</p>
+                <p className="notion-text-secondary text-sm mt-2">Minta kode invite dari teman yang sudah ada di group</p>
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={handleJoinByCode}
                   disabled={joinCode.length !== 6}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Join Group
                 </button>
@@ -767,7 +767,7 @@ export const StudyGroups: React.FC = () => {
                     setIsInviteModalOpen(false);
                     setJoinCode('');
                   }}
-                  className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
+                  className="px-6 bg-white/10 notion-text py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
                 >
                   Batal
                 </button>
@@ -781,31 +781,31 @@ export const StudyGroups: React.FC = () => {
       {isCreateModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
-            <h3 className="text-2xl font-bold text-white mb-6">Buat Study Group</h3>
+            <h3 className="text-2xl font-bold notion-heading mb-6">Buat Study Group</h3>
             <form onSubmit={handleCreateGroup} className="space-y-4">
               <div>
-                <label className="block text-white/80 mb-2">Nama Group</label>
+                <label className="block notion-text/80 mb-2">Nama Group</label>
                 <input
                   type="text"
                   value={groupForm.name}
                   onChange={(e) => setGroupForm({ ...groupForm, name: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Matematika Study Group"
                   required
                 />
               </div>
               <div>
-                <label className="block text-white/80 mb-2">Deskripsi</label>
+                <label className="block notion-text/80 mb-2">Deskripsi</label>
                 <textarea
                   value={groupForm.description}
                   onChange={(e) => setGroupForm({ ...groupForm, description: e.target.value })}
                   rows={3}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Belajar matematika bersama untuk UTS"
                 />
               </div>
               <div>
-                <label className="block text-white/80 mb-2">Warna</label>
+                <label className="block notion-text/80 mb-2">Warna</label>
                 <div className="flex gap-2">
                   {colors.map((color) => (
                     <button
@@ -823,14 +823,14 @@ export const StudyGroups: React.FC = () => {
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
                 >
                   Buat Group
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsCreateModalOpen(false)}
-                  className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
+                  className="px-6 bg-white/10 notion-text py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
                 >
                   Batal
                 </button>
@@ -844,20 +844,20 @@ export const StudyGroups: React.FC = () => {
       {memberToRemove && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gradient-to-br from-red-900/90 to-orange-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
-            <h3 className="text-2xl font-bold text-white mb-4">Keluarkan Member?</h3>
-            <p className="text-white/80 mb-6">
+            <h3 className="text-2xl font-bold notion-heading mb-4">Keluarkan Member?</h3>
+            <p className="notion-text/80 mb-6">
               Yakin ingin mengeluarkan member ini dari group? Member tidak akan bisa akses group lagi kecuali diundang kembali.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => handleRemoveMember(memberToRemove)}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition-all"
+                className="flex-1 bg-red-600 hover:bg-red-700 notion-text py-3 rounded-lg font-semibold transition-all"
               >
                 Ya, Keluarkan
               </button>
               <button
                 onClick={() => setMemberToRemove(null)}
-                className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
+                className="px-6 bg-white/10 notion-text py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
               >
                 Batal
               </button>
@@ -870,45 +870,45 @@ export const StudyGroups: React.FC = () => {
       {isTaskModalOpen && selectedGroup && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
-            <h3 className="text-2xl font-bold text-white mb-6">Buat Task Baru</h3>
+            <h3 className="text-2xl font-bold notion-heading mb-6">Buat Task Baru</h3>
             <form onSubmit={handleCreateTask} className="space-y-4">
               <div>
-                <label className="block text-white/80 mb-2">Judul Task</label>
+                <label className="block notion-text/80 mb-2">Judul Task</label>
                 <input
                   type="text"
                   value={taskForm.title}
                   onChange={(e) => setTaskForm({ ...taskForm, title: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Kerjakan soal latihan"
                   required
                 />
               </div>
               <div>
-                <label className="block text-white/80 mb-2">Deskripsi</label>
+                <label className="block notion-text/80 mb-2">Deskripsi</label>
                 <textarea
                   value={taskForm.description}
                   onChange={(e) => setTaskForm({ ...taskForm, description: e.target.value })}
                   rows={3}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Detail task..."
                 />
               </div>
               <div>
-                <label className="block text-white/80 mb-2">Deadline</label>
+                <label className="block notion-text/80 mb-2">Deadline</label>
                 <input
                   type="date"
                   value={taskForm.dueDate}
                   onChange={(e) => setTaskForm({ ...taskForm, dueDate: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
               <div>
-                <label className="block text-white/80 mb-2">Priority</label>
+                <label className="block notion-text/80 mb-2">Priority</label>
                 <select
                   value={taskForm.priority}
                   onChange={(e) => setTaskForm({ ...taskForm, priority: e.target.value as any })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="low">Low</option>
                   <option value="medium">Medium</option>
@@ -919,14 +919,14 @@ export const StudyGroups: React.FC = () => {
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
                 >
                   Buat Task
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsTaskModalOpen(false)}
-                  className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
+                  className="px-6 bg-white/10 notion-text py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
                 >
                   Batal
                 </button>

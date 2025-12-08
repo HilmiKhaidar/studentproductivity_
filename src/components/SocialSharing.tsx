@@ -127,11 +127,11 @@ export const SocialSharing: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+        <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
           <Share2 size={32} />
           Social Sharing
         </h2>
-        <p className="text-white/70 mt-1">Bagikan pencapaianmu ke social media</p>
+        <p className="notion-text-secondary text-sm mt-2">Bagikan pencapaianmu ke social media</p>
       </div>
 
       {/* Card Selection */}
@@ -145,7 +145,7 @@ export const SocialSharing: React.FC = () => {
           }`}
         >
           <Trophy className="text-purple-400 mb-2" size={24} />
-          <p className="text-white font-medium text-sm">Produktivitas</p>
+          <p className="notion-text font-medium text-sm">Produktivitas</p>
         </button>
         <button
           onClick={() => setSelectedCard('tasks')}
@@ -156,7 +156,7 @@ export const SocialSharing: React.FC = () => {
           }`}
         >
           <CheckCircle className="text-green-400 mb-2" size={24} />
-          <p className="text-white font-medium text-sm">Tugas</p>
+          <p className="notion-text font-medium text-sm">Tugas</p>
         </button>
         <button
           onClick={() => setSelectedCard('goals')}
@@ -167,7 +167,7 @@ export const SocialSharing: React.FC = () => {
           }`}
         >
           <Target className="text-blue-400 mb-2" size={24} />
-          <p className="text-white font-medium text-sm">Target</p>
+          <p className="notion-text font-medium text-sm">Target</p>
         </button>
         <button
           onClick={() => setSelectedCard('streak')}
@@ -178,21 +178,21 @@ export const SocialSharing: React.FC = () => {
           }`}
         >
           <Zap className="text-orange-400 mb-2" size={24} />
-          <p className="text-white font-medium text-sm">Streak</p>
+          <p className="notion-text font-medium text-sm">Streak</p>
         </button>
       </div>
 
       {/* Preview Card */}
       <div className={`bg-gradient-to-br ${currentCard.gradient} rounded-xl p-8 border border-white/20 shadow-2xl`}>
         <div className="text-center">
-          <h3 className="text-3xl font-bold text-white mb-6">{currentCard.title}</h3>
+          <h3 className="text-[40px] font-bold notion-heading leading-tight mb-6">{currentCard.title}</h3>
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 mb-6">
-            <pre className="text-white text-lg whitespace-pre-wrap font-medium">
+            <pre className="notion-text text-lg whitespace-pre-wrap font-medium">
               {currentCard.content}
             </pre>
           </div>
           {user && (
-            <p className="text-white/80 text-sm">
+            <p className="notion-text/80 text-sm">
               Dibagikan oleh: {user.name || user.email}
             </p>
           )}
@@ -200,47 +200,47 @@ export const SocialSharing: React.FC = () => {
       </div>
 
       {/* Share Buttons */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-4">Bagikan ke:</h3>
+      <div className="notion-card p-6">
+        <h3 className="text-lg font-semibold notion-heading mb-4">Bagikan ke:</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <button
             onClick={shareToTwitter}
-            className="flex items-center justify-center gap-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="flex items-center justify-center gap-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             <Twitter size={20} />
             Twitter
           </button>
           <button
             onClick={shareToFacebook}
-            className="flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166fe5] text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166fe5] notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             <Facebook size={20} />
             Facebook
           </button>
           <button
             onClick={shareToWhatsApp}
-            className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#22c55e] text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#22c55e] notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             <MessageCircle size={20} />
             WhatsApp
           </button>
           <button
             onClick={shareToLinkedIn}
-            className="flex items-center justify-center gap-2 bg-[#0A66C2] hover:bg-[#095196] text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="flex items-center justify-center gap-2 bg-[#0A66C2] hover:bg-[#095196] notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             <Linkedin size={20} />
             LinkedIn
           </button>
           <button
             onClick={copyToClipboard}
-            className="flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="flex items-center justify-center gap-2 bg-gray-600 hover:bg-gray-700 notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             <Copy size={20} />
             Copy Text
           </button>
           <button
             onClick={downloadCard}
-            className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             <Download size={20} />
             Download
@@ -250,28 +250,28 @@ export const SocialSharing: React.FC = () => {
 
       {/* Stats Overview */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-          <p className="text-white/70 text-sm mb-1">Skor Hari Ini</p>
-          <p className="text-3xl font-bold text-white">{stats.productivityScore}</p>
+        <div className="notion-card p-4">
+          <p className="notion-text-secondary text-sm mb-1">Skor Hari Ini</p>
+          <p className="text-[40px] font-bold notion-heading leading-tight">{stats.productivityScore}</p>
         </div>
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-          <p className="text-white/70 text-sm mb-1">Total Tugas</p>
-          <p className="text-3xl font-bold text-white">{stats.totalCompleted}</p>
+        <div className="notion-card p-4">
+          <p className="notion-text-secondary text-sm mb-1">Total Tugas</p>
+          <p className="text-[40px] font-bold notion-heading leading-tight">{stats.totalCompleted}</p>
         </div>
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-          <p className="text-white/70 text-sm mb-1">Pomodoro</p>
-          <p className="text-3xl font-bold text-white">{stats.totalPomodoros}</p>
+        <div className="notion-card p-4">
+          <p className="notion-text-secondary text-sm mb-1">Pomodoro</p>
+          <p className="text-[40px] font-bold notion-heading leading-tight">{stats.totalPomodoros}</p>
         </div>
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-          <p className="text-white/70 text-sm mb-1">Streak</p>
-          <p className="text-3xl font-bold text-white">{stats.streak} 🔥</p>
+        <div className="notion-card p-4">
+          <p className="notion-text-secondary text-sm mb-1">Streak</p>
+          <p className="text-[40px] font-bold notion-heading leading-tight">{stats.streak} 🔥</p>
         </div>
       </div>
 
       {/* Invite Friends */}
       <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-3">📨 Ajak Teman</h3>
-        <p className="text-white/80 mb-4">
+        <h3 className="text-lg font-semibold notion-heading mb-3">📨 Ajak Teman</h3>
+        <p className="notion-text/80 mb-4">
           Bagikan Student Productivity Hub ke teman-temanmu dan tingkatkan produktivitas bersama!
         </p>
         <div className="flex gap-3">
@@ -279,14 +279,14 @@ export const SocialSharing: React.FC = () => {
             type="text"
             value={window.location.origin}
             readOnly
-            className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white"
+            className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text"
           />
           <button
             onClick={() => {
               navigator.clipboard.writeText(window.location.origin);
               toast.success('Link berhasil disalin!');
             }}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+            className="bg-purple-600 hover:bg-purple-700 notion-text px-6 py-2 rounded-lg font-semibold transition-colors"
           >
             Copy Link
           </button>

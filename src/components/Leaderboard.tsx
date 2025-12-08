@@ -131,7 +131,7 @@ export const Leaderboard: React.FC = () => {
       case 3:
         return <Medal className="text-orange-400" size={24} />;
       default:
-        return <span className="text-white/60 font-bold">#{rank}</span>;
+        return <span className="notion-text-secondary font-bold">#{rank}</span>;
     }
   };
 
@@ -156,11 +156,11 @@ export const Leaderboard: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
             <Trophy size={32} className="text-yellow-400" />
             Leaderboard & Achievements
           </h2>
-          <p className="text-white/70 mt-1">Compete with others and unlock achievements</p>
+          <p className="notion-text-secondary text-sm mt-2">Compete with others and unlock achievements</p>
         </div>
       </div>
 
@@ -176,40 +176,40 @@ export const Leaderboard: React.FC = () => {
                   className="w-16 h-16 rounded-full object-cover border-4 border-yellow-400"
                 />
               ) : (
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-2xl">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center notion-text font-bold text-2xl">
                   {userEntry.name.charAt(0).toUpperCase()}
                 </div>
               )}
               <div>
-                <h3 className="text-2xl font-bold text-white">{userEntry.name}</h3>
-                <p className="text-white/70">Your Rank: #{userEntry.rank}</p>
+                <h3 className="text-2xl font-bold notion-heading">{userEntry.name}</h3>
+                <p className="notion-text-secondary">Your Rank: #{userEntry.rank}</p>
               </div>
             </div>
             <div className="text-right">
               <p className="text-4xl font-bold text-yellow-400">{userEntry.score}</p>
-              <p className="text-white/70">Total Score</p>
+              <p className="notion-text-secondary">Total Score</p>
             </div>
           </div>
           <div className="grid grid-cols-4 gap-4 mt-4">
             <div className="bg-white/10 rounded-lg p-3 text-center">
               <Target className="text-blue-400 mx-auto mb-1" size={20} />
-              <p className="text-xl font-bold text-white">{userEntry.tasksCompleted}</p>
-              <p className="text-white/60 text-xs">Tasks</p>
+              <p className="text-lg font-semibold notion-heading">{userEntry.tasksCompleted}</p>
+              <p className="notion-text-secondary text-xs">Tasks</p>
             </div>
             <div className="bg-white/10 rounded-lg p-3 text-center">
               <Zap className="text-yellow-400 mx-auto mb-1" size={20} />
-              <p className="text-xl font-bold text-white">{userEntry.pomodoroSessions}</p>
-              <p className="text-white/60 text-xs">Pomodoros</p>
+              <p className="text-lg font-semibold notion-heading">{userEntry.pomodoroSessions}</p>
+              <p className="notion-text-secondary text-xs">Pomodoros</p>
             </div>
             <div className="bg-white/10 rounded-lg p-3 text-center">
               <TrendingUp className="text-green-400 mx-auto mb-1" size={20} />
-              <p className="text-xl font-bold text-white">{userEntry.streak}</p>
-              <p className="text-white/60 text-xs">Streak</p>
+              <p className="text-lg font-semibold notion-heading">{userEntry.streak}</p>
+              <p className="notion-text-secondary text-xs">Streak</p>
             </div>
             <div className="bg-white/10 rounded-lg p-3 text-center">
               <Star className="text-purple-400 mx-auto mb-1" size={20} />
-              <p className="text-xl font-bold text-white">{userEntry.level}</p>
-              <p className="text-white/60 text-xs">Level</p>
+              <p className="text-lg font-semibold notion-heading">{userEntry.level}</p>
+              <p className="notion-text-secondary text-xs">Level</p>
             </div>
           </div>
         </div>
@@ -221,8 +221,8 @@ export const Leaderboard: React.FC = () => {
           onClick={() => setActiveTab('global')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'global'
-              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <Trophy size={18} className="inline mr-2" />
@@ -232,8 +232,8 @@ export const Leaderboard: React.FC = () => {
           onClick={() => setActiveTab('weekly')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'weekly'
-              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <Calendar size={18} className="inline mr-2" />
@@ -243,8 +243,8 @@ export const Leaderboard: React.FC = () => {
           onClick={() => setActiveTab('achievements')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'achievements'
-              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <Award size={18} className="inline mr-2" />
@@ -254,8 +254,8 @@ export const Leaderboard: React.FC = () => {
           onClick={() => setActiveTab('challenges')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'challenges'
-              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'bg-gradient-to-r from-yellow-600 to-orange-600 notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <Users size={18} className="inline mr-2" />
@@ -269,7 +269,7 @@ export const Leaderboard: React.FC = () => {
           {isLoading ? (
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
-              <p className="text-white/60 mt-4">Loading leaderboard...</p>
+              <p className="notion-text-secondary mt-4">Loading leaderboard...</p>
             </div>
           ) : (
             <>
@@ -298,37 +298,37 @@ export const Leaderboard: React.FC = () => {
                           className="w-12 h-12 rounded-full object-cover border-2 border-white/30"
                         />
                       ) : (
-                        <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                        <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center notion-text font-bold">
                           {entry.name.charAt(0).toUpperCase()}
                         </div>
                       )}
                       <div className="flex-1">
-                        <h3 className="font-bold text-white flex items-center gap-2">
+                        <h3 className="font-bold notion-text flex items-center gap-2">
                           {entry.name}
                           {entry.userId === user?.id && (
                             <span className="text-xs bg-purple-500 px-2 py-1 rounded-full">You</span>
                           )}
                         </h3>
-                        <p className="text-white/60 text-sm">Level {entry.level}</p>
+                        <p className="notion-text-secondary text-sm">Level {entry.level}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-white">{entry.score}</p>
-                      <p className="text-white/60 text-sm">points</p>
+                      <p className="text-2xl font-bold notion-heading">{entry.score}</p>
+                      <p className="notion-text-secondary text-sm">points</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-2 mt-3">
-                    <div className="bg-white/5 rounded-lg p-2 text-center">
-                      <p className="text-white font-bold">{entry.tasksCompleted}</p>
-                      <p className="text-white/60 text-xs">Tasks</p>
+                    <div className="notion-card p-2 text-center">
+                      <p className="notion-text font-bold">{entry.tasksCompleted}</p>
+                      <p className="notion-text-secondary text-xs">Tasks</p>
                     </div>
-                    <div className="bg-white/5 rounded-lg p-2 text-center">
-                      <p className="text-white font-bold">{entry.pomodoroSessions}</p>
-                      <p className="text-white/60 text-xs">Pomodoros</p>
+                    <div className="notion-card p-2 text-center">
+                      <p className="notion-text font-bold">{entry.pomodoroSessions}</p>
+                      <p className="notion-text-secondary text-xs">Pomodoros</p>
                     </div>
-                    <div className="bg-white/5 rounded-lg p-2 text-center">
-                      <p className="text-white font-bold">{entry.streak} 🔥</p>
-                      <p className="text-white/60 text-xs">Streak</p>
+                    <div className="notion-card p-2 text-center">
+                      <p className="notion-text font-bold">{entry.streak} 🔥</p>
+                      <p className="notion-text-secondary text-xs">Streak</p>
                     </div>
                   </div>
                 </div>
@@ -342,28 +342,28 @@ export const Leaderboard: React.FC = () => {
       {activeTab === 'weekly' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-blue-600/30 to-cyan-600/30 backdrop-blur-lg rounded-xl p-6 border border-blue-500/30">
-            <h3 className="text-2xl font-bold text-white mb-2">🏆 Weekly Challenge</h3>
-            <p className="text-white/70 mb-4">Compete this week to win exclusive badges!</p>
+            <h3 className="text-2xl font-bold notion-heading mb-2">🏆 Weekly Challenge</h3>
+            <p className="notion-text-secondary mb-4">Compete this week to win exclusive badges!</p>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white/10 rounded-lg p-4">
-                <p className="text-white/60 text-sm">Starts</p>
-                <p className="text-white font-bold">Monday, 12:00 AM</p>
+                <p className="notion-text-secondary text-sm">Starts</p>
+                <p className="notion-text font-bold">Monday, 12:00 AM</p>
               </div>
               <div className="bg-white/10 rounded-lg p-4">
-                <p className="text-white/60 text-sm">Ends</p>
-                <p className="text-white font-bold">Sunday, 11:59 PM</p>
+                <p className="notion-text-secondary text-sm">Ends</p>
+                <p className="notion-text font-bold">Sunday, 11:59 PM</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-bold text-white mb-4">This Week's Top 3</h3>
+          <div className="notion-card p-6">
+            <h3 className="text-lg font-semibold notion-heading mb-4">This Week's Top 3</h3>
             <div className="space-y-3">
               {leaderboard.slice(0, 3).map((entry) => (
-                <div key={entry.userId} className="flex items-center justify-between bg-white/5 rounded-lg p-4">
+                <div key={entry.userId} className="flex items-center justify-between notion-card p-4">
                   <div className="flex items-center gap-3">
                     {getRankIcon(entry.rank)}
-                    <span className="text-white font-bold">{entry.name}</span>
+                    <span className="notion-text font-bold">{entry.name}</span>
                   </div>
                   <span className="text-yellow-400 font-bold">{entry.score} pts</span>
                 </div>
@@ -372,8 +372,8 @@ export const Leaderboard: React.FC = () => {
           </div>
 
           <div className="bg-gradient-to-r from-purple-600/30 to-pink-600/30 backdrop-blur-lg rounded-xl p-6 border border-purple-500/30">
-            <h3 className="text-xl font-bold text-white mb-4">🎁 Prizes</h3>
-            <ul className="space-y-2 text-white/80">
+            <h3 className="text-lg font-semibold notion-heading mb-4">🎁 Prizes</h3>
+            <ul className="space-y-2 notion-text/80">
               <li>🥇 1st Place: Legendary Badge + 500 XP</li>
               <li>🥈 2nd Place: Epic Badge + 300 XP</li>
               <li>🥉 3rd Place: Rare Badge + 200 XP</li>
@@ -399,8 +399,8 @@ export const Leaderboard: React.FC = () => {
                 >
                   <div className="text-center">
                     <div className="text-5xl mb-3">{achievement.icon}</div>
-                    <h3 className="font-bold text-white mb-1">{achievement.name}</h3>
-                    <p className="text-white/60 text-sm mb-3">{achievement.description}</p>
+                    <h3 className="font-bold notion-text mb-1">{achievement.name}</h3>
+                    <p className="notion-text-secondary text-sm mb-3">{achievement.description}</p>
                     <div className="flex items-center justify-center gap-2">
                       <span className={`text-xs px-3 py-1 rounded-full ${
                         achievement.rarity === 'legendary' ? 'bg-yellow-500/20 text-yellow-300' :
@@ -428,38 +428,38 @@ export const Leaderboard: React.FC = () => {
       {activeTab === 'challenges' && (
         <div className="space-y-6">
           <div className="bg-gradient-to-r from-green-600/30 to-emerald-600/30 backdrop-blur-lg rounded-xl p-6 border border-green-500/30">
-            <h3 className="text-2xl font-bold text-white mb-4">⚔️ Team Battle: Study Warriors</h3>
+            <h3 className="text-2xl font-bold notion-heading mb-4">⚔️ Team Battle: Study Warriors</h3>
             <div className="grid grid-cols-2 gap-6">
               <div className="bg-blue-500/20 rounded-xl p-4 border border-blue-500/30">
-                <h4 className="text-xl font-bold text-white mb-2">Team Alpha 🔵</h4>
+                <h4 className="text-lg font-semibold notion-heading mb-2">Team Alpha 🔵</h4>
                 <p className="text-3xl font-bold text-blue-300 mb-2">1,250 pts</p>
-                <p className="text-white/60 text-sm">5 members</p>
+                <p className="notion-text-secondary text-sm">5 members</p>
               </div>
               <div className="bg-red-500/20 rounded-xl p-4 border border-red-500/30">
-                <h4 className="text-xl font-bold text-white mb-2">Team Beta 🔴</h4>
+                <h4 className="text-lg font-semibold notion-heading mb-2">Team Beta 🔴</h4>
                 <p className="text-3xl font-bold text-red-300 mb-2">1,180 pts</p>
-                <p className="text-white/60 text-sm">5 members</p>
+                <p className="notion-text-secondary text-sm">5 members</p>
               </div>
             </div>
             <div className="mt-4">
               <div className="bg-white/10 rounded-full h-4 overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-full" style={{ width: '52%' }}></div>
               </div>
-              <p className="text-white/60 text-sm text-center mt-2">Ends in 3 days</p>
+              <p className="notion-text-secondary text-sm text-center mt-2">Ends in 3 days</p>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-bold text-white mb-4">Create Team Challenge</h3>
-            <p className="text-white/70 mb-4">Challenge your friends to a productivity battle!</p>
-            <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all">
+          <div className="notion-card p-6">
+            <h3 className="text-lg font-semibold notion-heading mb-4">Create Team Challenge</h3>
+            <p className="notion-text-secondary mb-4">Challenge your friends to a productivity battle!</p>
+            <button className="w-full notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all">
               Create Challenge
             </button>
           </div>
 
           <div className="bg-yellow-500/20 backdrop-blur-lg rounded-xl p-6 border border-yellow-500/30">
-            <h3 className="text-xl font-bold text-white mb-2">💡 How Team Challenges Work</h3>
-            <ul className="space-y-2 text-white/80 text-sm">
+            <h3 className="text-lg font-semibold notion-heading mb-2">💡 How Team Challenges Work</h3>
+            <ul className="space-y-2 notion-text/80 text-sm">
               <li>• Create or join a team with your friends</li>
               <li>• Compete against another team for 7 days</li>
               <li>• Earn points by completing tasks and pomodoros</li>

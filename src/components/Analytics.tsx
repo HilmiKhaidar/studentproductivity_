@@ -99,56 +99,56 @@ export const Analytics: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-white">Analitik & Insights</h2>
-        <p className="text-white/70 mt-1">Analisis mendalam produktivitas kamu</p>
+        <h2 className="text-[40px] font-bold notion-heading leading-tight">Analitik & Insights</h2>
+        <p className="notion-text-secondary text-sm mt-2">Analisis mendalam produktivitas kamu</p>
       </div>
 
       {/* Monthly Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-white/80 text-sm">Tingkat Penyelesaian</p>
-            <Award className="text-white/80" size={24} />
+            <p className="notion-text/80 text-sm">Tingkat Penyelesaian</p>
+            <Award className="notion-text/80" size={24} />
           </div>
-          <p className="text-4xl font-bold text-white">{monthlyStats.completionRate}%</p>
-          <p className="text-white/70 text-sm mt-1">30 hari terakhir</p>
+          <p className="text-4xl font-bold notion-text">{monthlyStats.completionRate}%</p>
+          <p className="notion-text-secondary text-sm mt-1">30 hari terakhir</p>
         </div>
         <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-white/80 text-sm">Total Pomodoro</p>
-            <Zap className="text-white/80" size={24} />
+            <p className="notion-text/80 text-sm">Total Pomodoro</p>
+            <Zap className="notion-text/80" size={24} />
           </div>
-          <p className="text-4xl font-bold text-white">{monthlyStats.totalPomodoros}</p>
-          <p className="text-white/70 text-sm mt-1">Sesi selesai</p>
+          <p className="text-4xl font-bold notion-text">{monthlyStats.totalPomodoros}</p>
+          <p className="notion-text-secondary text-sm mt-1">Sesi selesai</p>
         </div>
         <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-white/80 text-sm">Rata-rata Tidur</p>
-            <TrendingUp className="text-white/80" size={24} />
+            <p className="notion-text/80 text-sm">Rata-rata Tidur</p>
+            <TrendingUp className="notion-text/80" size={24} />
           </div>
-          <p className="text-4xl font-bold text-white">{monthlyStats.avgSleep.toFixed(1)}j</p>
-          <p className="text-white/70 text-sm mt-1">Per malam</p>
+          <p className="text-4xl font-bold notion-text">{monthlyStats.avgSleep.toFixed(1)}j</p>
+          <p className="notion-text-secondary text-sm mt-1">Per malam</p>
         </div>
         <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-white/80 text-sm">Target Aktif</p>
-            <Target className="text-white/80" size={24} />
+            <p className="notion-text/80 text-sm">Target Aktif</p>
+            <Target className="notion-text/80" size={24} />
           </div>
-          <p className="text-4xl font-bold text-white">{monthlyStats.activeGoals}</p>
-          <p className="text-white/70 text-sm mt-1">Sedang berjalan</p>
+          <p className="text-4xl font-bold notion-text">{monthlyStats.activeGoals}</p>
+          <p className="notion-text-secondary text-sm mt-1">Sedang berjalan</p>
         </div>
       </div>
 
       {/* Insights */}
       <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-semibold notion-heading mb-4 flex items-center gap-2">
           <TrendingUp size={24} />
           Insights & Rekomendasi
         </h3>
         <div className="space-y-3">
           {insights.map((insight, index) => (
             <div key={index} className="bg-white/10 rounded-lg p-4">
-              <p className="text-white">{insight}</p>
+              <p className="notion-text">{insight}</p>
             </div>
           ))}
         </div>
@@ -156,8 +156,8 @@ export const Analytics: React.FC = () => {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4">Produktivitas Mingguan</h3>
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4">Produktivitas Mingguan</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={weeklyProductivity}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
@@ -177,8 +177,8 @@ export const Analytics: React.FC = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4">Performa per Kategori</h3>
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4">Performa per Kategori</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={categoryPerformance}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
@@ -199,23 +199,23 @@ export const Analytics: React.FC = () => {
       </div>
 
       {/* Summary */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-4">Ringkasan 30 Hari</h3>
+      <div className="notion-card p-6">
+        <h3 className="text-lg font-semibold notion-heading mb-4">Ringkasan 30 Hari</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
-            <p className="text-white/70 text-sm">Total Tugas</p>
-            <p className="text-3xl font-bold text-white mt-1">{monthlyStats.totalTasks}</p>
+            <p className="notion-text-secondary text-sm">Total Tugas</p>
+            <p className="text-[40px] font-bold notion-heading leading-tight mt-1">{monthlyStats.totalTasks}</p>
           </div>
           <div className="text-center">
-            <p className="text-white/70 text-sm">Tugas Selesai</p>
+            <p className="notion-text-secondary text-sm">Tugas Selesai</p>
             <p className="text-3xl font-bold text-green-400 mt-1">{monthlyStats.completedTasks}</p>
           </div>
           <div className="text-center">
-            <p className="text-white/70 text-sm">Sesi Pomodoro</p>
+            <p className="notion-text-secondary text-sm">Sesi Pomodoro</p>
             <p className="text-3xl font-bold text-purple-400 mt-1">{monthlyStats.totalPomodoros}</p>
           </div>
           <div className="text-center">
-            <p className="text-white/70 text-sm">Habit Streak</p>
+            <p className="notion-text-secondary text-sm">Habit Streak</p>
             <p className="text-3xl font-bold text-orange-400 mt-1">{monthlyStats.habitStreak}</p>
           </div>
         </div>

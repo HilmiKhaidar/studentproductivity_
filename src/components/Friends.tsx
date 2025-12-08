@@ -263,11 +263,11 @@ export const Friends: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
             <Users size={32} />
             Friends & Collaboration
           </h2>
-          <p className="text-white/70 mt-1">Terhubung dengan teman dan belajar bersama</p>
+          <p className="notion-text-secondary text-sm mt-2">Terhubung dengan teman dan belajar bersama</p>
         </div>
       </div>
 
@@ -277,8 +277,8 @@ export const Friends: React.FC = () => {
           onClick={() => setActiveTab('friends')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all ${
             activeTab === 'friends'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'notion-button-primary notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           Teman ({friends.length})
@@ -287,8 +287,8 @@ export const Friends: React.FC = () => {
           onClick={() => setActiveTab('search')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all ${
             activeTab === 'search'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'notion-button-primary notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           Cari Teman
@@ -297,13 +297,13 @@ export const Friends: React.FC = () => {
           onClick={() => setActiveTab('requests')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all relative ${
             activeTab === 'requests'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'notion-button-primary notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           Permintaan
           {friendRequests.length > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-red-500 notion-text text-xs w-5 h-5 rounded-full flex items-center justify-center">
               {friendRequests.length}
             </span>
           )}
@@ -315,14 +315,14 @@ export const Friends: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {friends.length === 0 && (
             <div className="col-span-full text-center py-12">
-              <Users size={48} className="text-white/30 mx-auto mb-4" />
-              <p className="text-white/60">Belum ada teman. Cari dan tambahkan teman!</p>
+              <Users size={48} className="notion-text/30 mx-auto mb-4" />
+              <p className="notion-text-secondary">Belum ada teman. Cari dan tambahkan teman!</p>
             </div>
           )}
           {friends.map((friend) => (
             <div
               key={friend.id}
-              className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all cursor-pointer"
+              className="notion-card p-6 hover:bg-white/15 transition-all cursor-pointer"
               onClick={() => setSelectedProfile(friend)}
             >
               <div className="flex items-start justify-between mb-4">
@@ -334,33 +334,33 @@ export const Friends: React.FC = () => {
                       className="w-12 h-12 rounded-full object-cover border-2 border-purple-500"
                     />
                   ) : (
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                    <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center notion-text font-bold text-xl">
                       {friend.name.charAt(0).toUpperCase()}
                     </div>
                   )}
                   <div>
-                    <h3 className="font-bold text-white">{friend.name}</h3>
-                    <p className="text-white/60 text-sm">{friend.bio || `Level ${friend.level}`}</p>
+                    <h3 className="font-bold notion-text">{friend.name}</h3>
+                    <p className="notion-text-secondary text-sm">{friend.bio || `Level ${friend.level}`}</p>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="bg-white/5 rounded-lg p-2">
-                  <div className="flex items-center gap-1 text-white/70 mb-1">
+                <div className="notion-card p-2">
+                  <div className="flex items-center gap-1 notion-text-secondary mb-1">
                     <Target size={14} />
                     <span>Tasks</span>
                   </div>
-                  <p className="text-white font-bold">{friend.totalTasks}</p>
+                  <p className="notion-text font-bold">{friend.totalTasks}</p>
                 </div>
-                <div className="bg-white/5 rounded-lg p-2">
-                  <div className="flex items-center gap-1 text-white/70 mb-1">
+                <div className="notion-card p-2">
+                  <div className="flex items-center gap-1 notion-text-secondary mb-1">
                     <Trophy size={14} />
                     <span>Streak</span>
                   </div>
-                  <p className="text-white font-bold">{friend.streak} 🔥</p>
+                  <p className="notion-text font-bold">{friend.streak} 🔥</p>
                 </div>
               </div>
-              <button className="w-full mt-4 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2">
+              <button className="w-full mt-4 bg-white/10 hover:bg-white/20 notion-text py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2">
                 <MessageCircle size={16} />
                 Lihat Profil
               </button>
@@ -372,23 +372,23 @@ export const Friends: React.FC = () => {
       {/* Search Tab */}
       {activeTab === 'search' && (
         <div className="space-y-6">
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div className="notion-card p-6">
             <div className="flex gap-3">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" size={20} />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 notion-text/50" size={20} />
                 <input
                   type="text"
                   placeholder="Cari berdasarkan email..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
               <button
                 onClick={handleSearch}
                 disabled={isLoading}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
+                className="notion-button-primary notion-text px-8 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
               >
                 {isLoading ? 'Mencari...' : 'Cari'}
               </button>
@@ -399,7 +399,7 @@ export const Friends: React.FC = () => {
             {searchResults.map((result) => (
               <div
                 key={result.id}
-                className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20"
+                className="notion-card p-6"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3 flex-1">
@@ -410,19 +410,19 @@ export const Friends: React.FC = () => {
                         className="w-12 h-12 rounded-full object-cover border-2 border-blue-500"
                       />
                     ) : (
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center notion-text font-bold text-xl">
                         {result.name.charAt(0).toUpperCase()}
                       </div>
                     )}
                     <div>
-                      <h3 className="font-bold text-white">{result.name}</h3>
-                      <p className="text-white/60 text-sm">{result.email}</p>
-                      <p className="text-white/60 text-sm">{result.bio || `Level ${result.level}`}</p>
+                      <h3 className="font-bold notion-text">{result.name}</h3>
+                      <p className="notion-text-secondary text-sm">{result.email}</p>
+                      <p className="notion-text-secondary text-sm">{result.bio || `Level ${result.level}`}</p>
                     </div>
                   </div>
                   <button
                     onClick={() => sendFriendRequest(result.id)}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+                    className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
                   >
                     <UserPlus size={16} />
                     Add
@@ -439,35 +439,35 @@ export const Friends: React.FC = () => {
         <div className="space-y-4">
           {friendRequests.length === 0 && (
             <div className="text-center py-12">
-              <UserPlus size={48} className="text-white/30 mx-auto mb-4" />
-              <p className="text-white/60">Tidak ada permintaan pertemanan</p>
+              <UserPlus size={48} className="notion-text/30 mx-auto mb-4" />
+              <p className="notion-text-secondary">Tidak ada permintaan pertemanan</p>
             </div>
           )}
           {friendRequests.map((request) => (
             <div
               key={request.id}
-              className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20"
+              className="notion-card p-6"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center notion-text font-bold text-xl">
                     {request.senderName.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <h3 className="font-bold text-white">{request.senderName}</h3>
-                    <p className="text-white/60 text-sm">{request.senderEmail}</p>
+                    <h3 className="font-bold notion-text">{request.senderName}</h3>
+                    <p className="notion-text-secondary text-sm">{request.senderEmail}</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <button
                     onClick={() => acceptFriendRequest(request.id)}
-                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition-all"
+                    className="bg-green-600 hover:bg-green-700 notion-text px-6 py-2 rounded-lg font-semibold transition-all"
                   >
                     Terima
                   </button>
                   <button
                     onClick={() => rejectFriendRequest(request.id)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold transition-all"
+                    className="bg-red-600 hover:bg-red-700 notion-text px-6 py-2 rounded-lg font-semibold transition-all"
                   >
                     Tolak
                   </button>
@@ -491,22 +491,22 @@ export const Friends: React.FC = () => {
                     className="w-20 h-20 rounded-full object-cover border-4 border-purple-500"
                   />
                 ) : (
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-3xl">
+                  <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center notion-text font-bold text-3xl">
                     {selectedProfile.name.charAt(0).toUpperCase()}
                   </div>
                 )}
                 <div>
-                  <h3 className="text-2xl font-bold text-white">{selectedProfile.name}</h3>
-                  <p className="text-white/70">{selectedProfile.email}</p>
+                  <h3 className="text-2xl font-bold notion-heading">{selectedProfile.name}</h3>
+                  <p className="notion-text-secondary">{selectedProfile.email}</p>
                   {selectedProfile.bio && (
-                    <p className="text-white/80 text-sm mt-2 italic">"{selectedProfile.bio}"</p>
+                    <p className="notion-text/80 text-sm mt-2 italic">"{selectedProfile.bio}"</p>
                   )}
-                  <p className="text-white/60 text-sm mt-1">Level {selectedProfile.level}</p>
+                  <p className="notion-text-secondary text-sm mt-1">Level {selectedProfile.level}</p>
                 </div>
               </div>
               <button
                 onClick={() => setSelectedProfile(null)}
-                className="text-white/70 hover:text-white"
+                className="notion-text-secondary hover:notion-text"
               >
                 <X size={24} />
               </button>
@@ -515,24 +515,24 @@ export const Friends: React.FC = () => {
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-white/10 rounded-xl p-4 text-center">
                 <Target className="text-blue-400 mx-auto mb-2" size={32} />
-                <p className="text-2xl font-bold text-white">{selectedProfile.totalTasks}</p>
-                <p className="text-white/70 text-sm">Total Tasks</p>
+                <p className="text-2xl font-bold notion-heading">{selectedProfile.totalTasks}</p>
+                <p className="notion-text-secondary text-sm">Total Tasks</p>
               </div>
               <div className="bg-white/10 rounded-xl p-4 text-center">
                 <Trophy className="text-yellow-400 mx-auto mb-2" size={32} />
-                <p className="text-2xl font-bold text-white">{selectedProfile.streak}</p>
-                <p className="text-white/70 text-sm">Day Streak</p>
+                <p className="text-2xl font-bold notion-heading">{selectedProfile.streak}</p>
+                <p className="notion-text-secondary text-sm">Day Streak</p>
               </div>
               <div className="bg-white/10 rounded-xl p-4 text-center">
                 <Clock className="text-green-400 mx-auto mb-2" size={32} />
-                <p className="text-2xl font-bold text-white">{selectedProfile.level}</p>
-                <p className="text-white/70 text-sm">Level</p>
+                <p className="text-2xl font-bold notion-heading">{selectedProfile.level}</p>
+                <p className="notion-text-secondary text-sm">Level</p>
               </div>
             </div>
 
             <button
               onClick={() => setSelectedProfile(null)}
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+              className="w-full notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
             >
               Tutup
             </button>

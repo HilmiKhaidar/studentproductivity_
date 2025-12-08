@@ -144,11 +144,11 @@ export const StudyResources: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
             <BookOpen size={32} />
             Study Resources & Tools
           </h2>
-          <p className="text-white/70 mt-1">Manage your study materials and learning tools</p>
+          <p className="notion-text-secondary text-sm mt-2">Manage your study materials and learning tools</p>
         </div>
       </div>
 
@@ -158,8 +158,8 @@ export const StudyResources: React.FC = () => {
           onClick={() => setActiveTab('files')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'files'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <FileText size={18} className="inline mr-2" />
@@ -169,8 +169,8 @@ export const StudyResources: React.FC = () => {
           onClick={() => setActiveTab('flashcards')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'flashcards'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <Brain size={18} className="inline mr-2" />
@@ -180,8 +180,8 @@ export const StudyResources: React.FC = () => {
           onClick={() => setActiveTab('quizzes')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'quizzes'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <HelpCircle size={18} className="inline mr-2" />
@@ -191,8 +191,8 @@ export const StudyResources: React.FC = () => {
           onClick={() => setActiveTab('bookmarks')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'bookmarks'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <LinkIcon size={18} className="inline mr-2" />
@@ -204,10 +204,10 @@ export const StudyResources: React.FC = () => {
       {activeTab === 'files' && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-xl font-bold text-white">My Files</h3>
+            <h3 className="text-lg font-semibold notion-heading">My Files</h3>
             <button
               onClick={() => setShowFileUpload(true)}
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all flex items-center gap-2"
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 notion-text px-4 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all flex items-center gap-2"
             >
               <Upload size={18} />
               Upload File
@@ -215,11 +215,11 @@ export const StudyResources: React.FC = () => {
           </div>
 
           {showFileUpload && (
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <h4 className="text-white font-bold mb-4">Upload New File</h4>
+            <div className="notion-card p-6">
+              <h4 className="notion-text font-bold mb-4">Upload New File</h4>
               <div className="border-2 border-dashed border-white/30 rounded-lg p-8 text-center">
-                <Upload className="mx-auto text-white/50 mb-4" size={48} />
-                <p className="text-white/70 mb-4">Drag & drop or click to upload</p>
+                <Upload className="mx-auto notion-text/50 mb-4" size={48} />
+                <p className="notion-text-secondary mb-4">Drag & drop or click to upload</p>
                 <input
                   type="file"
                   onChange={handleFileUpload}
@@ -229,7 +229,7 @@ export const StudyResources: React.FC = () => {
                 />
                 <label
                   htmlFor="file-upload"
-                  className="bg-white/20 hover:bg-white/30 text-white px-6 py-2 rounded-lg cursor-pointer inline-block transition-all"
+                  className="bg-white/20 hover:bg-white/30 notion-text px-6 py-2 rounded-lg cursor-pointer inline-block transition-all"
                 >
                   Choose File
                 </label>
@@ -237,7 +237,7 @@ export const StudyResources: React.FC = () => {
               <div className="flex gap-3 mt-4">
                 <button
                   onClick={() => setShowFileUpload(false)}
-                  className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all"
+                  className="flex-1 bg-white/10 hover:bg-white/20 notion-text py-2 rounded-lg transition-all"
                 >
                   Cancel
                 </button>
@@ -248,25 +248,25 @@ export const StudyResources: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {files.length === 0 && (
               <div className="col-span-full text-center py-12">
-                <FileText size={48} className="text-white/30 mx-auto mb-4" />
-                <p className="text-white/60">No files uploaded yet</p>
+                <FileText size={48} className="notion-text/30 mx-auto mb-4" />
+                <p className="notion-text-secondary">No files uploaded yet</p>
               </div>
             )}
             {files.map((file) => (
               <div
                 key={file.id}
-                className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all"
+                className="notion-card p-4 hover:bg-white/15 transition-all"
               >
                 <div className="flex items-start justify-between mb-3">
                   <FileText className="text-blue-400" size={32} />
-                  <button className="text-white/60 hover:text-red-400 transition-all">
+                  <button className="notion-text-secondary hover:text-red-400 transition-all">
                     <Trash2 size={18} />
                   </button>
                 </div>
-                <h4 className="text-white font-bold mb-1 truncate">{file.name}</h4>
-                <p className="text-white/60 text-sm">{formatFileSize(file.size)}</p>
-                <p className="text-white/60 text-xs mt-2">{file.subject}</p>
-                <button className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition-all">
+                <h4 className="notion-text font-bold mb-1 truncate">{file.name}</h4>
+                <p className="notion-text-secondary text-sm">{formatFileSize(file.size)}</p>
+                <p className="notion-text-secondary text-xs mt-2">{file.subject}</p>
+                <button className="w-full mt-3 bg-blue-600 hover:bg-blue-700 notion-text py-2 rounded-lg font-medium transition-all">
                   Open
                 </button>
               </div>
@@ -279,10 +279,10 @@ export const StudyResources: React.FC = () => {
       {activeTab === 'flashcards' && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-xl font-bold text-white">Flashcard Decks</h3>
+            <h3 className="text-lg font-semibold notion-heading">Flashcard Decks</h3>
             <button
               onClick={handleCreateDeck}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+              className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
             >
               <Plus size={18} />
               Create Deck
@@ -297,19 +297,19 @@ export const StudyResources: React.FC = () => {
               >
                 <div className="flex items-start justify-between mb-4">
                   <Brain className={`text-${deck.color}-400`} size={32} />
-                  <button className="text-white/60 hover:text-white transition-all">
+                  <button className="notion-text-secondary hover:notion-text transition-all">
                     <Edit size={18} />
                   </button>
                 </div>
-                <h4 className="text-white font-bold text-lg mb-2">{deck.name}</h4>
-                <p className="text-white/70 text-sm mb-4">{deck.subject}</p>
-                <div className="flex items-center justify-between text-sm text-white/60 mb-4">
+                <h4 className="notion-text font-bold text-lg mb-2">{deck.name}</h4>
+                <p className="notion-text-secondary text-sm mb-4">{deck.subject}</p>
+                <div className="flex items-center justify-between text-sm notion-text-secondary mb-4">
                   <span>{deck.cardCount} cards</span>
                   <span>Last: {new Date(deck.lastStudied).toLocaleDateString()}</span>
                 </div>
                 <button
                   onClick={() => handleStudyDeck(deck)}
-                  className={`w-full bg-${deck.color}-600 hover:bg-${deck.color}-700 text-white py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2`}
+                  className={`w-full bg-${deck.color}-600 hover:bg-${deck.color}-700 notion-text py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2`}
                 >
                   <Play size={18} />
                   Study Now
@@ -324,10 +324,10 @@ export const StudyResources: React.FC = () => {
       {activeTab === 'quizzes' && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-xl font-bold text-white">My Quizzes</h3>
+            <h3 className="text-lg font-semibold notion-heading">My Quizzes</h3>
             <button
               onClick={handleCreateQuiz}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all flex items-center gap-2"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 notion-text px-4 py-2 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all flex items-center gap-2"
             >
               <Plus size={18} />
               Create Quiz
@@ -338,7 +338,7 @@ export const StudyResources: React.FC = () => {
             {quizzes.map((quiz) => (
               <div
                 key={quiz.id}
-                className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all"
+                className="notion-card p-6 hover:bg-white/15 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <HelpCircle className="text-green-400" size={32} />
@@ -346,25 +346,25 @@ export const StudyResources: React.FC = () => {
                     {quiz.subject}
                   </span>
                 </div>
-                <h4 className="text-white font-bold text-lg mb-2">{quiz.title}</h4>
+                <h4 className="notion-text font-bold text-lg mb-2">{quiz.title}</h4>
                 <div className="grid grid-cols-3 gap-3 mb-4">
-                  <div className="bg-white/5 rounded-lg p-2 text-center">
-                    <p className="text-white font-bold">{quiz.questions}</p>
-                    <p className="text-white/60 text-xs">Questions</p>
+                  <div className="notion-card p-2 text-center">
+                    <p className="notion-text font-bold">{quiz.questions}</p>
+                    <p className="notion-text-secondary text-xs">Questions</p>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-2 text-center">
-                    <p className="text-white font-bold">{quiz.timeLimit}m</p>
-                    <p className="text-white/60 text-xs">Time</p>
+                  <div className="notion-card p-2 text-center">
+                    <p className="notion-text font-bold">{quiz.timeLimit}m</p>
+                    <p className="notion-text-secondary text-xs">Time</p>
                   </div>
-                  <div className="bg-white/5 rounded-lg p-2 text-center">
-                    <p className="text-white font-bold">{quiz.bestScore}%</p>
-                    <p className="text-white/60 text-xs">Best</p>
+                  <div className="notion-card p-2 text-center">
+                    <p className="notion-text font-bold">{quiz.bestScore}%</p>
+                    <p className="notion-text-secondary text-xs">Best</p>
                   </div>
                 </div>
-                <p className="text-white/60 text-sm mb-4">Attempts: {quiz.attempts}</p>
+                <p className="notion-text-secondary text-sm mb-4">Attempts: {quiz.attempts}</p>
                 <button
                   onClick={() => handleTakeQuiz(quiz)}
-                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-2 rounded-lg font-semibold transition-all"
+                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 notion-text py-2 rounded-lg font-semibold transition-all"
                 >
                   Take Quiz
                 </button>
@@ -379,18 +379,18 @@ export const StudyResources: React.FC = () => {
         <div className="space-y-4">
           <div className="flex gap-3">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" size={20} />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 notion-text/50" size={20} />
               <input
                 type="text"
                 placeholder="Search bookmarks..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <button
               onClick={() => setShowAddBookmark(true)}
-              className="bg-gradient-to-r from-orange-600 to-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-orange-700 hover:to-red-700 transition-all flex items-center gap-2"
+              className="bg-gradient-to-r from-orange-600 to-red-600 notion-text px-4 py-2 rounded-lg font-semibold hover:from-orange-700 hover:to-red-700 transition-all flex items-center gap-2"
             >
               <Plus size={18} />
               Add Bookmark
@@ -398,35 +398,35 @@ export const StudyResources: React.FC = () => {
           </div>
 
           {showAddBookmark && (
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <h4 className="text-white font-bold mb-4">Add New Bookmark</h4>
+            <div className="notion-card p-6">
+              <h4 className="notion-text font-bold mb-4">Add New Bookmark</h4>
               <div className="space-y-3">
                 <input
                   type="text"
                   placeholder="Title"
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="url"
                   placeholder="URL"
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <input
                   type="text"
                   placeholder="Tags (comma separated)"
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div className="flex gap-3 mt-4">
                 <button
                   onClick={() => setShowAddBookmark(false)}
-                  className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all"
+                  className="flex-1 bg-white/10 hover:bg-white/20 notion-text py-2 rounded-lg transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleAddBookmark}
-                  className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white py-2 rounded-lg transition-all"
+                  className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 notion-text py-2 rounded-lg transition-all"
                 >
                   Add
                 </button>
@@ -438,26 +438,26 @@ export const StudyResources: React.FC = () => {
             {filteredBookmarks.map((bookmark) => (
               <div
                 key={bookmark.id}
-                className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all"
+                className="notion-card p-4 hover:bg-white/15 transition-all"
               >
                 <div className="flex items-start justify-between mb-3">
                   <LinkIcon className="text-orange-400" size={24} />
                   <button
                     onClick={() => toggleFavorite(bookmark.id)}
                     className={`transition-all ${
-                      bookmark.isFavorite ? 'text-yellow-400' : 'text-white/40 hover:text-yellow-400'
+                      bookmark.isFavorite ? 'text-yellow-400' : 'notion-text/40 hover:text-yellow-400'
                     }`}
                   >
                     <Star size={18} fill={bookmark.isFavorite ? 'currentColor' : 'none'} />
                   </button>
                 </div>
-                <h4 className="text-white font-bold mb-1 truncate">{bookmark.title}</h4>
-                <p className="text-white/60 text-sm mb-3 truncate">{bookmark.url}</p>
+                <h4 className="notion-text font-bold mb-1 truncate">{bookmark.title}</h4>
+                <p className="notion-text-secondary text-sm mb-3 truncate">{bookmark.url}</p>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {bookmark.tags.map((tag: string, index: number) => (
                     <span
                       key={index}
-                      className="bg-white/10 text-white/70 px-2 py-1 rounded text-xs"
+                      className="bg-white/10 notion-text-secondary px-2 py-1 rounded text-xs"
                     >
                       #{tag}
                     </span>
@@ -467,7 +467,7 @@ export const StudyResources: React.FC = () => {
                   href={bookmark.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-orange-600 hover:bg-orange-700 text-white py-2 rounded-lg font-medium transition-all text-center"
+                  className="block w-full bg-orange-600 hover:bg-orange-700 notion-text py-2 rounded-lg font-medium transition-all text-center"
                 >
                   Visit
                 </a>

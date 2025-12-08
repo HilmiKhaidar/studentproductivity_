@@ -19,8 +19,8 @@ export const Habits: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Pelacak Kebiasaan</h2>
-          <p className="text-white/70 mt-1">Bangun kebiasaan baik untuk produktivitas</p>
+          <h2 className="text-[40px] font-bold notion-heading leading-tight">Pelacak Kebiasaan</h2>
+          <p className="notion-text-secondary text-sm mt-2">Bangun kebiasaan baik untuk produktivitas</p>
         </div>
         <button
           onClick={() => setShowModal(true)}
@@ -36,28 +36,28 @@ export const Habits: React.FC = () => {
         <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Total Kebiasaan</p>
-              <p className="text-4xl font-bold text-white mt-2">{habits.length}</p>
+              <p className="notion-text/80 text-sm">Total Kebiasaan</p>
+              <p className="text-4xl font-bold notion-text mt-2">{habits.length}</p>
             </div>
-            <Zap className="text-white/80" size={32} />
+            <Zap className="notion-text/80" size={32} />
           </div>
         </div>
         <div className="bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Selesai Hari Ini</p>
-              <p className="text-4xl font-bold text-white mt-2">{todayCompleted}/{habits.length}</p>
+              <p className="notion-text/80 text-sm">Selesai Hari Ini</p>
+              <p className="text-4xl font-bold notion-text mt-2">{todayCompleted}/{habits.length}</p>
             </div>
-            <Calendar className="text-white/80" size={32} />
+            <Calendar className="notion-text/80" size={32} />
           </div>
         </div>
         <div className="bg-gradient-to-br from-red-500 to-pink-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Total Streak</p>
-              <p className="text-4xl font-bold text-white mt-2">{totalStreak}</p>
+              <p className="notion-text/80 text-sm">Total Streak</p>
+              <p className="text-4xl font-bold notion-text mt-2">{totalStreak}</p>
             </div>
-            <Flame className="text-white/80" size={32} />
+            <Flame className="notion-text/80" size={32} />
           </div>
         </div>
       </div>
@@ -65,14 +65,14 @@ export const Habits: React.FC = () => {
       {/* Habits List */}
       <div className="space-y-4">
         {habits.length === 0 ? (
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-12 border border-white/20 text-center">
-            <p className="text-white/70 text-lg">Belum ada kebiasaan yang dilacak</p>
+          <div className="notion-card p-12 text-center">
+            <p className="notion-text-secondary text-lg">Belum ada kebiasaan yang dilacak</p>
           </div>
         ) : (
           habits.map((habit) => (
             <div
               key={habit.id}
-              className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20"
+              className="notion-card p-6"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
@@ -81,19 +81,19 @@ export const Habits: React.FC = () => {
                       className="w-4 h-4 rounded-full"
                       style={{ backgroundColor: habit.color }}
                     />
-                    <h3 className="text-xl font-bold text-white">{habit.name}</h3>
+                    <h3 className="text-lg font-semibold notion-heading">{habit.name}</h3>
                   </div>
-                  <p className="text-white/70 mt-1">{habit.description}</p>
+                  <p className="notion-text-secondary text-sm mt-2">{habit.description}</p>
                   <div className="flex items-center gap-4 mt-3">
                     <div className="flex items-center gap-2">
                       <Flame className="text-orange-400" size={18} />
-                      <span className="text-white font-bold">{habit.streak} hari</span>
-                      <span className="text-white/60 text-sm">streak</span>
+                      <span className="notion-text font-bold">{habit.streak} hari</span>
+                      <span className="notion-text-secondary text-sm">streak</span>
                     </div>
                     <div className="h-4 w-px bg-white/20" />
                     <div className="flex items-center gap-2">
-                      <span className="text-white/60 text-sm">Terbaik:</span>
-                      <span className="text-white font-bold">{habit.longestStreak} hari</span>
+                      <span className="notion-text-secondary text-sm">Terbaik:</span>
+                      <span className="notion-text font-bold">{habit.longestStreak} hari</span>
                     </div>
                   </div>
                 </div>
@@ -118,10 +118,10 @@ export const Habits: React.FC = () => {
                       onClick={() => toggleHabitCompletion(habit.id, dateStr)}
                       className={`aspect-square rounded-lg flex flex-col items-center justify-center transition-all ${
                         isCompleted
-                          ? 'bg-green-500 text-white shadow-lg scale-105'
+                          ? 'bg-green-500 notion-text shadow-lg scale-105'
                           : isToday
-                          ? 'bg-white/20 text-white border-2 border-white'
-                          : 'bg-white/5 text-white/60 hover:bg-white/10'
+                          ? 'bg-white/20 notion-text border-2 border-white'
+                          : 'bg-white/5 notion-text-secondary hover:bg-white/10'
                       }`}
                     >
                       <span className="text-xs font-medium">
@@ -188,42 +188,42 @@ const HabitModal: React.FC<HabitModalProps> = ({ onClose, onSubmit }) => {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-2xl p-6 max-w-lg w-full border border-white/20 shadow-2xl">
-        <h3 className="text-2xl font-bold text-white mb-6">Tambah Kebiasaan Baru</h3>
+        <h3 className="text-2xl font-bold notion-heading mb-6">Tambah Kebiasaan Baru</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Nama Kebiasaan</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Nama Kebiasaan</label>
             <input
               type="text"
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
               placeholder="Contoh: Olahraga pagi"
             />
           </div>
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Deskripsi</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Deskripsi</label>
             <textarea
               required
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 h-20 resize-none"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 h-20 resize-none"
               placeholder="Jelaskan kebiasaan ini"
             />
           </div>
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Frekuensi</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Frekuensi</label>
             <select
               value={formData.frequency}
               onChange={(e) => setFormData({ ...formData, frequency: e.target.value as 'daily' | 'weekly' })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-white/30"
             >
               <option value="daily">Setiap Hari</option>
               <option value="weekly">Mingguan</option>
             </select>
           </div>
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Warna</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Warna</label>
             <div className="grid grid-cols-5 gap-2">
               {colors.map((color) => (
                 <button
@@ -242,7 +242,7 @@ const HabitModal: React.FC<HabitModalProps> = ({ onClose, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-white/10 text-white px-6 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors"
+              className="flex-1 bg-white/10 notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors"
             >
               Batal
             </button>

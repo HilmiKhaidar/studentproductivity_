@@ -93,10 +93,10 @@ export const Feedback: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <h2 className="text-3xl font-bold text-white mb-2">
+                <h2 className="text-[40px] font-bold notion-heading leading-tight mb-2">
                   🎉 Terima Kasih!
                 </h2>
-                <p className="text-white/90 text-lg">
+                <p className="notion-text/90 text-lg">
                   Feedback kamu sangat berharga untuk kami. Kami akan segera meresponnya!
                 </p>
               </motion.div>
@@ -107,54 +107,54 @@ export const Feedback: React.FC = () => {
 
       <div className="space-y-6">
         <div>
-          <h2 className="text-3xl font-bold text-white">Feedback & Saran</h2>
-          <p className="text-white/70 mt-1">Bantu kami meningkatkan StudyHub</p>
+          <h2 className="text-[40px] font-bold notion-heading leading-tight">Feedback & Saran</h2>
+          <p className="notion-text-secondary text-sm mt-2">Bantu kami meningkatkan StudyHub</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Form */}
-          <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div className="notion-card p-6">
             <div className="flex items-center gap-3 mb-6">
               <div className="bg-purple-500 rounded-lg p-3">
-                <MessageSquare className="text-white" size={24} />
+                <MessageSquare className="notion-text" size={24} />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-white">Kirim Feedback</h3>
-                <p className="text-white/70 text-sm">Laporkan bug atau berikan saran</p>
+                <h3 className="text-lg font-semibold notion-heading">Kirim Feedback</h3>
+                <p className="notion-text-secondary text-sm">Laporkan bug atau berikan saran</p>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-white/90 text-sm font-medium mb-2">Nama</label>
+                <label className="block notion-text/90 text-sm font-medium mb-2">Nama</label>
                 <input
                   type="text"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                   placeholder="Nama kamu"
                 />
               </div>
 
               <div>
-                <label className="block text-white/90 text-sm font-medium mb-2">Email</label>
+                <label className="block notion-text/90 text-sm font-medium mb-2">Email</label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                   placeholder="email@example.com"
                 />
               </div>
 
               <div>
-                <label className="block text-white/90 text-sm font-medium mb-2">Kategori</label>
+                <label className="block notion-text/90 text-sm font-medium mb-2">Kategori</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 notion-text focus:outline-none focus:ring-2 focus:ring-white/30"
                 >
                   <option value="bug">🐛 Bug / Error</option>
                   <option value="feature">💡 Saran Fitur</option>
@@ -165,13 +165,13 @@ export const Feedback: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-white/90 text-sm font-medium mb-2">Pesan</label>
+                <label className="block notion-text/90 text-sm font-medium mb-2">Pesan</label>
                 <textarea
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={6}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 resize-none"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 resize-none"
                   placeholder="Jelaskan feedback kamu secara detail..."
                 />
               </div>
@@ -196,8 +196,8 @@ export const Feedback: React.FC = () => {
           {/* Info */}
           <div className="space-y-4">
             <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <h3 className="text-xl font-bold text-white mb-3">📋 Panduan Feedback</h3>
-              <ul className="space-y-2 text-white/80">
+              <h3 className="text-lg font-semibold notion-heading mb-3">📋 Panduan Feedback</h3>
+              <ul className="space-y-2 notion-text/80">
                 <li className="flex items-start gap-2">
                   <span className="text-green-400 mt-1">✓</span>
                   <span>Jelaskan masalah atau saran dengan detail</span>
@@ -218,35 +218,35 @@ export const Feedback: React.FC = () => {
             </div>
 
             <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <h3 className="text-xl font-bold text-white mb-3">💬 Kategori Feedback</h3>
+              <h3 className="text-lg font-semibold notion-heading mb-3">💬 Kategori Feedback</h3>
               <div className="space-y-3">
                 <div className="bg-white/10 rounded-lg p-3">
-                  <p className="text-white font-medium">🐛 Bug / Error</p>
-                  <p className="text-white/70 text-sm">Laporkan masalah teknis atau error</p>
+                  <p className="notion-text font-medium">🐛 Bug / Error</p>
+                  <p className="notion-text-secondary text-sm">Laporkan masalah teknis atau error</p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-3">
-                  <p className="text-white font-medium">💡 Saran Fitur</p>
-                  <p className="text-white/70 text-sm">Usulkan fitur baru yang kamu inginkan</p>
+                  <p className="notion-text font-medium">💡 Saran Fitur</p>
+                  <p className="notion-text-secondary text-sm">Usulkan fitur baru yang kamu inginkan</p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-3">
-                  <p className="text-white font-medium">⚡ Peningkatan</p>
-                  <p className="text-white/70 text-sm">Saran untuk fitur yang sudah ada</p>
+                  <p className="notion-text font-medium">⚡ Peningkatan</p>
+                  <p className="notion-text-secondary text-sm">Saran untuk fitur yang sudah ada</p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-3">
-                  <p className="text-white font-medium">🎨 UI/UX</p>
-                  <p className="text-white/70 text-sm">Feedback tentang tampilan dan pengalaman</p>
+                  <p className="notion-text font-medium">🎨 UI/UX</p>
+                  <p className="notion-text-secondary text-sm">Feedback tentang tampilan dan pengalaman</p>
                 </div>
               </div>
             </div>
 
             <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <h3 className="text-xl font-bold text-white mb-3">📧 Kontak Langsung</h3>
-              <p className="text-white/80 mb-3">
+              <h3 className="text-lg font-semibold notion-heading mb-3">📧 Kontak Langsung</h3>
+              <p className="notion-text/80 mb-3">
                 Untuk pertanyaan mendesak atau diskusi lebih lanjut:
               </p>
               <a
                 href="mailto:hilmikhairn@gmail.com"
-                className="text-white font-medium hover:text-white/80 transition-colors"
+                className="notion-text font-medium hover:notion-text/80 transition-colors"
               >
                 hilmikhairn@gmail.com
               </a>

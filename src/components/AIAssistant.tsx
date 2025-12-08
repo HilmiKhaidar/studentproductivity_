@@ -298,16 +298,16 @@ Atau gunakan Quick Actions di samping! 😊`;
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+        <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
           <Bot size={32} />
           AI Study Assistant
         </h2>
-        <p className="text-white/70 mt-1">Asisten AI untuk meningkatkan produktivitas belajar</p>
+        <p className="notion-text-secondary text-sm mt-2">Asisten AI untuk meningkatkan produktivitas belajar</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chat Area */}
-        <div className="lg:col-span-2 bg-white/10 backdrop-blur-lg rounded-xl border border-white/20 flex flex-col h-[600px]">
+        <div className="lg:col-span-2 notion-card flex flex-col h-[600px]">
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             <AnimatePresence>
@@ -322,14 +322,14 @@ Atau gunakan Quick Actions di samping! 😊`;
                   <div
                     className={`max-w-[80%] rounded-2xl p-4 ${
                       message.role === 'user'
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                        : 'bg-white/20 text-white'
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 notion-text'
+                        : 'bg-white/20 notion-text'
                     }`}
                   >
                     {message.role === 'assistant' && (
                       <div className="flex items-center gap-2 mb-2">
                         <Bot size={16} className="text-purple-300" />
-                        <span className="text-xs text-white/70">AI Assistant</span>
+                        <span className="text-xs notion-text-secondary">AI Assistant</span>
                       </div>
                     )}
                     <p className="whitespace-pre-wrap">{message.content}</p>
@@ -349,7 +349,7 @@ Atau gunakan Quick Actions di samping! 😊`;
               >
                 <div className="bg-white/20 rounded-2xl p-4 flex items-center gap-2">
                   <Loader className="animate-spin text-purple-300" size={16} />
-                  <span className="text-white/70">AI sedang berpikir...</span>
+                  <span className="notion-text-secondary">AI sedang berpikir...</span>
                 </div>
               </motion.div>
             )}
@@ -366,13 +366,13 @@ Atau gunakan Quick Actions di samping! 😊`;
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Tanya AI tentang study tips, jadwal, atau produktivitas..."
-                className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 disabled={isLoading}
               />
               <button
                 onClick={handleSend}
                 disabled={isLoading || !input.trim()}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 notion-text px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send size={20} />
               </button>
@@ -383,35 +383,35 @@ Atau gunakan Quick Actions di samping! 😊`;
         {/* Quick Actions */}
         <div className="space-y-4">
           <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-semibold notion-heading mb-4 flex items-center gap-2">
               <Sparkles size={20} />
               Quick Actions
             </h3>
             <div className="space-y-2">
               <button
                 onClick={() => handleQuickAction('Buatkan jadwal belajar untuk minggu ini')}
-                className="w-full bg-white/10 hover:bg-white/20 text-white p-3 rounded-lg text-left transition-colors flex items-center gap-2"
+                className="w-full bg-white/10 hover:bg-white/20 notion-text p-3 rounded-lg text-left transition-colors flex items-center gap-2"
               >
                 <Calendar size={16} />
                 <span className="text-sm">Buat Jadwal Belajar</span>
               </button>
               <button
                 onClick={() => handleQuickAction('Analisis prioritas tugas saya')}
-                className="w-full bg-white/10 hover:bg-white/20 text-white p-3 rounded-lg text-left transition-colors flex items-center gap-2"
+                className="w-full bg-white/10 hover:bg-white/20 notion-text p-3 rounded-lg text-left transition-colors flex items-center gap-2"
               >
                 <Target size={16} />
                 <span className="text-sm">Prioritas Tugas</span>
               </button>
               <button
                 onClick={() => handleQuickAction('Analisis produktivitas saya dan berikan saran')}
-                className="w-full bg-white/10 hover:bg-white/20 text-white p-3 rounded-lg text-left transition-colors flex items-center gap-2"
+                className="w-full bg-white/10 hover:bg-white/20 notion-text p-3 rounded-lg text-left transition-colors flex items-center gap-2"
               >
                 <TrendingUp size={16} />
                 <span className="text-sm">Analisis Produktivitas</span>
               </button>
               <button
                 onClick={() => handleQuickAction('Tips belajar efektif untuk mahasiswa')}
-                className="w-full bg-white/10 hover:bg-white/20 text-white p-3 rounded-lg text-left transition-colors flex items-center gap-2"
+                className="w-full bg-white/10 hover:bg-white/20 notion-text p-3 rounded-lg text-left transition-colors flex items-center gap-2"
               >
                 <Lightbulb size={16} />
                 <span className="text-sm">Tips Belajar</span>
@@ -420,8 +420,8 @@ Atau gunakan Quick Actions di samping! 😊`;
           </div>
 
           <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-lg font-bold text-white mb-3">💡 Tips</h3>
-            <ul className="space-y-2 text-white/80 text-sm">
+            <h3 className="text-lg font-bold notion-text mb-3">💡 Tips</h3>
+            <ul className="space-y-2 notion-text/80 text-sm">
               <li>• Tanya spesifik untuk jawaban lebih baik</li>
               <li>• AI menganalisis data produktivitas kamu</li>
               <li>• Gunakan Quick Actions untuk cepat</li>

@@ -92,8 +92,8 @@ export const Notes: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">📝 Notes</h2>
-          <p className="text-white/70 mt-1">Catat semua ide dan pembelajaranmu</p>
+          <h2 className="text-[40px] font-bold notion-heading leading-tight">📝 Notes</h2>
+          <p className="notion-text-secondary text-sm mt-2">Catat semua ide dan pembelajaranmu</p>
         </div>
         <button
           onClick={() => {
@@ -101,7 +101,7 @@ export const Notes: React.FC = () => {
             setFormData({ title: '', content: '', category: 'general', tags: '', color: '#8b5cf6' });
             setIsModalOpen(true);
           }}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+          className="notion-button-primary notion-text px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
         >
           <Plus size={20} />
           Catatan Baru
@@ -111,13 +111,13 @@ export const Notes: React.FC = () => {
       {/* Search & Filter */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" size={20} />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 notion-text/50" size={20} />
           <input
             type="text"
             placeholder="Cari catatan, tag..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
         <div className="flex gap-2 overflow-x-auto">
@@ -127,8 +127,8 @@ export const Notes: React.FC = () => {
               onClick={() => setSelectedCategory(cat)}
               className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
                 selectedCategory === cat
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-white/10 text-white/70 hover:bg-white/20'
+                  ? 'bg-purple-600 notion-text'
+                  : 'bg-white/10 notion-text-secondary hover:bg-white/20'
               }`}
             >
               {cat.charAt(0).toUpperCase() + cat.slice(1)}
@@ -142,47 +142,47 @@ export const Notes: React.FC = () => {
         {filteredNotes.map((note) => (
           <div
             key={note.id}
-            className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20 hover:bg-white/15 transition-all"
+            className="notion-card p-4 hover:bg-white/15 transition-all"
             style={{ borderLeftWidth: '4px', borderLeftColor: note.color }}
           >
             <div className="flex items-start justify-between mb-3">
-              <h3 className="text-lg font-bold text-white flex-1">{note.title}</h3>
+              <h3 className="text-lg font-bold notion-text flex-1">{note.title}</h3>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => togglePinNote(note.id)}
                   className={`p-1 rounded transition-colors ${
-                    note.isPinned ? 'text-yellow-400' : 'text-white/50 hover:text-white'
+                    note.isPinned ? 'text-yellow-400' : 'notion-text/50 hover:notion-text'
                   }`}
                 >
                   <Pin size={16} />
                 </button>
                 <button
                   onClick={() => handleEdit(note)}
-                  className="text-white/50 hover:text-white p-1 rounded transition-colors"
+                  className="notion-text/50 hover:notion-text p-1 rounded transition-colors"
                 >
                   <Edit2 size={16} />
                 </button>
                 <button
                   onClick={() => handleDelete(note.id)}
-                  className="text-white/50 hover:text-red-400 p-1 rounded transition-colors"
+                  className="notion-text/50 hover:text-red-400 p-1 rounded transition-colors"
                 >
                   <Trash2 size={16} />
                 </button>
               </div>
             </div>
-            <p className="text-white/70 text-sm mb-3 line-clamp-3">{note.content}</p>
+            <p className="notion-text-secondary text-sm mb-3 line-clamp-3">{note.content}</p>
             <div className="flex flex-wrap gap-2 mb-2">
               {note.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-1 bg-white/10 rounded text-xs text-white/80 flex items-center gap-1"
+                  className="px-2 py-1 bg-white/10 rounded text-xs notion-text/80 flex items-center gap-1"
                 >
                   <Tag size={12} />
                   {tag}
                 </span>
               ))}
             </div>
-            <div className="flex items-center justify-between text-xs text-white/50">
+            <div className="flex items-center justify-between text-xs notion-text/50">
               <span>{note.category}</span>
               <span>{new Date(note.updatedAt).toLocaleDateString('id-ID')}</span>
             </div>
@@ -192,7 +192,7 @@ export const Notes: React.FC = () => {
 
       {filteredNotes.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-white/60 text-lg">Belum ada catatan</p>
+          <p className="notion-text-secondary text-lg">Belum ada catatan</p>
         </div>
       )}
 
@@ -201,41 +201,41 @@ export const Notes: React.FC = () => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-white">
+              <h3 className="text-2xl font-bold notion-heading">
                 {editingNote ? 'Edit Catatan' : 'Catatan Baru'}
               </h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-white/70 hover:text-white">
+              <button onClick={() => setIsModalOpen(false)} className="notion-text-secondary hover:notion-text">
                 <X size={24} />
               </button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-white/80 mb-2">Judul</label>
+                <label className="block notion-text/80 mb-2">Judul</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Judul catatan..."
                 />
               </div>
               <div>
-                <label className="block text-white/80 mb-2">Konten</label>
+                <label className="block notion-text/80 mb-2">Konten</label>
                 <textarea
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                   rows={6}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="Tulis catatanmu di sini..."
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-white/80 mb-2">Kategori</label>
+                  <label className="block notion-text/80 mb-2">Kategori</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     {categories.filter(c => c !== 'all').map((cat) => (
                       <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
@@ -243,7 +243,7 @@ export const Notes: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-white/80 mb-2">Warna</label>
+                  <label className="block notion-text/80 mb-2">Warna</label>
                   <div className="flex gap-2">
                     {colors.map((color) => (
                       <button
@@ -260,19 +260,19 @@ export const Notes: React.FC = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-white/80 mb-2">Tags (pisahkan dengan koma)</label>
+                <label className="block notion-text/80 mb-2">Tags (pisahkan dengan koma)</label>
                 <input
                   type="text"
                   value={formData.tags}
                   onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                   placeholder="matematika, ujian, penting"
                 />
               </div>
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center gap-2"
                 >
                   <Save size={20} />
                   {editingNote ? 'Update' : 'Simpan'}
@@ -280,7 +280,7 @@ export const Notes: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
+                  className="px-6 bg-white/10 notion-text py-3 rounded-lg font-semibold hover:bg-white/20 transition-all"
                 >
                   Batal
                 </button>

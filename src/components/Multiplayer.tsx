@@ -382,11 +382,11 @@ export const Multiplayer: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
             <Users size={32} />
             Multiplayer Study
           </h2>
-          <p className="text-white/70 mt-1">Study together with friends in real-time</p>
+          <p className="notion-text-secondary text-sm mt-2">Study together with friends in real-time</p>
         </div>
       </div>
 
@@ -397,22 +397,22 @@ export const Multiplayer: React.FC = () => {
           <div className="bg-white/10 backdrop-blur-lg border-b border-white/20 p-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white">{currentSession.title}</h3>
-                <p className="text-white/60 text-sm">
+                <h3 className="text-lg font-semibold notion-heading">{currentSession.title}</h3>
+                <p className="notion-text-secondary text-sm">
                   {currentSession.participants?.length || 0} participants • {currentSession.subject}
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setShowChat(!showChat)}
-                  className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2"
+                  className="bg-white/10 hover:bg-white/20 notion-text px-4 py-2 rounded-lg transition-all flex items-center gap-2"
                 >
                   <MessageCircle size={18} />
                   Chat
                 </button>
                 <button
                   onClick={handleLeaveSession}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+                  className="bg-red-600 hover:bg-red-700 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
                 >
                   <PhoneOff size={18} />
                   Leave
@@ -435,14 +435,14 @@ export const Multiplayer: React.FC = () => {
                 {!isVideoOn && (
                   <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
                     <div className="text-center">
-                      <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-2">
+                      <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center notion-text font-bold text-2xl mx-auto mb-2">
                         {user?.name.charAt(0).toUpperCase()}
                       </div>
-                      <p className="text-white font-semibold">You</p>
+                      <p className="notion-text font-semibold">You</p>
                     </div>
                   </div>
                 )}
-                <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-sm">
+                <div className="absolute bottom-2 left-2 bg-black/50 notion-text px-2 py-1 rounded text-sm">
                   You {isMuted && '🔇'}
                 </div>
               </div>
@@ -455,7 +455,7 @@ export const Multiplayer: React.FC = () => {
                     className="w-full h-full"
                     style={{ minHeight: '300px' }}
                   />
-                  <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 rounded text-sm">
+                  <div className="absolute bottom-2 left-2 bg-black/50 notion-text px-2 py-1 rounded text-sm">
                     User {remoteUser.uid}
                   </div>
                 </div>
@@ -466,8 +466,8 @@ export const Multiplayer: React.FC = () => {
             {showChat && (
               <div className="w-80 bg-white/10 backdrop-blur-lg border-l border-white/20 flex flex-col">
                 <div className="p-4 border-b border-white/20 flex items-center justify-between">
-                  <h3 className="text-white font-bold">Session Chat</h3>
-                  <button onClick={() => setShowChat(false)} className="text-white/60 hover:text-white">
+                  <h3 className="notion-text font-bold">Session Chat</h3>
+                  <button onClick={() => setShowChat(false)} className="notion-text-secondary hover:notion-text">
                     <X size={20} />
                   </button>
                 </div>
@@ -476,8 +476,8 @@ export const Multiplayer: React.FC = () => {
                     <div key={msg.id} className={`${msg.senderId === user?.id ? 'text-right' : 'text-left'}`}>
                       <div className={`inline-block max-w-[80%] p-3 rounded-lg ${
                         msg.senderId === user?.id
-                          ? 'bg-purple-600 text-white'
-                          : 'bg-white/10 text-white'
+                          ? 'bg-purple-600 notion-text'
+                          : 'bg-white/10 notion-text'
                       }`}>
                         {msg.senderId !== user?.id && (
                           <p className="text-xs opacity-70 mb-1">{msg.senderName}</p>
@@ -498,11 +498,11 @@ export const Multiplayer: React.FC = () => {
                       onChange={(e) => setNewSessionMessage(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSendSessionMessage()}
                       placeholder="Type a message..."
-                      className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+                      className="flex-1 bg-white/10 border border-white/20 rounded-lg px-3 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
                     />
                     <button
                       onClick={handleSendSessionMessage}
-                      className="bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-lg transition-all"
+                      className="bg-purple-600 hover:bg-purple-700 notion-text p-2 rounded-lg transition-all"
                     >
                       <Send size={18} />
                     </button>
@@ -521,7 +521,7 @@ export const Multiplayer: React.FC = () => {
                   isMuted ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'
                 }`}
               >
-                {isMuted ? <MicOff className="text-white" size={24} /> : <Mic className="text-white" size={24} />}
+                {isMuted ? <MicOff className="notion-text" size={24} /> : <Mic className="notion-text" size={24} />}
               </button>
               <button
                 onClick={toggleVideo}
@@ -529,7 +529,7 @@ export const Multiplayer: React.FC = () => {
                   !isVideoOn ? 'bg-red-600 hover:bg-red-700' : 'bg-white/20 hover:bg-white/30'
                 }`}
               >
-                {isVideoOn ? <Video className="text-white" size={24} /> : <VideoOff className="text-white" size={24} />}
+                {isVideoOn ? <Video className="notion-text" size={24} /> : <VideoOff className="notion-text" size={24} />}
               </button>
             </div>
           </div>
@@ -542,8 +542,8 @@ export const Multiplayer: React.FC = () => {
           onClick={() => setActiveTab('sessions')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all ${
             activeTab === 'sessions'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'notion-button-primary notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <Video size={18} className="inline mr-2" />
@@ -553,8 +553,8 @@ export const Multiplayer: React.FC = () => {
           onClick={() => setActiveTab('messages')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all ${
             activeTab === 'messages'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'notion-button-primary notion-text'
+              : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
           <MessageCircle size={18} className="inline mr-2" />
@@ -566,10 +566,10 @@ export const Multiplayer: React.FC = () => {
       {activeTab === 'sessions' && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-xl font-bold text-white">Active Study Sessions</h3>
+            <h3 className="text-lg font-semibold notion-heading">Active Study Sessions</h3>
             <button
               onClick={() => setShowCreateSession(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+              className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
             >
               <UserPlus size={18} />
               Create Session
@@ -578,27 +578,27 @@ export const Multiplayer: React.FC = () => {
 
           {/* Create Session Modal */}
           {showCreateSession && (
-            <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-              <h4 className="text-white font-bold mb-4">Create Study Session</h4>
+            <div className="notion-card p-6">
+              <h4 className="notion-text font-bold mb-4">Create Study Session</h4>
               <div className="space-y-3">
                 <input
                   type="text"
                   placeholder="Session title *"
                   value={sessionForm.title}
                   onChange={(e) => setSessionForm({ ...sessionForm, title: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 <input
                   type="text"
                   placeholder="Subject"
                   value={sessionForm.subject}
                   onChange={(e) => setSessionForm({ ...sessionForm, subject: e.target.value })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 <select
                   value={sessionForm.type}
                   onChange={(e) => setSessionForm({ ...sessionForm, type: e.target.value as any })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="video">Video Call</option>
                   <option value="audio">Audio Only</option>
@@ -611,14 +611,14 @@ export const Multiplayer: React.FC = () => {
                   max="10"
                   value={sessionForm.maxParticipants}
                   onChange={(e) => setSessionForm({ ...sessionForm, maxParticipants: parseInt(e.target.value) })}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
                 
                 {/* Invite Friends */}
                 <div>
                   <button
                     onClick={() => setShowInviteFriends(!showInviteFriends)}
-                    className="w-full bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-white/10 hover:bg-white/20 notion-text py-2 rounded-lg transition-all flex items-center justify-center gap-2"
                   >
                     <UserPlus size={18} />
                     Invite Friends ({selectedFriends.length})
@@ -627,12 +627,12 @@ export const Multiplayer: React.FC = () => {
                   {showInviteFriends && (
                     <div className="mt-3 max-h-40 overflow-y-auto space-y-2">
                       {friends.length === 0 ? (
-                        <p className="text-white/60 text-sm text-center py-4">No friends to invite</p>
+                        <p className="notion-text-secondary text-sm text-center py-4">No friends to invite</p>
                       ) : (
                         friends.map((friend) => (
                           <label
                             key={friend.id}
-                            className="flex items-center gap-3 p-2 bg-white/5 rounded-lg hover:bg-white/10 cursor-pointer"
+                            className="flex items-center gap-3 p-2 notion-card hover:bg-white/10 cursor-pointer"
                           >
                             <input
                               type="checkbox"
@@ -644,11 +644,11 @@ export const Multiplayer: React.FC = () => {
                               {friend.photoURL ? (
                                 <img src={friend.photoURL} alt={friend.name} className="w-8 h-8 rounded-full" />
                               ) : (
-                                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center notion-text text-sm font-bold">
                                   {friend.name.charAt(0).toUpperCase()}
                                 </div>
                               )}
-                              <span className="text-white text-sm">{friend.name}</span>
+                              <span className="notion-text text-sm">{friend.name}</span>
                             </div>
                           </label>
                         ))
@@ -664,13 +664,13 @@ export const Multiplayer: React.FC = () => {
                     setShowInviteFriends(false);
                     setSelectedFriends([]);
                   }}
-                  className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all"
+                  className="flex-1 bg-white/10 hover:bg-white/20 notion-text py-2 rounded-lg transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleCreateSession}
-                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg transition-all"
+                  className="flex-1 notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text py-2 rounded-lg transition-all"
                 >
                   Create
                 </button>
@@ -682,14 +682,14 @@ export const Multiplayer: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {sessions.length === 0 && (
               <div className="col-span-full text-center py-12">
-                <Video size={48} className="text-white/30 mx-auto mb-4" />
-                <p className="text-white/60">No active sessions. Create one to start!</p>
+                <Video size={48} className="notion-text/30 mx-auto mb-4" />
+                <p className="notion-text-secondary">No active sessions. Create one to start!</p>
               </div>
             )}
             {sessions.map((session) => (
               <div
                 key={session.id}
-                className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/15 transition-all"
+                className="notion-card p-6 hover:bg-white/15 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -701,15 +701,15 @@ export const Multiplayer: React.FC = () => {
                       <Users className="text-green-400" size={24} />
                     )}
                     <div>
-                      <h4 className="text-white font-bold">{session.title}</h4>
-                      <p className="text-white/60 text-sm">Host: {session.hostName}</p>
+                      <h4 className="notion-text font-bold">{session.title}</h4>
+                      <p className="notion-text-secondary text-sm">Host: {session.hostName}</p>
                     </div>
                   </div>
                   <span className="bg-green-500/20 text-green-300 px-2 py-1 rounded-full text-xs">
                     Live
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-sm text-white/60 mb-4">
+                <div className="flex items-center justify-between text-sm notion-text-secondary mb-4">
                   <span className="flex items-center gap-1">
                     <Users size={14} />
                     {session.participants?.length || 0}/{session.maxParticipants}
@@ -729,7 +729,7 @@ export const Multiplayer: React.FC = () => {
                   <button
                     onClick={() => handleJoinSession(session)}
                     disabled={session.participants?.length >= session.maxParticipants}
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Phone size={18} />
                     Join Session
@@ -764,9 +764,9 @@ export const Multiplayer: React.FC = () => {
 
       {/* Messages Tab */}
       {activeTab === 'messages' && (
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-white font-bold mb-4">Private Messages</h3>
-          <p className="text-white/60 text-center py-8">
+        <div className="notion-card p-6">
+          <h3 className="notion-text font-bold mb-4">Private Messages</h3>
+          <p className="notion-text-secondary text-center py-8">
             Private messaging feature coming soon! For now, use session chat during study sessions.
           </p>
         </div>
@@ -777,26 +777,26 @@ export const Multiplayer: React.FC = () => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-lg rounded-xl p-6 border border-white/20 max-w-md w-full">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-white font-bold text-lg">Invite Friends</h3>
+              <h3 className="notion-text font-bold text-lg">Invite Friends</h3>
               <button
                 onClick={() => {
                   setShowInviteModal(false);
                   setSelectedSessionForInvite(null);
                   setInviteSelectedFriends([]);
                 }}
-                className="text-white/60 hover:text-white"
+                className="notion-text-secondary hover:notion-text"
               >
                 <X size={24} />
               </button>
             </div>
             
-            <p className="text-white/70 text-sm mb-4">
+            <p className="notion-text-secondary text-sm mb-4">
               Invite friends to join "{selectedSessionForInvite.title}"
             </p>
 
             <div className="max-h-60 overflow-y-auto space-y-2 mb-4">
               {friends.length === 0 ? (
-                <p className="text-white/60 text-sm text-center py-4">No friends to invite</p>
+                <p className="notion-text-secondary text-sm text-center py-4">No friends to invite</p>
               ) : (
                 friends
                   .filter(friend => !selectedSessionForInvite.invitedUsers?.includes(friend.id))
@@ -815,13 +815,13 @@ export const Multiplayer: React.FC = () => {
                         {friend.photoURL ? (
                           <img src={friend.photoURL} alt={friend.name} className="w-10 h-10 rounded-full" />
                         ) : (
-                          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center notion-text font-bold">
                             {friend.name.charAt(0).toUpperCase()}
                           </div>
                         )}
                         <div>
-                          <p className="text-white font-semibold">{friend.name}</p>
-                          <p className="text-white/60 text-xs">{friend.email}</p>
+                          <p className="notion-text font-semibold">{friend.name}</p>
+                          <p className="notion-text-secondary text-xs">{friend.email}</p>
                         </div>
                       </div>
                     </label>
@@ -836,14 +836,14 @@ export const Multiplayer: React.FC = () => {
                   setSelectedSessionForInvite(null);
                   setInviteSelectedFriends([]);
                 }}
-                className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all"
+                className="flex-1 bg-white/10 hover:bg-white/20 notion-text py-2 rounded-lg transition-all"
               >
                 Cancel
               </button>
               <button
                 onClick={handleInviteToSession}
                 disabled={inviteSelectedFriends.length === 0}
-                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Invite ({inviteSelectedFriends.length})
               </button>

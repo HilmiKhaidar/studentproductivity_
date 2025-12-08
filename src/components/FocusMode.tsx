@@ -52,7 +52,7 @@ export const FocusMode: React.FC<FocusModeProps> = ({ onClose }) => {
       {/* Close Button */}
       <button
         onClick={onClose}
-        className="absolute top-8 right-8 text-white/70 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+        className="absolute top-8 right-8 notion-text-secondary hover:notion-text transition-colors p-2 hover:bg-white/10 rounded-lg"
       >
         <X size={32} />
       </button>
@@ -95,7 +95,7 @@ export const FocusMode: React.FC<FocusModeProps> = ({ onClose }) => {
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-8xl font-bold text-white">
+            <div className="text-8xl font-bold notion-text">
               {formatTime(timeLeft)}
             </div>
           </div>
@@ -111,7 +111,7 @@ export const FocusMode: React.FC<FocusModeProps> = ({ onClose }) => {
           </button>
           <button
             onClick={handleReset}
-            className="bg-white/10 text-white p-6 rounded-full hover:bg-white/20 transition-all"
+            className="bg-white/10 notion-text p-6 rounded-full hover:bg-white/20 transition-all"
           >
             <RotateCcw size={32} />
           </button>
@@ -119,10 +119,10 @@ export const FocusMode: React.FC<FocusModeProps> = ({ onClose }) => {
 
         {/* Quote */}
         <div className="mt-12 max-w-2xl mx-auto">
-          <p className="text-white/80 text-xl italic">
+          <p className="notion-text/80 text-xl italic">
             "{mode === 'work' ? 'Focus is the gateway to thinking clearly' : 'Rest is not idleness'}"
           </p>
-          <p className="text-white/60 mt-2">
+          <p className="notion-text-secondary mt-2">
             {mode === 'work' ? '— Thich Nhat Hanh' : '— John Lubbock'}
           </p>
         </div>

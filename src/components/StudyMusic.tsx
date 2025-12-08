@@ -72,11 +72,11 @@ export const StudyMusic: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-white flex items-center gap-2">
+        <h2 className="text-[40px] font-bold notion-heading leading-tight flex items-center gap-2">
           <Music size={32} />
           Study Music
         </h2>
-        <p className="text-white/70 mt-1">Background music untuk fokus belajar</p>
+        <p className="notion-text-secondary text-sm mt-2">Background music untuk fokus belajar</p>
       </div>
 
       {/* Now Playing */}
@@ -86,20 +86,20 @@ export const StudyMusic: React.FC = () => {
             <div className="flex items-center gap-4">
               <div className="text-5xl">{selectedStation.thumbnail}</div>
               <div>
-                <h3 className="text-xl font-bold text-white">{selectedStation.name}</h3>
-                <p className="text-white/70 text-sm">{selectedStation.description}</p>
+                <h3 className="text-lg font-semibold notion-heading">{selectedStation.name}</h3>
+                <p className="notion-text-secondary text-sm">{selectedStation.description}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setIsMuted(!isMuted)}
-                className="bg-white/10 hover:bg-white/20 text-white p-3 rounded-lg transition-colors"
+                className="bg-white/10 hover:bg-white/20 notion-text p-3 rounded-lg transition-colors"
               >
                 {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
               </button>
               <button
                 onClick={handleStop}
-                className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="bg-red-500 hover:bg-red-600 notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
               >
                 Stop
               </button>
@@ -123,7 +123,7 @@ export const StudyMusic: React.FC = () => {
 
       {/* Music Stations Grid */}
       <div>
-        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <h3 className="text-lg font-semibold notion-heading mb-4 flex items-center gap-2">
           <Radio size={24} />
           Pilih Music Station
         </h3>
@@ -133,7 +133,7 @@ export const StudyMusic: React.FC = () => {
               key={station.id}
               onClick={() => handlePlay(station)}
               disabled={isPlaying && selectedStation?.id === station.id}
-              className={`bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all text-left ${
+              className={`notion-card p-6 hover:bg-white/20 transition-all text-left ${
                 isPlaying && selectedStation?.id === station.id
                   ? 'ring-2 ring-purple-500'
                   : ''
@@ -142,8 +142,8 @@ export const StudyMusic: React.FC = () => {
               <div className="flex items-start gap-4">
                 <div className="text-4xl">{station.thumbnail}</div>
                 <div className="flex-1">
-                  <h4 className="text-lg font-bold text-white mb-1">{station.name}</h4>
-                  <p className="text-white/70 text-sm mb-3">{station.description}</p>
+                  <h4 className="text-lg font-bold notion-text mb-1">{station.name}</h4>
+                  <p className="notion-text-secondary text-sm mb-3">{station.description}</p>
                   <div className="flex items-center gap-2 text-purple-400">
                     {isPlaying && selectedStation?.id === station.id ? (
                       <>
@@ -166,8 +166,8 @@ export const StudyMusic: React.FC = () => {
 
       {/* Tips */}
       <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-lg font-bold text-white mb-3">💡 Tips Menggunakan Music</h3>
-        <ul className="space-y-2 text-white/80 text-sm">
+        <h3 className="text-lg font-bold notion-text mb-3">💡 Tips Menggunakan Music</h3>
+        <ul className="space-y-2 notion-text/80 text-sm">
           <li>• Pilih musik instrumental untuk fokus maksimal</li>
           <li>• Volume 30-40% untuk background yang nyaman</li>
           <li>• Lofi & ambient cocok untuk tugas yang butuh konsentrasi</li>

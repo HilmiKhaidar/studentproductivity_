@@ -61,8 +61,8 @@ export const Goals: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Target & Tujuan</h2>
-          <p className="text-white/70 mt-1">Tetapkan dan capai target akademik kamu</p>
+          <h2 className="text-[40px] font-bold notion-heading leading-tight">Target & Tujuan</h2>
+          <p className="notion-text-secondary text-sm mt-2">Tetapkan dan capai target akademik kamu</p>
         </div>
         <button
           onClick={() => {
@@ -81,53 +81,53 @@ export const Goals: React.FC = () => {
         <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Total Target</p>
-              <p className="text-4xl font-bold text-white mt-2">{goals.length}</p>
+              <p className="notion-text/80 text-sm">Total Target</p>
+              <p className="text-4xl font-bold notion-text mt-2">{goals.length}</p>
             </div>
-            <Target className="text-white/80" size={32} />
+            <Target className="notion-text/80" size={32} />
           </div>
         </div>
         <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Aktif</p>
-              <p className="text-4xl font-bold text-white mt-2">{activeGoals.length}</p>
+              <p className="notion-text/80 text-sm">Aktif</p>
+              <p className="text-4xl font-bold notion-text mt-2">{activeGoals.length}</p>
             </div>
-            <TrendingUp className="text-white/80" size={32} />
+            <TrendingUp className="notion-text/80" size={32} />
           </div>
         </div>
         <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white/80 text-sm">Tercapai</p>
-              <p className="text-4xl font-bold text-white mt-2">{completedGoals.length}</p>
+              <p className="notion-text/80 text-sm">Tercapai</p>
+              <p className="text-4xl font-bold notion-text mt-2">{completedGoals.length}</p>
             </div>
-            <CheckCircle2 className="text-white/80" size={32} />
+            <CheckCircle2 className="notion-text/80" size={32} />
           </div>
         </div>
       </div>
 
       {/* Active Goals */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-4">Target Aktif</h3>
+      <div className="notion-card p-6">
+        <h3 className="text-lg font-semibold notion-heading mb-4">Target Aktif</h3>
         <div className="space-y-4">
           {activeGoals.length === 0 ? (
-            <p className="text-white/60 text-center py-8">Belum ada target aktif</p>
+            <p className="notion-text-secondary text-center py-8">Belum ada target aktif</p>
           ) : (
             activeGoals.map((goal) => (
               <div
                 key={goal.id}
-                className="bg-white/5 rounded-lg p-6 border border-white/10 hover:bg-white/10 transition-colors"
+                className="notion-card p-6 border border-white/10 hover:bg-white/10 transition-colors"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h4 className="text-xl font-bold text-white">{goal.title}</h4>
-                    <p className="text-white/70 mt-1">{goal.description}</p>
+                    <h4 className="text-lg font-semibold notion-heading">{goal.title}</h4>
+                    <p className="notion-text-secondary text-sm mt-2">{goal.description}</p>
                     <div className="flex items-center gap-4 mt-3">
-                      <span className="bg-blue-500 text-white text-xs px-3 py-1 rounded-full">
+                      <span className="bg-blue-500 notion-text text-xs px-3 py-1 rounded-full">
                         {goal.category}
                       </span>
-                      <span className="text-white/60 text-sm">
+                      <span className="notion-text-secondary text-sm">
                         Target: {formatDate(goal.targetDate)}
                       </span>
                     </div>
@@ -143,8 +143,8 @@ export const Goals: React.FC = () => {
                 {/* Progress */}
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-white/70 text-sm">Progress</span>
-                    <span className="text-white font-bold">{goal.progress}%</span>
+                    <span className="notion-text-secondary text-sm">Progress</span>
+                    <span className="notion-text font-bold">{goal.progress}%</span>
                   </div>
                   <div className="w-full bg-white/20 rounded-full h-3">
                     <div
@@ -157,16 +157,16 @@ export const Goals: React.FC = () => {
                 {/* Milestones */}
                 {goal.milestones.length > 0 && (
                   <div>
-                    <p className="text-white/70 text-sm font-medium mb-2">Milestone:</p>
+                    <p className="notion-text-secondary text-sm font-medium mb-2">Milestone:</p>
                     <div className="space-y-2">
                       {goal.milestones.map((milestone) => (
                         <div
                           key={milestone.id}
-                          className="flex items-center gap-3 bg-white/5 rounded-lg p-3"
+                          className="flex items-center gap-3 notion-card p-3"
                         >
                           <button
                             onClick={() => toggleMilestone(goal.id, milestone.id)}
-                            className="text-white/70 hover:text-white transition-colors"
+                            className="notion-text-secondary hover:notion-text transition-colors"
                           >
                             {milestone.completed ? (
                               <CheckCircle2 size={20} className="text-green-400" />
@@ -175,14 +175,14 @@ export const Goals: React.FC = () => {
                             )}
                           </button>
                           <span
-                            className={`flex-1 text-white ${
+                            className={`flex-1 notion-text ${
                               milestone.completed ? 'line-through opacity-60' : ''
                             }`}
                           >
                             {milestone.title}
                           </span>
                           {milestone.completed && milestone.completedAt && (
-                            <span className="text-white/50 text-xs">
+                            <span className="notion-text/50 text-xs">
                               {formatDate(milestone.completedAt)}
                             </span>
                           )}
@@ -199,8 +199,8 @@ export const Goals: React.FC = () => {
 
       {/* Completed Goals */}
       {completedGoals.length > 0 && (
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4">Target Tercapai 🎉</h3>
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4">Target Tercapai 🎉</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {completedGoals.map((goal) => (
               <div
@@ -209,8 +209,8 @@ export const Goals: React.FC = () => {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="text-lg font-bold text-white">{goal.title}</h4>
-                    <p className="text-white/70 text-sm mt-1">{goal.description}</p>
+                    <h4 className="text-lg font-bold notion-text">{goal.title}</h4>
+                    <p className="notion-text-secondary text-sm mt-1">{goal.description}</p>
                     <span className="text-green-400 text-sm mt-2 inline-block">
                       ✓ Selesai
                     </span>
@@ -289,69 +289,69 @@ const GoalModal: React.FC<GoalModalProps> = ({ goal, onClose, onSubmit }) => {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl max-h-[90vh] overflow-y-auto">
-        <h3 className="text-2xl font-bold text-white mb-6">
+        <h3 className="text-2xl font-bold notion-heading mb-6">
           {goal ? 'Edit Target' : 'Tambah Target Baru'}
         </h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Judul Target</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Judul Target</label>
             <input
               type="text"
               required
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
               placeholder="Contoh: Lulus dengan IPK 3.5"
             />
           </div>
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Deskripsi</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Deskripsi</label>
             <textarea
               required
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 h-24 resize-none"
+              className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 h-24 resize-none"
               placeholder="Jelaskan target kamu secara detail"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-white/90 text-sm font-medium mb-2">Kategori</label>
+              <label className="block notion-text/90 text-sm font-medium mb-2">Kategori</label>
               <input
                 type="text"
                 required
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                 placeholder="Akademik, Karir, dll"
               />
             </div>
             <div>
-              <label className="block text-white/90 text-sm font-medium mb-2">Target Tanggal</label>
+              <label className="block notion-text/90 text-sm font-medium mb-2">Target Tanggal</label>
               <input
                 type="date"
                 required
                 value={formData.targetDate}
                 onChange={(e) => setFormData({ ...formData, targetDate: e.target.value })}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text focus:outline-none focus:ring-2 focus:ring-white/30"
               />
             </div>
           </div>
           <div>
-            <label className="block text-white/90 text-sm font-medium mb-2">Milestone</label>
+            <label className="block notion-text/90 text-sm font-medium mb-2">Milestone</label>
             <div className="flex gap-2 mb-3">
               <input
                 type="text"
                 value={milestoneInput}
                 onChange={(e) => setMilestoneInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addMilestone())}
-                className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
+                className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-2 notion-text placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30"
                 placeholder="Tambah milestone..."
               />
               <button
                 type="button"
                 onClick={addMilestone}
-                className="bg-white/20 text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-colors"
+                className="bg-white/20 notion-text px-4 py-2 rounded-lg hover:bg-white/30 transition-colors"
               >
                 <Plus size={20} />
               </button>
@@ -360,9 +360,9 @@ const GoalModal: React.FC<GoalModalProps> = ({ goal, onClose, onSubmit }) => {
               {formData.milestones?.map((milestone) => (
                 <div
                   key={milestone.id}
-                  className="flex items-center gap-2 bg-white/5 rounded-lg p-2"
+                  className="flex items-center gap-2 notion-card p-2"
                 >
-                  <span className="flex-1 text-white">{milestone.title}</span>
+                  <span className="flex-1 notion-text">{milestone.title}</span>
                   <button
                     type="button"
                     onClick={() => removeMilestone(milestone.id)}
@@ -378,7 +378,7 @@ const GoalModal: React.FC<GoalModalProps> = ({ goal, onClose, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-white/10 text-white px-6 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors"
+              className="flex-1 bg-white/10 notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/20 transition-colors"
             >
               Batal
             </button>

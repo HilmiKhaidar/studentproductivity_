@@ -60,8 +60,8 @@ export const Profile: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Profil Saya</h2>
-          <p className="text-white/70 mt-1">Informasi akun kamu</p>
+          <h2 className="text-[40px] font-bold notion-heading leading-tight">Profil Saya</h2>
+          <p className="notion-text-secondary text-sm mt-2">Informasi akun kamu</p>
         </div>
         <button
           onClick={handleLogout}
@@ -73,7 +73,7 @@ export const Profile: React.FC = () => {
       </div>
 
       {/* Profile Card */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-8 border border-white/20">
+      <div className="notion-card p-8">
         <div className="flex items-start gap-6 mb-6">
           <div className="relative">
             {photoURL ? (
@@ -84,11 +84,11 @@ export const Profile: React.FC = () => {
               />
             ) : (
               <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
-                <UserIcon className="w-12 h-12 text-white" />
+                <UserIcon className="w-12 h-12 notion-text" />
               </div>
             )}
             {isEditing && (
-              <label className="absolute bottom-0 right-0 bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-full cursor-pointer transition-all shadow-lg">
+              <label className="absolute bottom-0 right-0 bg-purple-600 hover:bg-purple-700 notion-text p-2 rounded-full cursor-pointer transition-all shadow-lg">
                 <Camera size={16} />
                 <input
                   type="file"
@@ -105,10 +105,10 @@ export const Profile: React.FC = () => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="text-2xl font-bold text-white mb-2 bg-white/10 border border-white/20 rounded-lg px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="text-2xl font-bold notion-heading mb-2 bg-white/10 border border-white/20 rounded-lg px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             ) : (
-              <h3 className="text-2xl font-bold text-white mb-1">{user.name}</h3>
+              <h3 className="text-2xl font-bold notion-heading mb-1">{user.name}</h3>
             )}
             {isEditing ? (
               <input
@@ -130,7 +130,7 @@ export const Profile: React.FC = () => {
                 setIsEditing(true);
               }
             }}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+            className="bg-purple-600 hover:bg-purple-700 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
           >
             {isEditing ? (
               <>
@@ -147,19 +147,19 @@ export const Profile: React.FC = () => {
         </div>
 
         <div className="space-y-4">
-          <div className="flex items-center gap-3 p-4 bg-white/5 rounded-lg">
+          <div className="flex items-center gap-3 p-4 notion-card">
             <Mail className="text-purple-400" size={20} />
             <div>
-              <p className="text-white/60 text-sm">Email</p>
-              <p className="text-white font-medium">{user.email}</p>
+              <p className="notion-text-secondary text-sm">Email</p>
+              <p className="notion-text font-medium">{user.email}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 bg-white/5 rounded-lg">
+          <div className="flex items-center gap-3 p-4 notion-card">
             <Calendar className="text-purple-400" size={20} />
             <div>
-              <p className="text-white/60 text-sm">Bergabung Sejak</p>
-              <p className="text-white font-medium">
+              <p className="notion-text-secondary text-sm">Bergabung Sejak</p>
+              <p className="notion-text font-medium">
                 {new Date(user.createdAt).toLocaleDateString('id-ID', {
                   day: 'numeric',
                   month: 'long',
@@ -169,11 +169,11 @@ export const Profile: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 bg-white/5 rounded-lg">
+          <div className="flex items-center gap-3 p-4 notion-card">
             <UserIcon className="text-purple-400" size={20} />
             <div>
-              <p className="text-white/60 text-sm">User ID</p>
-              <p className="text-white font-medium font-mono text-sm">{user.id}</p>
+              <p className="notion-text-secondary text-sm">User ID</p>
+              <p className="notion-text font-medium font-mono text-sm">{user.id}</p>
             </div>
           </div>
         </div>
@@ -181,20 +181,20 @@ export const Profile: React.FC = () => {
 
       {/* Stats Card */}
       <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 backdrop-blur-lg rounded-xl p-6 border border-purple-500/30">
-        <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+        <h3 className="notion-text font-bold mb-4 flex items-center gap-2">
           <span>📊</span> Statistik Akun
         </h3>
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center">
-            <p className="text-3xl font-bold text-white">0</p>
+            <p className="text-[40px] font-bold notion-heading leading-tight">0</p>
             <p className="text-purple-200 text-sm mt-1">Tugas Selesai</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-white">0</p>
+            <p className="text-[40px] font-bold notion-heading leading-tight">0</p>
             <p className="text-purple-200 text-sm mt-1">Sesi Pomodoro</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl font-bold text-white">0</p>
+            <p className="text-[40px] font-bold notion-heading leading-tight">0</p>
             <p className="text-purple-200 text-sm mt-1">Hari Streak</p>
           </div>
         </div>
@@ -202,8 +202,8 @@ export const Profile: React.FC = () => {
 
       {/* Info */}
       <div className="bg-blue-500/20 backdrop-blur-lg rounded-xl p-6 border border-blue-500/30">
-        <h3 className="text-white font-bold mb-2">💡 Tips</h3>
-        <ul className="text-white/80 text-sm space-y-1">
+        <h3 className="notion-text font-bold mb-2">💡 Tips</h3>
+        <ul className="notion-text/80 text-sm space-y-1">
           <li>• Data kamu tersimpan aman di Firebase Cloud</li>
           <li>• Bisa akses dari device manapun dengan login</li>
           <li>• Jangan share password ke siapa pun</li>

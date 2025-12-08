@@ -142,8 +142,8 @@ export const Notifications: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-white">Notifikasi & Reminder</h2>
-        <p className="text-white/70 mt-1">Kelola pengingat dan notifikasi</p>
+        <h2 className="text-[40px] font-bold notion-heading leading-tight">Notifikasi & Reminder</h2>
+        <p className="notion-text-secondary text-sm mt-2">Kelola pengingat dan notifikasi</p>
       </div>
 
       {/* Notification Status */}
@@ -156,10 +156,10 @@ export const Notifications: React.FC = () => {
               <BellOff className="text-red-400" size={32} />
             )}
             <div>
-              <h3 className="text-xl font-bold text-white">
+              <h3 className="text-lg font-semibold notion-heading">
                 Status Notifikasi
               </h3>
-              <p className="text-white/70 text-sm">
+              <p className="notion-text-secondary text-sm">
                 {notificationsEnabled ? 'Aktif' : 'Nonaktif'}
               </p>
             </div>
@@ -168,14 +168,14 @@ export const Notifications: React.FC = () => {
           {notificationsEnabled ? (
             <button
               onClick={handleDisableNotifications}
-              className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              className="bg-red-500 hover:bg-red-600 notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
             >
               Nonaktifkan
             </button>
           ) : (
             <button
               onClick={handleEnableNotifications}
-              className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              className="bg-green-500 hover:bg-green-600 notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
             >
               Aktifkan Notifikasi
             </button>
@@ -184,7 +184,7 @@ export const Notifications: React.FC = () => {
 
         {permission.denied && (
           <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-4 mt-4">
-            <p className="text-white text-sm">
+            <p className="notion-text text-sm">
               ⚠️ Notifikasi diblokir oleh browser. Untuk mengaktifkan:
               <br />
               1. Klik icon gembok/info di address bar
@@ -199,46 +199,46 @@ export const Notifications: React.FC = () => {
 
       {/* Notification Types */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+        <div className="notion-card p-6">
           <div className="flex items-center gap-3 mb-3">
             <div className="bg-blue-500 rounded-lg p-3">
-              <Clock size={24} className="text-white" />
+              <Clock size={24} className="notion-text" />
             </div>
-            <h3 className="text-lg font-bold text-white">Deadline Reminder</h3>
+            <h3 className="text-lg font-bold notion-text">Deadline Reminder</h3>
           </div>
-          <p className="text-white/70 text-sm">
+          <p className="notion-text-secondary text-sm">
             Pengingat otomatis 24 jam sebelum deadline tugas
           </p>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+        <div className="notion-card p-6">
           <div className="flex items-center gap-3 mb-3">
             <div className="bg-purple-500 rounded-lg p-3">
-              <Moon size={24} className="text-white" />
+              <Moon size={24} className="notion-text" />
             </div>
-            <h3 className="text-lg font-bold text-white">Bedtime Reminder</h3>
+            <h3 className="text-lg font-bold notion-text">Bedtime Reminder</h3>
           </div>
-          <p className="text-white/70 text-sm">
+          <p className="notion-text-secondary text-sm">
             Pengingat tidur sesuai target jam tidur kamu
           </p>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+        <div className="notion-card p-6">
           <div className="flex items-center gap-3 mb-3">
             <div className="bg-green-500 rounded-lg p-3">
-              <CheckCircle size={24} className="text-white" />
+              <CheckCircle size={24} className="notion-text" />
             </div>
-            <h3 className="text-lg font-bold text-white">Pomodoro Break</h3>
+            <h3 className="text-lg font-bold notion-text">Pomodoro Break</h3>
           </div>
-          <p className="text-white/70 text-sm">
+          <p className="notion-text-secondary text-sm">
             Pengingat istirahat setelah sesi Pomodoro selesai
           </p>
         </div>
       </div>
 
       {/* Upcoming Reminders */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+      <div className="notion-card p-6">
+        <h3 className="text-lg font-semibold notion-heading mb-4 flex items-center gap-2">
           <AlertCircle size={24} />
           Reminder Mendatang
         </h3>
@@ -248,22 +248,22 @@ export const Notifications: React.FC = () => {
             {upcomingReminders.map(({ task, hoursLeft }) => (
               <div
                 key={task.id}
-                className="bg-white/5 rounded-lg p-4 border border-white/10"
+                className="notion-card p-4 border border-white/10"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="text-white font-semibold">{task.title}</h4>
-                    <p className="text-white/60 text-sm mt-1">
+                    <h4 className="notion-text font-semibold">{task.title}</h4>
+                    <p className="notion-text-secondary text-sm mt-1">
                       Deadline: {formatTimeRemaining(hoursLeft)}
                     </p>
                   </div>
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
                       task.priority === 'urgent'
-                        ? 'bg-red-500 text-white'
+                        ? 'bg-red-500 notion-text'
                         : task.priority === 'high'
-                        ? 'bg-orange-500 text-white'
-                        : 'bg-blue-500 text-white'
+                        ? 'bg-orange-500 notion-text'
+                        : 'bg-blue-500 notion-text'
                     }`}
                   >
                     {task.priority}
@@ -274,7 +274,7 @@ export const Notifications: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-8">
-            <p className="text-white/60">
+            <p className="notion-text-secondary">
               ✅ Tidak ada deadline mendesak dalam 24 jam ke depan
             </p>
           </div>
@@ -283,14 +283,14 @@ export const Notifications: React.FC = () => {
 
       {/* Settings Info */}
       <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-        <h3 className="text-lg font-bold text-white mb-3">⚙️ Pengaturan Notifikasi</h3>
-        <div className="space-y-2 text-white/80 text-sm">
+        <h3 className="text-lg font-bold notion-text mb-3">⚙️ Pengaturan Notifikasi</h3>
+        <div className="space-y-2 notion-text/80 text-sm">
           <p>• Target waktu tidur: {settings.targetBedTime}</p>
           <p>• Durasi Pomodoro: {settings.pomodoroWorkDuration} menit</p>
           <p>• Break pendek: {settings.pomodoroShortBreak} menit</p>
           <p>• Break panjang: {settings.pomodoroLongBreak} menit</p>
         </div>
-        <p className="text-white/60 text-xs mt-4">
+        <p className="notion-text-secondary text-xs mt-4">
           Ubah pengaturan di menu Settings untuk menyesuaikan reminder
         </p>
       </div>
