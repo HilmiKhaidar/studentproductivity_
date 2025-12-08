@@ -20,6 +20,7 @@ import {
   BookOpen,
   ChevronDown,
   Plus,
+  Cube,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -64,6 +65,7 @@ const menuSections = [
   {
     title: 'More',
     items: [
+      { id: 'virtual-study-room', label: '3D Study Room', icon: Cube },
       { id: 'chess-game', label: 'Chess Online', icon: Target },
       { id: 'study-music', label: 'Music', icon: Music },
       { id: 'profile', label: 'Profile', icon: User },
