@@ -143,19 +143,19 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Mobile Menu Button */}
+    <div className="flex min-h-screen bg-white dark:bg-[#191919]">
+      {/* Mobile Menu Button - Notion Style */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 bg-white/10 backdrop-blur-lg text-white p-3 rounded-lg border border-white/20 shadow-lg"
+        className="lg:hidden fixed top-3 left-3 z-50 notion-button p-2 notion-shadow"
       >
-        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
       {/* Overlay for mobile */}
       {isSidebarOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-30"
+          className="lg:hidden fixed inset-0 bg-black/20 z-30"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
@@ -163,9 +163,9 @@ function App() {
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      {/* Main Content */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto lg:ml-0">
-        <div className="max-w-7xl mx-auto mt-16 lg:mt-0">
+      {/* Main Content - Notion Style */}
+      <main className="flex-1 overflow-y-auto lg:ml-0 bg-white dark:bg-[#191919]">
+        <div className="max-w-[900px] mx-auto px-6 md:px-12 lg:px-24 py-8 md:py-12 mt-12 lg:mt-0">
           {renderView()}
         </div>
       </main>
@@ -175,9 +175,10 @@ function App() {
         toastOptions={{
           duration: 3000,
           style: {
-            background: 'rgba(0, 0, 0, 0.8)',
-            color: '#fff',
-            backdropFilter: 'blur(10px)',
+            background: '#FFFFFF',
+            color: '#37352F',
+            border: '1px solid #E9E9E7',
+            boxShadow: 'rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px',
           },
         }}
       />

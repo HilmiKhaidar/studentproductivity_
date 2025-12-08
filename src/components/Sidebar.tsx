@@ -21,34 +21,30 @@ import {
   Palette,
   Trophy,
   Video,
+  BookOpen,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
 const menuItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'ai-assistant', label: 'AI Assistant', icon: Bot },
-  { id: 'tasks', label: 'Tugas', icon: CheckSquare },
-  { id: 'sleep', label: 'Tidur', icon: Moon },
+  { id: 'tasks', label: 'Tasks', icon: CheckSquare },
   { id: 'pomodoro', label: 'Pomodoro', icon: Timer },
-  { id: 'study-music', label: 'Study Music', icon: Music },
   { id: 'notes', label: 'Notes', icon: FileText },
   { id: 'study-planner', label: 'Study Planner', icon: CalendarDays },
-  { id: 'study-resources', label: 'Study Resources', icon: FileText },
-  { id: 'goals', label: 'Target', icon: Target },
-  { id: 'habits', label: 'Kebiasaan', icon: Zap },
-  { id: 'analytics', label: 'Analitik', icon: TrendingUp },
-  { id: 'calendar', label: 'Kalender', icon: Calendar },
-  { id: 'advanced-calendar', label: 'Advanced Calendar', icon: Calendar },
-  { id: 'notifications', label: 'Notifikasi', icon: Bell },
-  { id: 'social-sharing', label: 'Social Sharing', icon: Share2 },
+  { id: 'study-resources', label: 'Resources', icon: BookOpen },
+  { id: 'goals', label: 'Goals', icon: Target },
+  { id: 'habits', label: 'Habits', icon: Zap },
+  { id: 'sleep', label: 'Sleep', icon: Moon },
+  { id: 'analytics', label: 'Analytics', icon: TrendingUp },
+  { id: 'advanced-calendar', label: 'Calendar', icon: Calendar },
+  { id: 'study-music', label: 'Music', icon: Music },
   { id: 'friends', label: 'Friends', icon: Users },
   { id: 'study-groups', label: 'Study Groups', icon: Users },
-  { id: 'multiplayer', label: 'Multiplayer Study', icon: Video },
+  { id: 'multiplayer', label: 'Multiplayer', icon: Video },
   { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
-  { id: 'themes', label: 'Themes', icon: Palette },
-  { id: 'profile', label: 'Profil', icon: User },
-  { id: 'feedback', label: 'Feedback', icon: MessageSquare },
-  { id: 'settings', label: 'Pengaturan', icon: Settings },
+  { id: 'profile', label: 'Profile', icon: User },
+  { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
 interface SidebarProps {
@@ -57,64 +53,84 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
-  const { currentView, setCurrentView } = useStore();
+  const { currentView, setCurrentView, user } = useStore();
 
   const handleMenuClick = (viewId: string) => {
     setCurrentView(viewId);
-    onClose(); // Close sidebar on mobile after selecting
+    onClose();
   };
 
   return (
     <div
       className={`
         fixed lg:sticky top-0 left-0 z-40
-        w-64 bg-white/10 backdrop-blur-lg border-r border-white/20 h-screen
+        w-60 bg-[#F7F6F3] dark:bg-[#252525] border-r border-[#E9E9E7] dark:border-[#3F3F3F] h-screen
         flex flex-col
-        transition-transform duration-300 ease-in-out
+        transition-transform duration-200 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}
     >
-      <div className="p-6 border-b border-white/20">
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-          <Zap className="text-yellow-400" />
-          StudyHub
-        </h1>
-        <p className="text-white/70 text-sm mt-1">Produktivitas Mahasiswa</p>
+      {/* Header */}
+      <div className="px-4 py-3 border-b border-[#E9E9E7] dark:border-[#3F3F3F]">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center">
+            <Zap className="text-white" size={16} />
+          </div>
+          <h1 className="text-sm font-semibold notion-text">StudyHub</h1>
+        </div>
       </div>
 
-      <nav className="flex-1 p-4 overflow-y-auto">
-        <ul className="space-y-2">
+      {/* User Info */}
+      {user && (
+        <div className="px-3 py-2 border-b border-[#E9E9E7] dark:border-[#3F3F3F]">
+          <button
+            onClick={() => handleMenuClick('profile')}
+            className="w-full flex items-center gap-2 px-2 py-1.5 rounded hover:bg-white/50 dark:hover:bg-[#2F2F2F] transition-all"
+          >
+            {user.photoURL ? (
+              <img src={user.photoURL} alt={user.name} className="w-6 h-6 rounded" />
+            ) : (
+              <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center text-white text-xs font-semibold">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <span className="text-sm notion-text font-medium truncate">{user.name}</span>
+          </button>
+        </div>
+      )}
+
+      {/* Menu Items */}
+      <nav className="flex-1 overflow-y-auto py-2 px-2">
+        <div className="space-y-0.5">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentView === item.id;
+            
             return (
-              <li key={item.id}>
-                <button
-                  onClick={() => handleMenuClick(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? 'bg-white text-purple-600 shadow-lg'
-                      : 'text-white/80 hover:bg-white/10 hover:text-white'
-                  }`}
-                >
-                  <Icon size={20} />
-                  <span className="font-medium">{item.label}</span>
-                </button>
-              </li>
+              <button
+                key={item.id}
+                onClick={() => handleMenuClick(item.id)}
+                className={`
+                  w-full flex items-center gap-2 px-2 py-1.5 rounded text-sm
+                  transition-all duration-150
+                  ${isActive 
+                    ? 'bg-white dark:bg-[#2F2F2F] notion-text font-medium' 
+                    : 'notion-text-secondary hover:bg-white/50 dark:hover:bg-[#2F2F2F]'
+                  }
+                `}
+              >
+                <Icon size={16} className={isActive ? 'text-[#2383E2]' : ''} />
+                <span className="truncate">{item.label}</span>
+              </button>
             );
           })}
-        </ul>
+        </div>
       </nav>
 
-      <div className="p-4 border-t border-white/20">
-        <div className="bg-white/10 rounded-lg p-4">
-          <p className="text-white/70 text-xs mb-2">Skor Produktivitas Hari Ini</p>
-          <div className="flex items-center gap-2">
-            <div className="flex-1 bg-white/20 rounded-full h-2">
-              <div className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full" style={{ width: '75%' }} />
-            </div>
-            <span className="text-white font-bold">75%</span>
-          </div>
+      {/* Footer */}
+      <div className="px-3 py-3 border-t border-[#E9E9E7] dark:border-[#3F3F3F]">
+        <div className="text-xs notion-text-secondary text-center">
+          StudyHub © 2024
         </div>
       </div>
     </div>
