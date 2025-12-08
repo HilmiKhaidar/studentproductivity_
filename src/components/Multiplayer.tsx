@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Video, Mic, MicOff, VideoOff, Users, MessageCircle, Phone, PhoneOff, UserPlus, Clock, Send, X } from 'lucide-react';
+import { Video, Mic, MicOff, VideoOff, Users, MessageCircle, Phone, PhoneOff, UserPlus, Clock, Send, X, Trash2, Mail } from 'lucide-react';
 import { useStore } from '../store/useStore';
-import { collection, query, where, getDocs, addDoc, doc, getDoc, onSnapshot, updateDoc, arrayUnion } from 'firebase/firestore';
+import { collection, query, where, getDocs, addDoc, doc, getDoc, onSnapshot, updateDoc, arrayUnion, deleteDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { videoCallService } from '../services/videoCallService';
 import toast from 'react-hot-toast';
@@ -54,11 +54,10 @@ export const Multiplayer: React.FC = () => {
   const [newSessionMessage, setNewSessionMessage] = useState('');
   const [showChat, setShowChat] = useState(false);
   
-  // Private Messages (for future use)
-  // const [conversations, setConversations] = useState<any[]>([]);
-  // const [selectedConversation, setSelectedConversation] = useState<any>(null);
-  // const [messages, setMessages] = useState<any[]>([]);
-  // const [newMessage, setNewMessage] = useState('');
+  // Invite to existing session
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [selectedSessionForInvite, setSelectedSessionForInvite] = useState<any>(null);
+  const [inviteSelectedFriends, setInviteSelectedFriends] = useState<string[]>([]);
 
   useEffect(() => {
     if (user) {
@@ -306,6 +305,77 @@ export const Multiplayer: React.FC = () => {
         ? prev.filter(id => id !== friendId)
         : [...prev, friendId]
     );
+  };
+
+  const toggleInviteFriendSelection = (friendId: string) => {
+    setInviteSelectedFriends(prev =>
+      prev.includes(friendId)
+        ? prev.filter(id => id !== friendId)
+        : [...prev, friendId]
+    );
+  };
+
+  const handleDeleteSession = async (sessionId: string, hostId: string) => {
+    if (!user || user.id !== hostId) {
+      toast.error('Only the host can delete this session');
+      return;
+    }
+
+    if (!confirm('Are you sure you want to delete this session?')) {
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, 'studySessions', sessionId));
+      toast.success('Session deleted successfully');
+    } catch (error) {
+      console.error('Error deleting session:', error);
+      toast.error('Failed to delete session');
+    }
+  };
+
+  const handleInviteToSession = async () => {
+    if (!selectedSessionForInvite || inviteSelectedFriends.length === 0) {
+      toast.error('Please select friends to invite');
+      return;
+    }
+
+    try {
+      const sessionRef = doc(db, 'studySessions', selectedSessionForInvite.id);
+      
+      // Update invitedUsers array
+      await updateDoc(sessionRef, {
+        invitedUsers: arrayUnion(...inviteSelectedFriends)
+      });
+
+      // Send notifications to invited friends
+      for (const friendId of inviteSelectedFriends) {
+        await addDoc(collection(db, 'notifications'), {
+          userId: friendId,
+          type: 'session_invite',
+          title: 'Study Session Invitation',
+          message: `${user?.name} invited you to join "${selectedSessionForInvite.title}"`,
+          sessionId: selectedSessionForInvite.id,
+          sessionTitle: selectedSessionForInvite.title,
+          read: false,
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      toast.success(`Invited ${inviteSelectedFriends.length} friend(s) to the session`);
+      setShowInviteModal(false);
+      setSelectedSessionForInvite(null);
+      setInviteSelectedFriends([]);
+    } catch (error) {
+      console.error('Error inviting friends:', error);
+      toast.error('Failed to send invitations');
+    }
+  };
+
+  const openInviteModal = (session: any) => {
+    setSelectedSessionForInvite(session);
+    setInviteSelectedFriends([]);
+    setShowInviteModal(true);
   };
 
   return (
@@ -654,14 +724,38 @@ export const Multiplayer: React.FC = () => {
                     {session.subject}
                   </span>
                 )}
-                <button
-                  onClick={() => handleJoinSession(session)}
-                  disabled={session.participants?.length >= session.maxParticipants}
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Phone size={18} />
-                  Join Session
-                </button>
+                
+                <div className="space-y-2">
+                  <button
+                    onClick={() => handleJoinSession(session)}
+                    disabled={session.participants?.length >= session.maxParticipants}
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Phone size={18} />
+                    Join Session
+                  </button>
+                  
+                  <div className="flex gap-2">
+                    {user?.id === session.hostId && (
+                      <>
+                        <button
+                          onClick={() => openInviteModal(session)}
+                          className="flex-1 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-sm"
+                        >
+                          <Mail size={16} />
+                          Invite
+                        </button>
+                        <button
+                          onClick={() => handleDeleteSession(session.id, session.hostId)}
+                          className="flex-1 bg-red-600/20 hover:bg-red-600/30 text-red-300 py-2 rounded-lg transition-all flex items-center justify-center gap-2 text-sm"
+                        >
+                          <Trash2 size={16} />
+                          Delete
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -675,6 +769,86 @@ export const Multiplayer: React.FC = () => {
           <p className="text-white/60 text-center py-8">
             Private messaging feature coming soon! For now, use session chat during study sessions.
           </p>
+        </div>
+      )}
+
+      {/* Invite Friends Modal */}
+      {showInviteModal && selectedSessionForInvite && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-lg rounded-xl p-6 border border-white/20 max-w-md w-full">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white font-bold text-lg">Invite Friends</h3>
+              <button
+                onClick={() => {
+                  setShowInviteModal(false);
+                  setSelectedSessionForInvite(null);
+                  setInviteSelectedFriends([]);
+                }}
+                className="text-white/60 hover:text-white"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            
+            <p className="text-white/70 text-sm mb-4">
+              Invite friends to join "{selectedSessionForInvite.title}"
+            </p>
+
+            <div className="max-h-60 overflow-y-auto space-y-2 mb-4">
+              {friends.length === 0 ? (
+                <p className="text-white/60 text-sm text-center py-4">No friends to invite</p>
+              ) : (
+                friends
+                  .filter(friend => !selectedSessionForInvite.invitedUsers?.includes(friend.id))
+                  .map((friend) => (
+                    <label
+                      key={friend.id}
+                      className="flex items-center gap-3 p-3 bg-white/10 rounded-lg hover:bg-white/15 cursor-pointer transition-all"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={inviteSelectedFriends.includes(friend.id)}
+                        onChange={() => toggleInviteFriendSelection(friend.id)}
+                        className="w-4 h-4"
+                      />
+                      <div className="flex items-center gap-2 flex-1">
+                        {friend.photoURL ? (
+                          <img src={friend.photoURL} alt={friend.name} className="w-10 h-10 rounded-full" />
+                        ) : (
+                          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                            {friend.name.charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                        <div>
+                          <p className="text-white font-semibold">{friend.name}</p>
+                          <p className="text-white/60 text-xs">{friend.email}</p>
+                        </div>
+                      </div>
+                    </label>
+                  ))
+              )}
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowInviteModal(false);
+                  setSelectedSessionForInvite(null);
+                  setInviteSelectedFriends([]);
+                }}
+                className="flex-1 bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleInviteToSession}
+                disabled={inviteSelectedFriends.length === 0}
+                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Invite ({inviteSelectedFriends.length})
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
