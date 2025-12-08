@@ -23,6 +23,8 @@ import { Friends } from './components/Friends';
 import { StudyGroups } from './components/StudyGroups';
 import { Multiplayer } from './components/Multiplayer';
 import { Leaderboard } from './components/Leaderboard';
+import { CoStudyRoom } from './components/CoStudyRoom';
+import { ChessGame } from './components/ChessGame';
 import { Profile } from './components/Profile';
 import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
@@ -113,6 +115,10 @@ function App() {
         return <Friends />;
       case 'study-groups':
         return <StudyGroups />;
+      case 'co-study-room':
+        return <CoStudyRoom />;
+      case 'chess-game':
+        return <ChessGame />;
       case 'multiplayer':
         return <Multiplayer />;
       case 'leaderboard':

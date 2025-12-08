@@ -54,6 +54,7 @@ const menuSections = [
   {
     title: 'Social',
     items: [
+      { id: 'co-study-room', label: 'Co-Study Room', icon: Users },
       { id: 'friends', label: 'Friends', icon: Users },
       { id: 'study-groups', label: 'Study Groups', icon: Users },
       { id: 'multiplayer', label: 'Multiplayer', icon: Video },
@@ -63,6 +64,7 @@ const menuSections = [
   {
     title: 'More',
     items: [
+      { id: 'chess-game', label: 'Chess Online', icon: Target },
       { id: 'study-music', label: 'Music', icon: Music },
       { id: 'profile', label: 'Profile', icon: User },
       { id: 'settings', label: 'Settings', icon: Settings },
