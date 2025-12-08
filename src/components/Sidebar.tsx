@@ -21,6 +21,7 @@ import {
   ChevronDown,
   Plus,
   Box,
+  MessageCircle,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 
@@ -55,6 +56,7 @@ const menuSections = [
   {
     title: 'Social',
     items: [
+      { id: 'messaging', label: 'Messages', icon: MessageCircle },
       { id: 'co-study-room', label: 'Co-Study Room', icon: Users },
       { id: 'friends', label: 'Friends', icon: Users },
       { id: 'study-groups', label: 'Study Groups', icon: Users },

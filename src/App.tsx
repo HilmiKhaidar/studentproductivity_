@@ -26,6 +26,7 @@ import { Leaderboard } from './components/Leaderboard';
 import { CoStudyRoom } from './components/CoStudyRoom';
 import { ChessGame } from './components/ChessGame';
 import { VirtualStudyRoom } from './components/VirtualStudyRoom';
+import { Messaging } from './components/Messaging';
 import { Profile } from './components/Profile';
 import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
@@ -122,6 +123,8 @@ function App() {
         return <ChessGame />;
       case 'virtual-study-room':
         return <VirtualStudyRoom />;
+      case 'messaging':
+        return <Messaging />;
       case 'multiplayer':
         return <Multiplayer />;
       case 'leaderboard':
