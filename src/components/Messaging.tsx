@@ -66,6 +66,9 @@ export const Messaging: React.FC = () => {
   const [showWallpaperPicker, setShowWallpaperPicker] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [wallpaper, setWallpaper] = useState<string>('');
+  const [incomingCall, setIncomingCall] = useState<any>(null);
+  const [callHistory, setCallHistory] = useState<any[]>([]);
+  const [showCallHistory, setShowCallHistory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -93,6 +96,89 @@ export const Messaging: React.FC = () => {
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+
+  // Listen for incoming calls
+  useEffect(() => {
+    if (!user || !isOnline) return;
+
+    const q = query(
+      collection(db, 'calls'),
+      where('receiverId', '==', user.id),
+      where('status', '==', 'ringing')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docs.forEach((docSnap) => {
+        const callData = docSnap.data();
+        const call = { ...callData, id: docSnap.id };
+        setIncomingCall(call);
+        toast.success(`📞 Incoming ${callData.type} call from ${callData.callerName}`, {
+          duration: 10000,
+        });
+      });
+    });
+
+    return () => unsubscribe();
+  }, [user, isOnline]);
+
+  // Listen for notifications
+  useEffect(() => {
+    if (!user || !isOnline) return;
+
+    const q = query(
+      collection(db, 'notifications'),
+      where('userId', '==', user.id),
+      where('read', '==', false),
+      orderBy('timestamp', 'desc'),
+      limit(10)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docs.forEach((docSnap) => {
+        const notif = docSnap.data();
+        if (notif.type === 'message') {
+          toast(`💬 ${notif.fromName}: ${notif.content}`, {
+            duration: 5000,
+            icon: '💬',
+          });
+        } else if (notif.type === 'media') {
+          toast(`${notif.fromName}: ${notif.content}`, {
+            duration: 5000,
+          });
+        } else if (notif.type === 'wallpaper') {
+          toast(`🖼️ ${notif.fromName} changed wallpaper`, {
+            duration: 3000,
+          });
+        }
+        // Mark as read
+        updateDoc(doc(db, 'notifications', docSnap.id), { read: true }).catch(console.error);
+      });
+    });
+
+    return () => unsubscribe();
+  }, [user, isOnline]);
+
+  // Load call history
+  useEffect(() => {
+    if (!user || !isOnline) return;
+
+    const q = query(
+      collection(db, 'callHistory'),
+      where('participants', 'array-contains', user.id),
+      orderBy('timestamp', 'desc'),
+      limit(50)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const history: any[] = [];
+      snapshot.docs.forEach((doc) => {
+        history.push({ ...doc.data(), id: doc.id });
+      });
+      setCallHistory(history);
+    });
+
+    return () => unsubscribe();
+  }, [user, isOnline]);
 
   // Update user online status
   useEffect(() => {
@@ -162,10 +248,12 @@ export const Messaging: React.FC = () => {
   useEffect(() => {
     if (!user || !selectedUser || !isOnline) return;
 
+    // Create chat ID (sorted to ensure consistency)
+    const chatId = [user.id, selectedUser.id].sort().join('_');
+    
     const q = query(
-      collection(db, 'messages'),
-      where('participants', 'array-contains', user.id),
-      orderBy('timestamp', 'desc'),
+      collection(db, 'chats', chatId, 'messages'),
+      orderBy('timestamp', 'asc'),
       limit(100)
     );
 
@@ -173,19 +261,14 @@ export const Messaging: React.FC = () => {
       const msgs: Message[] = [];
       snapshot.docs.forEach((doc) => {
         const data = doc.data() as Message;
-        if (
-          (data.senderId === user.id && data.receiverId === selectedUser.id) ||
-          (data.senderId === selectedUser.id && data.receiverId === user.id)
-        ) {
-          msgs.push({ ...data, id: doc.id });
-        }
+        msgs.push({ ...data, id: doc.id });
       });
-      setMessages(msgs.reverse());
+      setMessages(msgs);
       
       // Mark messages as read
       msgs.forEach((msg) => {
         if (msg.receiverId === user.id && !msg.read) {
-          updateDoc(doc(db, 'messages', msg.id), { read: true }).catch(console.error);
+          updateDoc(doc(db, 'chats', chatId, 'messages', msg.id), { read: true }).catch(console.error);
         }
       });
     });
@@ -213,15 +296,37 @@ export const Messaging: React.FC = () => {
     if (!messageInput.trim() || !user || !selectedUser || !isOnline) return;
 
     try {
-      await addDoc(collection(db, 'messages'), {
+      const chatId = [user.id, selectedUser.id].sort().join('_');
+      
+      // Add message to subcollection
+      await addDoc(collection(db, 'chats', chatId, 'messages'), {
         senderId: user.id,
         receiverId: selectedUser.id,
-        participants: [user.id, selectedUser.id],
         content: messageInput,
         type: 'text',
         timestamp: serverTimestamp(),
         read: false,
       });
+
+      // Update chat metadata
+      await setDoc(doc(db, 'chats', chatId), {
+        participants: [user.id, selectedUser.id],
+        lastMessage: messageInput,
+        lastMessageTime: serverTimestamp(),
+        lastSenderId: user.id,
+      }, { merge: true });
+
+      // Send notification to receiver
+      await addDoc(collection(db, 'notifications'), {
+        userId: selectedUser.id,
+        type: 'message',
+        from: user.id,
+        fromName: user.name,
+        content: messageInput,
+        timestamp: serverTimestamp(),
+        read: false,
+      });
+
       setMessageInput('');
     } catch (error) {
       console.error('Error sending message:', error);
@@ -239,16 +344,37 @@ export const Messaging: React.FC = () => {
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
 
-      await addDoc(collection(db, 'messages'), {
+      const chatId = [user.id, selectedUser.id].sort().join('_');
+
+      await addDoc(collection(db, 'chats', chatId, 'messages'), {
         senderId: user.id,
         receiverId: selectedUser.id,
-        participants: [user.id, selectedUser.id],
         content: '',
         type,
         mediaUrl: url,
         timestamp: serverTimestamp(),
         read: false,
       });
+
+      // Update chat metadata
+      await setDoc(doc(db, 'chats', chatId), {
+        participants: [user.id, selectedUser.id],
+        lastMessage: type === 'image' ? '📷 Photo' : '🎥 Video',
+        lastMessageTime: serverTimestamp(),
+        lastSenderId: user.id,
+      }, { merge: true });
+
+      // Send notification
+      await addDoc(collection(db, 'notifications'), {
+        userId: selectedUser.id,
+        type: 'media',
+        from: user.id,
+        fromName: user.name,
+        content: type === 'image' ? '📷 Sent a photo' : '🎥 Sent a video',
+        timestamp: serverTimestamp(),
+        read: false,
+      });
+
       toast.dismiss();
       toast.success('Sent!');
     } catch (error) {
@@ -298,16 +424,37 @@ export const Messaging: React.FC = () => {
     if (!user || !selectedUser || !isOnline) return;
 
     try {
-      await addDoc(collection(db, 'messages'), {
+      const chatId = [user.id, selectedUser.id].sort().join('_');
+
+      await addDoc(collection(db, 'chats', chatId, 'messages'), {
         senderId: user.id,
         receiverId: selectedUser.id,
-        participants: [user.id, selectedUser.id],
         content: '',
         type: 'sticker',
         mediaUrl: stickerUrl,
         timestamp: serverTimestamp(),
         read: false,
       });
+
+      // Update chat metadata
+      await setDoc(doc(db, 'chats', chatId), {
+        participants: [user.id, selectedUser.id],
+        lastMessage: '🎨 Sticker',
+        lastMessageTime: serverTimestamp(),
+        lastSenderId: user.id,
+      }, { merge: true });
+
+      // Send notification
+      await addDoc(collection(db, 'notifications'), {
+        userId: selectedUser.id,
+        type: 'sticker',
+        from: user.id,
+        fromName: user.name,
+        content: `Sent a sticker ${stickerUrl}`,
+        timestamp: serverTimestamp(),
+        read: false,
+      });
+
       setShowStickerPicker(false);
     } catch (error) {
       console.error('Error sending sticker:', error);
@@ -316,13 +463,127 @@ export const Messaging: React.FC = () => {
   };
 
   // Change wallpaper
-  const changeWallpaper = (wallpaperUrl: string) => {
+  const changeWallpaper = async (wallpaperUrl: string) => {
     if (!user || !selectedUser) return;
     const chatId = [user.id, selectedUser.id].sort().join('_');
     localStorage.setItem(`wallpaper_${chatId}`, wallpaperUrl);
     setWallpaper(wallpaperUrl);
     setShowWallpaperPicker(false);
     toast.success('Wallpaper changed!');
+
+    // Notify other user
+    try {
+      await addDoc(collection(db, 'notifications'), {
+        userId: selectedUser.id,
+        type: 'wallpaper',
+        from: user.id,
+        fromName: user.name,
+        content: 'Changed chat wallpaper',
+        timestamp: serverTimestamp(),
+        read: false,
+      });
+    } catch (error) {
+      console.error('Error sending wallpaper notification:', error);
+    }
+  };
+
+  // Start call
+  const startCall = async (type: 'voice' | 'video') => {
+    if (!user || !selectedUser || !isOnline) return;
+
+    try {
+      const callDoc = await addDoc(collection(db, 'calls'), {
+        callerId: user.id,
+        callerName: user.name,
+        receiverId: selectedUser.id,
+        receiverName: selectedUser.name,
+        type,
+        status: 'ringing',
+        timestamp: serverTimestamp(),
+      });
+
+      // Add to call history
+      await addDoc(collection(db, 'callHistory'), {
+        participants: [user.id, selectedUser.id],
+        callerId: user.id,
+        callerName: user.name,
+        receiverId: selectedUser.id,
+        receiverName: selectedUser.name,
+        type,
+        status: 'outgoing',
+        duration: 0,
+        timestamp: serverTimestamp(),
+      });
+
+      // Send notification
+      await addDoc(collection(db, 'notifications'), {
+        userId: selectedUser.id,
+        type: 'call',
+        from: user.id,
+        fromName: user.name,
+        content: `Incoming ${type} call`,
+        callId: callDoc.id,
+        timestamp: serverTimestamp(),
+        read: false,
+      });
+
+      if (type === 'voice') {
+        setIsVoiceCall(true);
+      } else {
+        setIsVideoCall(true);
+      }
+
+      toast.success(`Calling ${selectedUser.name}...`);
+    } catch (error) {
+      console.error('Error starting call:', error);
+      toast.error('Failed to start call');
+    }
+  };
+
+  // Answer call
+  const answerCall = async () => {
+    if (!incomingCall) return;
+
+    try {
+      await updateDoc(doc(db, 'calls', incomingCall.id), {
+        status: 'connected',
+      });
+
+      if (incomingCall.type === 'voice') {
+        setIsVoiceCall(true);
+      } else {
+        setIsVideoCall(true);
+      }
+
+      setIncomingCall(null);
+      toast.success('Call connected');
+    } catch (error) {
+      console.error('Error answering call:', error);
+      toast.error('Failed to answer call');
+    }
+  };
+
+  // Reject call
+  const rejectCall = async () => {
+    if (!incomingCall) return;
+
+    try {
+      await updateDoc(doc(db, 'calls', incomingCall.id), {
+        status: 'rejected',
+      });
+
+      setIncomingCall(null);
+      toast('Call rejected');
+    } catch (error) {
+      console.error('Error rejecting call:', error);
+    }
+  };
+
+  // End call
+  const endCall = async () => {
+    setIsVoiceCall(false);
+    setIsVideoCall(false);
+    toast('Call ended');
   };
 
   // Predefined wallpapers
@@ -476,7 +737,7 @@ export const Messaging: React.FC = () => {
 
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setIsVoiceCall(true)}
+                  onClick={() => startCall('voice')}
                   className="notion-button p-2"
                   disabled={!isOnline}
                   title="Voice Call"
@@ -484,7 +745,7 @@ export const Messaging: React.FC = () => {
                   <Phone size={20} />
                 </button>
                 <button
-                  onClick={() => setIsVideoCall(true)}
+                  onClick={() => startCall('video')}
                   className="notion-button p-2"
                   disabled={!isOnline}
                   title="Video Call"
@@ -497,6 +758,13 @@ export const Messaging: React.FC = () => {
                   title="Change Wallpaper"
                 >
                   <Wallpaper size={20} />
+                </button>
+                <button
+                  onClick={() => setShowCallHistory(!showCallHistory)}
+                  className="notion-button p-2"
+                  title="Call History"
+                >
+                  <Phone size={20} />
                 </button>
               </div>
             </div>
@@ -708,6 +976,37 @@ export const Messaging: React.FC = () => {
         )}
       </div>
 
+      {/* Incoming Call Modal */}
+      {incomingCall && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="notion-card p-6 max-w-sm w-full text-center animate-pulse">
+            {incomingCall.type === 'voice' ? (
+              <Phone size={64} className="mx-auto text-green-500 mb-4 animate-bounce" />
+            ) : (
+              <Video size={64} className="mx-auto text-blue-500 mb-4 animate-bounce" />
+            )}
+            <p className="notion-text text-xl font-bold mb-2">{incomingCall.callerName}</p>
+            <p className="notion-text-secondary text-sm mb-6">
+              Incoming {incomingCall.type} call...
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={rejectCall}
+                className="notion-button-primary bg-red-500 hover:bg-red-600 px-6 py-3 rounded-full"
+              >
+                ✕ Reject
+              </button>
+              <button
+                onClick={answerCall}
+                className="notion-button-primary bg-green-500 hover:bg-green-600 px-6 py-3 rounded-full"
+              >
+                ✓ Answer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Voice Call Modal */}
       {isVoiceCall && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -715,11 +1014,11 @@ export const Messaging: React.FC = () => {
             <Phone size={48} className="mx-auto text-green-500 mb-4" />
             <p className="notion-text text-lg font-medium mb-2">Voice Call</p>
             <p className="notion-text-secondary text-sm mb-4">
-              Calling {selectedUser?.name}...
+              {selectedUser?.name}
             </p>
             <button
-              onClick={() => setIsVoiceCall(false)}
-              className="notion-button-primary bg-red-500 hover:bg-red-600 px-6 py-2"
+              onClick={endCall}
+              className="notion-button-primary bg-red-500 hover:bg-red-600 px-6 py-2 rounded-full"
             >
               End Call
             </button>
@@ -734,14 +1033,67 @@ export const Messaging: React.FC = () => {
             <Video size={48} className="mx-auto text-blue-500 mb-4" />
             <p className="notion-text text-lg font-medium mb-2">Video Call</p>
             <p className="notion-text-secondary text-sm mb-4">
-              Calling {selectedUser?.name}...
+              {selectedUser?.name}
             </p>
             <button
-              onClick={() => setIsVideoCall(false)}
-              className="notion-button-primary bg-red-500 hover:bg-red-600 px-6 py-2"
+              onClick={endCall}
+              className="notion-button-primary bg-red-500 hover:bg-red-600 px-6 py-2 rounded-full"
             >
               End Call
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Call History Modal */}
+      {showCallHistory && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="notion-card p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="notion-heading text-lg font-bold">Call History</h3>
+              <button onClick={() => setShowCallHistory(false)} className="notion-button p-2">
+                <X size={20} />
+              </button>
+            </div>
+            {callHistory.length === 0 ? (
+              <p className="notion-text-secondary text-center py-8">No call history</p>
+            ) : (
+              <div className="space-y-2">
+                {callHistory.map((call) => {
+                  const isOutgoing = call.callerId === user?.id;
+                  const otherUser = isOutgoing ? call.receiverName : call.callerName;
+                  return (
+                    <div key={call.id} className="notion-card p-3 flex items-center gap-3">
+                      {call.type === 'voice' ? (
+                        <Phone size={20} className={isOutgoing ? 'text-green-500' : 'text-blue-500'} />
+                      ) : (
+                        <Video size={20} className={isOutgoing ? 'text-green-500' : 'text-blue-500'} />
+                      )}
+                      <div className="flex-1">
+                        <p className="notion-text text-sm font-medium">{otherUser}</p>
+                        <p className="notion-text-secondary text-xs">
+                          {isOutgoing ? '↗ Outgoing' : '↙ Incoming'} • {call.timestamp?.toDate?.()?.toLocaleString() || ''}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          const targetUser = onlineUsers.find(u => 
+                            u.name === otherUser
+                          );
+                          if (targetUser) {
+                            setSelectedUser(targetUser);
+                            setShowCallHistory(false);
+                          }
+                        }}
+                        className="notion-button p-2"
+                      >
+                        <MessageCircle size={16} />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       )}
