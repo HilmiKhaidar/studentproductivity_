@@ -335,14 +335,11 @@ export const Messaging: React.FC = () => {
   };
 
   // Upload and send media (DISABLED - requires Firebase Storage upgrade)
-  const handleFileUpload = async (_file: File, _type: 'image' | 'video') => {
+  // Uncomment below if you upgrade to Blaze Plan
+  /*
+  const handleFileUpload = async (file: File, type: 'image' | 'video') => {
     if (!user || !selectedUser || !isOnline) return;
 
-    toast.error('Media upload requires Firebase Storage upgrade to Blaze Plan. Feature disabled for now.');
-    return;
-
-    // Uncomment below if you upgrade to Blaze Plan
-    /*
     try {
       toast.loading('Uploading...');
       const storageRef = ref(storage, `messages/${user.id}/${Date.now()}_${file.name}`);
@@ -387,8 +384,8 @@ export const Messaging: React.FC = () => {
       toast.dismiss();
       toast.error('Failed to upload');
     }
-    */
   };
+  */
 
   // Voice recording disabled - requires Firebase Storage upgrade
   // Uncomment below if you upgrade to Blaze Plan
