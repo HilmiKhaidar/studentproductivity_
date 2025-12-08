@@ -30,7 +30,7 @@ import { Feedback } from './components/Feedback';
 import { Settings } from './components/Settings';
 import { Auth } from './components/Auth';
 import { useStore } from './store/useStore';
-import { getThemeById } from './data/themes';
+// import { getThemeById } from './data/themes'; // Unused
 
 function App() {
   const { currentView, isAuthenticated, settings, updateSettings } = useStore();

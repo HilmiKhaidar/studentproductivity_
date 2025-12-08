@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Clock, CheckSquare, Coffee, ThumbsUp, Zap, Video, MessageCircle, Volume2, UserPlus, X, Play, Pause } from 'lucide-react';
+import { Users, UserPlus, X, Play, Pause } from 'lucide-react';
 import { useStore } from '../store/useStore';
-import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, serverTimestamp, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, serverTimestamp, arrayUnion } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import toast from 'react-hot-toast';
 

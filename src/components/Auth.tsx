@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LogIn, UserPlus, Mail, Lock, User, CheckCircle, Sparkles, Zap } from 'lucide-react';
+import { LogIn, UserPlus, CheckCircle, Sparkles, Zap } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import toast from 'react-hot-toast';
 
