@@ -3,9 +3,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, Box, Sphere, Plane } from '@react-three/drei';
 import { Users, Volume2, VolumeX, Maximize2, Minimize2 } from 'lucide-react';
 import { useStore } from '../store/useStore';
-import { collection, query, where, onSnapshot, updateDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { collection, query, onSnapshot, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
-import toast from 'react-hot-toast';
 import * as THREE from 'three';
 
 interface OnlineUser {
