@@ -81,7 +81,7 @@ export const StudyMusic: React.FC = () => {
 
       {/* Now Playing */}
       {isPlaying && selectedStation && (
-        <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+        <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-4">
               <div className="text-5xl">{selectedStation.thumbnail}</div>
@@ -144,7 +144,7 @@ export const StudyMusic: React.FC = () => {
                 <div className="flex-1">
                   <h4 className="text-lg font-bold notion-text mb-1">{station.name}</h4>
                   <p className="notion-text-secondary text-sm mb-3">{station.description}</p>
-                  <div className="flex items-center gap-2 text-purple-400">
+                  <div className="flex items-center gap-2 notion-text">
                     {isPlaying && selectedStation?.id === station.id ? (
                       <>
                         <Pause size={16} />
@@ -165,7 +165,7 @@ export const StudyMusic: React.FC = () => {
       </div>
 
       {/* Tips */}
-      <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
         <h3 className="text-lg font-bold notion-text mb-3">💡 Tips Menggunakan Music</h3>
         <ul className="space-y-2 notion-text/80 text-sm">
           <li>• Pilih musik instrumental untuk fokus maksimal</li>

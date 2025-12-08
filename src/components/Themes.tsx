@@ -121,7 +121,7 @@ export const Themes: React.FC = () => {
           <button
             onClick={handleCompactModeToggle}
             className={`relative w-14 h-8 rounded-full transition-colors ${
-              settings.compactMode ? 'bg-purple-600' : 'bg-white/20'
+              settings.compactMode ? 'bg-gray-800' : 'bg-white/20'
             }`}
           >
             <div

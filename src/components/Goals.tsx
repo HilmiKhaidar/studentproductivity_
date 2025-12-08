@@ -69,7 +69,7 @@ export const Goals: React.FC = () => {
             setEditingGoal(null);
             setShowModal(true);
           }}
-          className="bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors flex items-center gap-2 shadow-lg"
+          className="bg-white notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors flex items-center gap-2 shadow-lg"
         >
           <Plus size={20} />
           Tambah Target
@@ -78,7 +78,7 @@ export const Goals: React.FC = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="notion-text/80 text-sm">Total Target</p>
@@ -87,7 +87,7 @@ export const Goals: React.FC = () => {
             <Target className="notion-text/80" size={32} />
           </div>
         </div>
-        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="notion-text/80 text-sm">Aktif</p>
@@ -96,7 +96,7 @@ export const Goals: React.FC = () => {
             <TrendingUp className="notion-text/80" size={32} />
           </div>
         </div>
-        <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="notion-text/80 text-sm">Tercapai</p>
@@ -148,7 +148,7 @@ export const Goals: React.FC = () => {
                   </div>
                   <div className="w-full bg-white/20 rounded-full h-3">
                     <div
-                      className="bg-gradient-to-r from-green-400 to-blue-500 h-3 rounded-full transition-all duration-500"
+                      className="bg-blue-50 dark:bg-blue-900/10 h-3 rounded-full transition-all duration-500"
                       style={{ width: `${goal.progress}%` }}
                     />
                   </div>
@@ -288,7 +288,7 @@ const GoalModal: React.FC<GoalModalProps> = ({ goal, onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl max-h-[90vh] overflow-y-auto">
         <h3 className="text-2xl font-bold notion-heading mb-6">
           {goal ? 'Edit Target' : 'Tambah Target Baru'}
         </h3>
@@ -384,7 +384,7 @@ const GoalModal: React.FC<GoalModalProps> = ({ goal, onClose, onSubmit }) => {
             </button>
             <button
               type="submit"
-              className="flex-1 bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors"
+              className="flex-1 bg-white notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors"
             >
               {goal ? 'Simpan' : 'Tambah'}
             </button>

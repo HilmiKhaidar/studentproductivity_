@@ -158,7 +158,7 @@ export const StudyResources: React.FC = () => {
           onClick={() => setActiveTab('files')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'files'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 notion-text'
+              ? 'bg-blue-50 dark:bg-blue-900/10 notion-text'
               : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
@@ -169,7 +169,7 @@ export const StudyResources: React.FC = () => {
           onClick={() => setActiveTab('flashcards')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'flashcards'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 notion-text'
+              ? 'bg-blue-50 dark:bg-blue-900/10 notion-text'
               : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
@@ -180,7 +180,7 @@ export const StudyResources: React.FC = () => {
           onClick={() => setActiveTab('quizzes')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'quizzes'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 notion-text'
+              ? 'bg-blue-50 dark:bg-blue-900/10 notion-text'
               : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
@@ -191,7 +191,7 @@ export const StudyResources: React.FC = () => {
           onClick={() => setActiveTab('bookmarks')}
           className={`px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap ${
             activeTab === 'bookmarks'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-600 notion-text'
+              ? 'bg-blue-50 dark:bg-blue-900/10 notion-text'
               : 'bg-white/10 notion-text-secondary hover:bg-white/20'
           }`}
         >
@@ -207,7 +207,7 @@ export const StudyResources: React.FC = () => {
             <h3 className="text-lg font-semibold notion-heading">My Files</h3>
             <button
               onClick={() => setShowFileUpload(true)}
-              className="bg-gradient-to-r from-blue-600 to-cyan-600 notion-text px-4 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all flex items-center gap-2"
+              className="bg-blue-50 dark:bg-blue-900/10 notion-text px-4 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-cyan-700 transition-all flex items-center gap-2"
             >
               <Upload size={18} />
               Upload File
@@ -282,7 +282,7 @@ export const StudyResources: React.FC = () => {
             <h3 className="text-lg font-semibold notion-heading">Flashcard Decks</h3>
             <button
               onClick={handleCreateDeck}
-              className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+              className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"
             >
               <Plus size={18} />
               Create Deck
@@ -327,7 +327,7 @@ export const StudyResources: React.FC = () => {
             <h3 className="text-lg font-semibold notion-heading">My Quizzes</h3>
             <button
               onClick={handleCreateQuiz}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 notion-text px-4 py-2 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all flex items-center gap-2"
+              className="bg-blue-50 dark:bg-blue-900/10 notion-text px-4 py-2 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all flex items-center gap-2"
             >
               <Plus size={18} />
               Create Quiz
@@ -364,7 +364,7 @@ export const StudyResources: React.FC = () => {
                 <p className="notion-text-secondary text-sm mb-4">Attempts: {quiz.attempts}</p>
                 <button
                   onClick={() => handleTakeQuiz(quiz)}
-                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 notion-text py-2 rounded-lg font-semibold transition-all"
+                  className="w-full bg-blue-50 dark:bg-blue-900/10 hover:from-green-700 hover:to-emerald-700 notion-text py-2 rounded-lg font-semibold transition-all"
                 >
                   Take Quiz
                 </button>
@@ -390,7 +390,7 @@ export const StudyResources: React.FC = () => {
             </div>
             <button
               onClick={() => setShowAddBookmark(true)}
-              className="bg-gradient-to-r from-orange-600 to-red-600 notion-text px-4 py-2 rounded-lg font-semibold hover:from-orange-700 hover:to-red-700 transition-all flex items-center gap-2"
+              className="bg-blue-50 dark:bg-blue-900/10 notion-text px-4 py-2 rounded-lg font-semibold hover:from-orange-700 hover:to-red-700 transition-all flex items-center gap-2"
             >
               <Plus size={18} />
               Add Bookmark
@@ -426,7 +426,7 @@ export const StudyResources: React.FC = () => {
                 </button>
                 <button
                   onClick={handleAddBookmark}
-                  className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 notion-text py-2 rounded-lg transition-all"
+                  className="flex-1 bg-blue-50 dark:bg-blue-900/10 hover:from-orange-700 hover:to-red-700 notion-text py-2 rounded-lg transition-all"
                 >
                   Add
                 </button>

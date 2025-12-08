@@ -454,7 +454,7 @@ export const StudyGroups: React.FC = () => {
           </button>
           <button
             onClick={() => setIsCreateModalOpen(true)}
-            className="notion-button-primary notion-text px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+            className="notion-button-primary notion-text px-6 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"
           >
             <Plus size={20} />
             Buat Group
@@ -469,7 +469,7 @@ export const StudyGroups: React.FC = () => {
             key={group.id}
             onClick={() => setSelectedGroup(group)}
             className={`bg-white/10 backdrop-blur-lg rounded-xl p-6 border-2 transition-all text-left hover:bg-white/15 ${
-              selectedGroup?.id === group.id ? 'border-purple-500' : 'border-white/20'
+              selectedGroup?.id === group.id ? 'border-gray-300' : 'border-white/20'
             }`}
             style={{ borderLeftWidth: '4px', borderLeftColor: group.color }}
           >
@@ -510,7 +510,7 @@ export const StudyGroups: React.FC = () => {
                 </div>
                 <button
                   onClick={copyInviteCode}
-                  className="bg-purple-600 hover:bg-purple-700 notion-text px-3 py-2 rounded-lg text-sm font-semibold transition-all"
+                  className="bg-gray-800 hover:bg-gray-800 notion-text px-3 py-2 rounded-lg text-sm font-semibold transition-all"
                 >
                   Copy
                 </button>
@@ -534,7 +534,7 @@ export const StudyGroups: React.FC = () => {
               <button
                 onClick={isSessionActive ? () => setIsSessionActive(false) : handleStartSession}
                 className={`${
-                  isSessionActive ? 'bg-red-600 hover:bg-red-700' : 'bg-purple-600 hover:bg-purple-700'
+                  isSessionActive ? 'bg-red-600 hover:bg-red-700' : 'bg-gray-800 hover:bg-gray-800'
                 } notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2`}
               >
                 {isSessionActive ? <Pause size={16} /> : <Play size={16} />}
@@ -565,7 +565,7 @@ export const StudyGroups: React.FC = () => {
             <button
               onClick={() => setActiveTab('tasks')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                activeTab === 'tasks' ? 'bg-purple-600 notion-text' : 'bg-white/10 notion-text-secondary'
+                activeTab === 'tasks' ? 'bg-gray-800 notion-text' : 'bg-white/10 notion-text-secondary'
               }`}
             >
               Tasks ({groupTasks.length})
@@ -573,7 +573,7 @@ export const StudyGroups: React.FC = () => {
             <button
               onClick={() => setActiveTab('groups')}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                activeTab === 'groups' ? 'bg-purple-600 notion-text' : 'bg-white/10 notion-text-secondary'
+                activeTab === 'groups' ? 'bg-gray-800 notion-text' : 'bg-white/10 notion-text-secondary'
               }`}
             >
               Members ({selectedGroup.members.length})
@@ -676,7 +676,7 @@ export const StudyGroups: React.FC = () => {
 
       {/* Chat Sidebar */}
       {isChatOpen && selectedGroup && (
-        <div className="fixed right-0 top-0 h-full w-96 bg-gradient-to-br from-purple-900/98 to-indigo-900/98 backdrop-blur-xl border-l border-white/20 shadow-2xl z-50 flex flex-col">
+        <div className="fixed right-0 top-0 h-full w-96 bg-blue-50 dark:bg-blue-900/10 backdrop-blur-xl border-l border-white/20 shadow-2xl z-50 flex flex-col">
           <div className="p-4 border-b border-white/20 flex items-center justify-between bg-white/5">
             <div>
               <h3 className="text-lg font-bold notion-text">Group Chat</h3>
@@ -727,7 +727,7 @@ export const StudyGroups: React.FC = () => {
               <button
                 onClick={handleSendMessage}
                 disabled={!chatMessage.trim()}
-                className="notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text p-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                className="notion-button-primary hover:from-gray-700 hover:to-gray-900 notion-text p-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
               >
                 <Send size={20} />
               </button>
@@ -739,7 +739,7 @@ export const StudyGroups: React.FC = () => {
       {/* Join by Code Modal */}
       {isInviteModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
             <h3 className="text-2xl font-bold notion-heading mb-6">Join Study Group</h3>
             <div className="space-y-4">
               <div>
@@ -758,7 +758,7 @@ export const StudyGroups: React.FC = () => {
                 <button
                   onClick={handleJoinByCode}
                   disabled={joinCode.length !== 6}
-                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Join Group
                 </button>
@@ -780,7 +780,7 @@ export const StudyGroups: React.FC = () => {
       {/* Create Group Modal */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
             <h3 className="text-2xl font-bold notion-heading mb-6">Buat Study Group</h3>
             <form onSubmit={handleCreateGroup} className="space-y-4">
               <div>
@@ -823,7 +823,7 @@ export const StudyGroups: React.FC = () => {
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all"
                 >
                   Buat Group
                 </button>
@@ -843,7 +843,7 @@ export const StudyGroups: React.FC = () => {
       {/* Remove Member Confirmation */}
       {memberToRemove && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-red-900/90 to-orange-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
             <h3 className="text-2xl font-bold notion-heading mb-4">Keluarkan Member?</h3>
             <p className="notion-text/80 mb-6">
               Yakin ingin mengeluarkan member ini dari group? Member tidak akan bisa akses group lagi kecuali diundang kembali.
@@ -869,7 +869,7 @@ export const StudyGroups: React.FC = () => {
       {/* Create Task Modal */}
       {isTaskModalOpen && selectedGroup && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
             <h3 className="text-2xl font-bold notion-heading mb-6">Buat Task Baru</h3>
             <form onSubmit={handleCreateTask} className="space-y-4">
               <div>
@@ -919,7 +919,7 @@ export const StudyGroups: React.FC = () => {
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all"
                 >
                   Buat Task
                 </button>

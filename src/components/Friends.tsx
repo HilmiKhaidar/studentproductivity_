@@ -331,7 +331,7 @@ export const Friends: React.FC = () => {
                     <img
                       src={friend.photoURL}
                       alt={friend.name}
-                      className="w-12 h-12 rounded-full object-cover border-2 border-purple-500"
+                      className="w-12 h-12 rounded-full object-cover border-2 border-gray-300"
                     />
                   ) : (
                     <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center notion-text font-bold text-xl">
@@ -388,7 +388,7 @@ export const Friends: React.FC = () => {
               <button
                 onClick={handleSearch}
                 disabled={isLoading}
-                className="notion-button-primary notion-text px-8 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all disabled:opacity-50"
+                className="notion-button-primary notion-text px-8 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all disabled:opacity-50"
               >
                 {isLoading ? 'Mencari...' : 'Cari'}
               </button>
@@ -410,7 +410,7 @@ export const Friends: React.FC = () => {
                         className="w-12 h-12 rounded-full object-cover border-2 border-blue-500"
                       />
                     ) : (
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center notion-text font-bold text-xl">
+                      <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/10 rounded-full flex items-center justify-center notion-text font-bold text-xl">
                         {result.name.charAt(0).toUpperCase()}
                       </div>
                     )}
@@ -422,7 +422,7 @@ export const Friends: React.FC = () => {
                   </div>
                   <button
                     onClick={() => sendFriendRequest(result.id)}
-                    className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+                    className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"
                   >
                     <UserPlus size={16} />
                     Add
@@ -450,7 +450,7 @@ export const Friends: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center notion-text font-bold text-xl">
+                  <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/10 rounded-full flex items-center justify-center notion-text font-bold text-xl">
                     {request.senderName.charAt(0).toUpperCase()}
                   </div>
                   <div>
@@ -481,14 +481,14 @@ export const Friends: React.FC = () => {
       {/* Profile Modal */}
       {selectedProfile && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-8 max-w-2xl w-full border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-8 max-w-2xl w-full border border-white/20">
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center gap-4">
                 {selectedProfile.photoURL ? (
                   <img
                     src={selectedProfile.photoURL}
                     alt={selectedProfile.name}
-                    className="w-20 h-20 rounded-full object-cover border-4 border-purple-500"
+                    className="w-20 h-20 rounded-full object-cover border-4 border-gray-300"
                   />
                 ) : (
                   <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center notion-text font-bold text-3xl">
@@ -532,7 +532,7 @@ export const Friends: React.FC = () => {
 
             <button
               onClick={() => setSelectedProfile(null)}
-              className="w-full notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all"
+              className="w-full notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all"
             >
               Tutup
             </button>

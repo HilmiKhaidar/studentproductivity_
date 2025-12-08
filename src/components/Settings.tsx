@@ -112,7 +112,7 @@ export const Settings: React.FC = () => {
         {/* Sleep Settings */}
         <div className="notion-card p-6">
           <div className="flex items-center gap-3 mb-4">
-            <Moon className="text-purple-400" size={24} />
+            <Moon className="notion-text" size={24} />
             <h3 className="text-lg font-semibold notion-heading">Target Tidur</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -210,7 +210,7 @@ export const Settings: React.FC = () => {
             className={`px-8 py-3 rounded-lg font-medium transition-all flex items-center gap-2 shadow-lg ${
               saved
                 ? 'bg-green-500 notion-text'
-                : 'bg-white text-purple-600 hover:bg-white/90'
+                : 'bg-white notion-text hover:bg-white/90'
             }`}
           >
             <Save size={20} />

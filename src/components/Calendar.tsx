@@ -129,7 +129,7 @@ export const Calendar: React.FC = () => {
                       </div>
                     )}
                     {data.pomodoros > 0 && (
-                      <div className="text-xs bg-purple-500/30 text-purple-200 px-2 py-1 rounded">
+                      <div className="text-xs bg-gray-800/30 notion-text px-2 py-1 rounded">
                         {data.pomodoros} 🍅
                       </div>
                     )}
@@ -150,7 +150,7 @@ export const Calendar: React.FC = () => {
             <span className="notion-text/80 text-sm">Tugas</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-purple-500/30 rounded"></div>
+            <div className="w-4 h-4 bg-gray-800/30 rounded"></div>
             <span className="notion-text/80 text-sm">Pomodoro</span>
           </div>
           <div className="flex items-center gap-2">

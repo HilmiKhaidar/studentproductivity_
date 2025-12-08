@@ -105,7 +105,7 @@ export const Auth: React.FC = () => {
           className="w-full max-w-md"
         >
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-4">
+            <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 dark:bg-blue-900/10 rounded-lg mb-4">
               <Zap className="text-white" size={24} />
             </div>
             <h2 className="text-2xl font-bold notion-heading mb-2">Reset Password</h2>
@@ -180,7 +180,7 @@ export const Auth: React.FC = () => {
 
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-50 dark:bg-blue-900/10 rounded-lg mb-4">
             <Zap className="text-white" size={32} />
           </div>
           <h1 className="text-3xl font-bold notion-heading mb-2">StudyHub</h1>

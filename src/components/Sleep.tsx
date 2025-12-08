@@ -59,7 +59,7 @@ export const Sleep: React.FC = () => {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors flex items-center gap-2 shadow-lg"
+          className="bg-white notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors flex items-center gap-2 shadow-lg"
         >
           <Plus size={20} />
           Catat Tidur
@@ -68,7 +68,7 @@ export const Sleep: React.FC = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="notion-text/80 text-sm">Rata-rata Durasi</p>
@@ -77,7 +77,7 @@ export const Sleep: React.FC = () => {
             <Moon className="notion-text/80" size={32} />
           </div>
         </div>
-        <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="notion-text/80 text-sm">Kualitas Rata-rata</p>
@@ -86,7 +86,7 @@ export const Sleep: React.FC = () => {
             <TrendingUp className="notion-text/80" size={32} />
           </div>
         </div>
-        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="notion-text/80 text-sm">Target Tercapai</p>
@@ -97,7 +97,7 @@ export const Sleep: React.FC = () => {
             <Sun className="notion-text/80" size={32} />
           </div>
         </div>
-        <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
               <p className="notion-text/80 text-sm">Total Malam</p>
@@ -259,7 +259,7 @@ const SleepModal: React.FC<SleepModalProps> = ({ onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-2xl p-6 max-w-lg w-full border border-white/20 shadow-2xl">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-2xl p-6 max-w-lg w-full border border-white/20 shadow-2xl">
         <h3 className="text-2xl font-bold notion-heading mb-6">Catat Tidur</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -336,7 +336,7 @@ const SleepModal: React.FC<SleepModalProps> = ({ onClose, onSubmit }) => {
             </button>
             <button
               type="submit"
-              className="flex-1 bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors"
+              className="flex-1 bg-white notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors"
             >
               Simpan
             </button>

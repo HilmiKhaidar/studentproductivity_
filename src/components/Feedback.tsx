@@ -75,7 +75,7 @@ export const Feedback: React.FC = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
-              className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl"
+              className="bg-blue-50 dark:bg-blue-900/10 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl"
             >
               <motion.div
                 initial={{ scale: 0 }}
@@ -115,7 +115,7 @@ export const Feedback: React.FC = () => {
           {/* Form */}
           <div className="notion-card p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="bg-purple-500 rounded-lg p-3">
+              <div className="bg-gray-800 rounded-lg p-3">
                 <MessageSquare className="notion-text" size={24} />
               </div>
               <div>
@@ -179,7 +179,7 @@ export const Feedback: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-white text-purple-600 py-3 rounded-lg font-semibold hover:bg-white/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-white notion-text py-3 rounded-lg font-semibold hover:bg-white/90 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   'Mengirim...'
@@ -195,7 +195,7 @@ export const Feedback: React.FC = () => {
 
           {/* Info */}
           <div className="space-y-4">
-            <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+            <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
               <h3 className="text-lg font-semibold notion-heading mb-3">📋 Panduan Feedback</h3>
               <ul className="space-y-2 notion-text/80">
                 <li className="flex items-start gap-2">
@@ -217,7 +217,7 @@ export const Feedback: React.FC = () => {
               </ul>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+            <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
               <h3 className="text-lg font-semibold notion-heading mb-3">💬 Kategori Feedback</h3>
               <div className="space-y-3">
                 <div className="bg-white/10 rounded-lg p-3">
@@ -239,7 +239,7 @@ export const Feedback: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+            <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
               <h3 className="text-lg font-semibold notion-heading mb-3">📧 Kontak Langsung</h3>
               <p className="notion-text/80 mb-3">
                 Untuk pertanyaan mendesak atau diskusi lebih lanjut:

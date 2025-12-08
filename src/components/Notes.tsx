@@ -101,7 +101,7 @@ export const Notes: React.FC = () => {
             setFormData({ title: '', content: '', category: 'general', tags: '', color: '#8b5cf6' });
             setIsModalOpen(true);
           }}
-          className="notion-button-primary notion-text px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+          className="notion-button-primary notion-text px-6 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"
         >
           <Plus size={20} />
           Catatan Baru
@@ -127,7 +127,7 @@ export const Notes: React.FC = () => {
               onClick={() => setSelectedCategory(cat)}
               className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap transition-all ${
                 selectedCategory === cat
-                  ? 'bg-purple-600 notion-text'
+                  ? 'bg-gray-800 notion-text'
                   : 'bg-white/10 notion-text-secondary hover:bg-white/20'
               }`}
             >
@@ -199,7 +199,7 @@ export const Notes: React.FC = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-2xl font-bold notion-heading">
                 {editingNote ? 'Edit Catatan' : 'Catatan Baru'}
@@ -272,7 +272,7 @@ export const Notes: React.FC = () => {
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 notion-button-primary notion-text py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center justify-center gap-2"
                 >
                   <Save size={20} />
                   {editingNote ? 'Update' : 'Simpan'}

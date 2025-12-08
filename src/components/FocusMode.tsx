@@ -48,7 +48,7 @@ export const FocusMode: React.FC<FocusModeProps> = ({ onClose }) => {
     : ((settings.pomodoroShortBreak * 60 - timeLeft) / (settings.pomodoroShortBreak * 60)) * 100;
 
   return (
-    <div className="fixed inset-0 z-50 bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-gradient-to-br from-gray-700 via-indigo-900 to-blue-900 flex items-center justify-center">
       {/* Close Button */}
       <button
         onClick={onClose}
@@ -105,7 +105,7 @@ export const FocusMode: React.FC<FocusModeProps> = ({ onClose }) => {
         <div className="flex items-center justify-center gap-6">
           <button
             onClick={() => setIsRunning(!isRunning)}
-            className="bg-white text-purple-900 p-6 rounded-full hover:bg-white/90 transition-all shadow-2xl hover:scale-110"
+            className="bg-white notion-text p-6 rounded-full hover:bg-white/90 transition-all shadow-2xl hover:scale-110"
           >
             {isRunning ? <Pause size={32} /> : <Play size={32} className="ml-1" />}
           </button>

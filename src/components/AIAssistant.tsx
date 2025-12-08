@@ -322,13 +322,13 @@ Atau gunakan Quick Actions di samping! 😊`;
                   <div
                     className={`max-w-[80%] rounded-2xl p-4 ${
                       message.role === 'user'
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 notion-text'
+                        ? 'bg-blue-50 dark:bg-blue-900/10 notion-text'
                         : 'bg-white/20 notion-text'
                     }`}
                   >
                     {message.role === 'assistant' && (
                       <div className="flex items-center gap-2 mb-2">
-                        <Bot size={16} className="text-purple-300" />
+                        <Bot size={16} className="notion-text" />
                         <span className="text-xs notion-text-secondary">AI Assistant</span>
                       </div>
                     )}
@@ -348,7 +348,7 @@ Atau gunakan Quick Actions di samping! 😊`;
                 className="flex justify-start"
               >
                 <div className="bg-white/20 rounded-2xl p-4 flex items-center gap-2">
-                  <Loader className="animate-spin text-purple-300" size={16} />
+                  <Loader className="animate-spin notion-text" size={16} />
                   <span className="notion-text-secondary">AI sedang berpikir...</span>
                 </div>
               </motion.div>
@@ -372,7 +372,7 @@ Atau gunakan Quick Actions di samping! 😊`;
               <button
                 onClick={handleSend}
                 disabled={isLoading || !input.trim()}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 notion-text px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-blue-50 dark:bg-blue-900/10 notion-text px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send size={20} />
               </button>
@@ -382,7 +382,7 @@ Atau gunakan Quick Actions di samping! 😊`;
 
         {/* Quick Actions */}
         <div className="space-y-4">
-          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
             <h3 className="text-lg font-semibold notion-heading mb-4 flex items-center gap-2">
               <Sparkles size={20} />
               Quick Actions
@@ -419,7 +419,7 @@ Atau gunakan Quick Actions di samping! 😊`;
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
             <h3 className="text-lg font-bold notion-text mb-3">💡 Tips</h3>
             <ul className="space-y-2 notion-text/80 text-sm">
               <li>• Tanya spesifik untuk jawaban lebih baik</li>

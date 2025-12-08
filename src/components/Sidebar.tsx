@@ -100,7 +100,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* Workspace Header */}
       <div className="px-3 py-3 border-b border-[#E9E9E7] dark:border-[#373737]">
         <button className="w-full flex items-center gap-2 px-2 py-1 rounded hover:bg-black/5 dark:hover:bg-white/5 transition-colors group">
-          <div className="w-5 h-5 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0">
+          <div className="w-5 h-5 bg-blue-50 dark:bg-blue-900/10 rounded flex items-center justify-center flex-shrink-0">
             <Zap className="text-white" size={12} />
           </div>
           <span className="text-sm font-semibold notion-text truncate">StudyHub</span>
@@ -118,7 +118,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             {user.photoURL ? (
               <img src={user.photoURL} alt={user.name} className="w-5 h-5 rounded flex-shrink-0" />
             ) : (
-              <div className="w-5 h-5 bg-gradient-to-br from-blue-500 to-purple-600 rounded flex items-center justify-center text-white text-[10px] font-semibold flex-shrink-0">
+              <div className="w-5 h-5 bg-blue-50 dark:bg-blue-900/10 rounded flex items-center justify-center notion-text text-[10px] font-semibold flex-shrink-0">
                 {user.name.charAt(0).toUpperCase()}
               </div>
             )}

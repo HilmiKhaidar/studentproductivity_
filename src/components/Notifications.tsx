@@ -147,7 +147,7 @@ export const Notifications: React.FC = () => {
       </div>
 
       {/* Notification Status */}
-      <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             {notificationsEnabled ? (
@@ -213,7 +213,7 @@ export const Notifications: React.FC = () => {
 
         <div className="notion-card p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="bg-purple-500 rounded-lg p-3">
+            <div className="bg-gray-800 rounded-lg p-3">
               <Moon size={24} className="notion-text" />
             </div>
             <h3 className="text-lg font-bold notion-text">Bedtime Reminder</h3>
@@ -282,7 +282,7 @@ export const Notifications: React.FC = () => {
       </div>
 
       {/* Settings Info */}
-      <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
         <h3 className="text-lg font-bold notion-text mb-3">⚙️ Pengaturan Notifikasi</h3>
         <div className="space-y-2 notion-text/80 text-sm">
           <p>• Target waktu tidur: {settings.targetBedTime}</p>

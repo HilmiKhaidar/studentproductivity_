@@ -80,15 +80,15 @@ export const Profile: React.FC = () => {
               <img
                 src={photoURL}
                 alt="Profile"
-                className="w-24 h-24 rounded-full object-cover border-4 border-purple-500"
+                className="w-24 h-24 rounded-full object-cover border-4 border-gray-300"
               />
             ) : (
-              <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
+              <div className="w-24 h-24 bg-blue-50 dark:bg-blue-900/10 rounded-full flex items-center justify-center">
                 <UserIcon className="w-12 h-12 notion-text" />
               </div>
             )}
             {isEditing && (
-              <label className="absolute bottom-0 right-0 bg-purple-600 hover:bg-purple-700 notion-text p-2 rounded-full cursor-pointer transition-all shadow-lg">
+              <label className="absolute bottom-0 right-0 bg-gray-800 hover:bg-gray-800 notion-text p-2 rounded-full cursor-pointer transition-all shadow-lg">
                 <Camera size={16} />
                 <input
                   type="file"
@@ -116,10 +116,10 @@ export const Profile: React.FC = () => {
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder="Bio singkat tentang kamu..."
-                className="text-purple-200 bg-white/10 border border-white/20 rounded-lg px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="notion-text bg-white/10 border border-white/20 rounded-lg px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             ) : (
-              <p className="text-purple-200">{bio || 'Student'}</p>
+              <p className="notion-text">{bio || 'Student'}</p>
             )}
           </div>
           <button
@@ -130,7 +130,7 @@ export const Profile: React.FC = () => {
                 setIsEditing(true);
               }
             }}
-            className="bg-purple-600 hover:bg-purple-700 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
+            className="bg-gray-800 hover:bg-gray-800 notion-text px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-2"
           >
             {isEditing ? (
               <>
@@ -148,7 +148,7 @@ export const Profile: React.FC = () => {
 
         <div className="space-y-4">
           <div className="flex items-center gap-3 p-4 notion-card">
-            <Mail className="text-purple-400" size={20} />
+            <Mail className="notion-text" size={20} />
             <div>
               <p className="notion-text-secondary text-sm">Email</p>
               <p className="notion-text font-medium">{user.email}</p>
@@ -156,7 +156,7 @@ export const Profile: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 p-4 notion-card">
-            <Calendar className="text-purple-400" size={20} />
+            <Calendar className="notion-text" size={20} />
             <div>
               <p className="notion-text-secondary text-sm">Bergabung Sejak</p>
               <p className="notion-text font-medium">
@@ -170,7 +170,7 @@ export const Profile: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 p-4 notion-card">
-            <UserIcon className="text-purple-400" size={20} />
+            <UserIcon className="notion-text" size={20} />
             <div>
               <p className="notion-text-secondary text-sm">User ID</p>
               <p className="notion-text font-medium font-mono text-sm">{user.id}</p>
@@ -180,22 +180,22 @@ export const Profile: React.FC = () => {
       </div>
 
       {/* Stats Card */}
-      <div className="bg-gradient-to-br from-purple-500/20 to-indigo-500/20 backdrop-blur-lg rounded-xl p-6 border border-purple-500/30">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-gray-300/30">
         <h3 className="notion-text font-bold mb-4 flex items-center gap-2">
           <span>📊</span> Statistik Akun
         </h3>
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center">
             <p className="text-[40px] font-bold notion-heading leading-tight">0</p>
-            <p className="text-purple-200 text-sm mt-1">Tugas Selesai</p>
+            <p className="notion-text text-sm mt-1">Tugas Selesai</p>
           </div>
           <div className="text-center">
             <p className="text-[40px] font-bold notion-heading leading-tight">0</p>
-            <p className="text-purple-200 text-sm mt-1">Sesi Pomodoro</p>
+            <p className="notion-text text-sm mt-1">Sesi Pomodoro</p>
           </div>
           <div className="text-center">
             <p className="text-[40px] font-bold notion-heading leading-tight">0</p>
-            <p className="text-purple-200 text-sm mt-1">Hari Streak</p>
+            <p className="notion-text text-sm mt-1">Hari Streak</p>
           </div>
         </div>
       </div>

@@ -71,7 +71,7 @@ export const Tasks: React.FC = () => {
             setEditingTask(null);
             setShowModal(true);
           }}
-          className="bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors flex items-center gap-2 shadow-lg"
+          className="bg-white notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors flex items-center gap-2 shadow-lg"
         >
           <Plus size={20} />
           Tambah Tugas
@@ -263,7 +263,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ task, onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-2xl p-6 max-w-2xl w-full border border-white/20 shadow-2xl">
         <h3 className="text-2xl font-bold notion-heading mb-6">
           {task ? 'Edit Tugas' : 'Tambah Tugas Baru'}
         </h3>
@@ -352,7 +352,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ task, onClose, onSubmit }) => {
             </button>
             <button
               type="submit"
-              className="flex-1 bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors"
+              className="flex-1 bg-white notion-text px-6 py-3 rounded-lg font-medium hover:bg-white/90 transition-colors"
             >
               {task ? 'Simpan' : 'Tambah'}
             </button>

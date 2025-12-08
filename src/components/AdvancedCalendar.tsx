@@ -137,7 +137,7 @@ export const AdvancedCalendar: React.FC = () => {
         </div>
         <button
           onClick={handleGoogleCalendarSync}
-          className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all flex items-center gap-2"
+          className="bg-white notion-text px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-all flex items-center gap-2"
         >
           <CalendarIcon size={18} />
           Sync Google Calendar
@@ -150,7 +150,7 @@ export const AdvancedCalendar: React.FC = () => {
           <button
             onClick={() => setView('month')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-              view === 'month' ? 'bg-white text-purple-600' : 'bg-white/10 notion-text hover:bg-white/20'
+              view === 'month' ? 'bg-white notion-text' : 'bg-white/10 notion-text hover:bg-white/20'
             }`}
           >
             Month
@@ -158,7 +158,7 @@ export const AdvancedCalendar: React.FC = () => {
           <button
             onClick={() => setView('week')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-              view === 'week' ? 'bg-white text-purple-600' : 'bg-white/10 notion-text hover:bg-white/20'
+              view === 'week' ? 'bg-white notion-text' : 'bg-white/10 notion-text hover:bg-white/20'
             }`}
           >
             Week
@@ -166,7 +166,7 @@ export const AdvancedCalendar: React.FC = () => {
           <button
             onClick={() => setView('day')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-              view === 'day' ? 'bg-white text-purple-600' : 'bg-white/10 notion-text hover:bg-white/20'
+              view === 'day' ? 'bg-white notion-text' : 'bg-white/10 notion-text hover:bg-white/20'
             }`}
           >
             Day
@@ -174,7 +174,7 @@ export const AdvancedCalendar: React.FC = () => {
         </div>
         <button
           onClick={() => setShowAddEvent(true)}
-          className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+          className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"
         >
           <Plus size={18} />
           Add Event
@@ -184,7 +184,7 @@ export const AdvancedCalendar: React.FC = () => {
       {/* Add Event Modal */}
       {showAddEvent && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 max-w-md w-full border border-white/20">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold notion-heading">Add New Event</h3>
               <button onClick={() => setShowAddEvent(false)} className="notion-text-secondary hover:notion-text">
@@ -268,7 +268,7 @@ export const AdvancedCalendar: React.FC = () => {
               </button>
               <button
                 onClick={handleAddEvent}
-                className="flex-1 notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text py-2 rounded-lg transition-all"
+                className="flex-1 notion-button-primary hover:from-gray-700 hover:to-gray-900 notion-text py-2 rounded-lg transition-all"
               >
                 Add Event
               </button>

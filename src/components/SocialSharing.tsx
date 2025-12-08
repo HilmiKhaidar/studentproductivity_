@@ -64,22 +64,22 @@ export const SocialSharing: React.FC = () => {
     productivity: {
       title: '🎯 Skor Produktivitas Saya',
       content: `Skor produktivitas hari ini: ${stats.productivityScore}\n✅ ${stats.completedToday} tugas selesai\n🍅 ${stats.todayPomodoros} sesi Pomodoro\n\nTingkatkan produktivitasmu dengan Student Productivity Hub!`,
-      gradient: 'from-purple-500 to-pink-500',
+      gradient: '',
     },
     tasks: {
       title: '✅ Pencapaian Tugas',
       content: `Total tugas selesai: ${stats.totalCompleted}/${stats.totalTasks}\nHari ini: ${stats.completedToday} tugas ✨\n\nKelola tugasmu dengan Student Productivity Hub!`,
-      gradient: 'from-green-500 to-emerald-500',
+      gradient: '',
     },
     goals: {
       title: '🎯 Target & Pencapaian',
       content: `Target tercapai: ${stats.completedGoals} 🏆\nTarget aktif: ${stats.activeGoals}\n\nRaih targetmu dengan Student Productivity Hub!`,
-      gradient: 'from-blue-500 to-cyan-500',
+      gradient: '',
     },
     streak: {
       title: '🔥 Streak Produktivitas',
       content: `Streak: ${stats.streak} hari berturut-turut! 🔥\nTotal Pomodoro: ${stats.totalPomodoros} sesi\n\nBangun kebiasaan produktif dengan Student Productivity Hub!`,
-      gradient: 'from-orange-500 to-red-500',
+      gradient: '',
     },
   };
 
@@ -140,11 +140,11 @@ export const SocialSharing: React.FC = () => {
           onClick={() => setSelectedCard('productivity')}
           className={`p-4 rounded-xl border-2 transition-all ${
             selectedCard === 'productivity'
-              ? 'border-purple-500 bg-purple-500/20'
+              ? 'border-gray-300 bg-gray-800/20'
               : 'border-white/20 bg-white/5 hover:bg-white/10'
           }`}
         >
-          <Trophy className="text-purple-400 mb-2" size={24} />
+          <Trophy className="notion-text mb-2" size={24} />
           <p className="notion-text font-medium text-sm">Produktivitas</p>
         </button>
         <button
@@ -240,7 +240,7 @@ export const SocialSharing: React.FC = () => {
           </button>
           <button
             onClick={downloadCard}
-            className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
+            className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-800 notion-text px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             <Download size={20} />
             Download
@@ -269,7 +269,7 @@ export const SocialSharing: React.FC = () => {
       </div>
 
       {/* Invite Friends */}
-      <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
         <h3 className="text-lg font-semibold notion-heading mb-3">📨 Ajak Teman</h3>
         <p className="notion-text/80 mb-4">
           Bagikan Student Productivity Hub ke teman-temanmu dan tingkatkan produktivitas bersama!
@@ -286,7 +286,7 @@ export const SocialSharing: React.FC = () => {
               navigator.clipboard.writeText(window.location.origin);
               toast.success('Link berhasil disalin!');
             }}
-            className="bg-purple-600 hover:bg-purple-700 notion-text px-6 py-2 rounded-lg font-semibold transition-colors"
+            className="bg-gray-800 hover:bg-gray-800 notion-text px-6 py-2 rounded-lg font-semibold transition-colors"
           >
             Copy Link
           </button>

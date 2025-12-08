@@ -476,7 +476,7 @@ export const Multiplayer: React.FC = () => {
                     <div key={msg.id} className={`${msg.senderId === user?.id ? 'text-right' : 'text-left'}`}>
                       <div className={`inline-block max-w-[80%] p-3 rounded-lg ${
                         msg.senderId === user?.id
-                          ? 'bg-purple-600 notion-text'
+                          ? 'bg-gray-800 notion-text'
                           : 'bg-white/10 notion-text'
                       }`}>
                         {msg.senderId !== user?.id && (
@@ -502,7 +502,7 @@ export const Multiplayer: React.FC = () => {
                     />
                     <button
                       onClick={handleSendSessionMessage}
-                      className="bg-purple-600 hover:bg-purple-700 notion-text p-2 rounded-lg transition-all"
+                      className="bg-gray-800 hover:bg-gray-800 notion-text p-2 rounded-lg transition-all"
                     >
                       <Send size={18} />
                     </button>
@@ -569,7 +569,7 @@ export const Multiplayer: React.FC = () => {
             <h3 className="text-lg font-semibold notion-heading">Active Study Sessions</h3>
             <button
               onClick={() => setShowCreateSession(true)}
-              className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+              className="notion-button-primary notion-text px-4 py-2 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"
             >
               <UserPlus size={18} />
               Create Session
@@ -670,7 +670,7 @@ export const Multiplayer: React.FC = () => {
                 </button>
                 <button
                   onClick={handleCreateSession}
-                  className="flex-1 notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text py-2 rounded-lg transition-all"
+                  className="flex-1 notion-button-primary hover:from-gray-700 hover:to-gray-900 notion-text py-2 rounded-lg transition-all"
                 >
                   Create
                 </button>
@@ -694,7 +694,7 @@ export const Multiplayer: React.FC = () => {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     {session.type === 'video' ? (
-                      <Video className="text-purple-400" size={24} />
+                      <Video className="notion-text" size={24} />
                     ) : session.type === 'audio' ? (
                       <Mic className="text-blue-400" size=  {24} />
                     ) : (
@@ -720,7 +720,7 @@ export const Multiplayer: React.FC = () => {
                   </span>
                 </div>
                 {session.subject && (
-                  <span className="inline-block bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-xs mb-4">
+                  <span className="inline-block bg-gray-800/20 notion-text px-3 py-1 rounded-full text-xs mb-4">
                     {session.subject}
                   </span>
                 )}
@@ -729,7 +729,7 @@ export const Multiplayer: React.FC = () => {
                   <button
                     onClick={() => handleJoinSession(session)}
                     disabled={session.participants?.length >= session.maxParticipants}
-                    className="w-full notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full notion-button-primary hover:from-gray-700 hover:to-gray-900 notion-text py-2 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Phone size={18} />
                     Join Session
@@ -775,7 +775,7 @@ export const Multiplayer: React.FC = () => {
       {/* Invite Friends Modal */}
       {showInviteModal && selectedSessionForInvite && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-pink-900/90 backdrop-blur-lg rounded-xl p-6 border border-white/20 max-w-md w-full">
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 max-w-md w-full">
             <div className="flex items-center justify-between mb-4">
               <h3 className="notion-text font-bold text-lg">Invite Friends</h3>
               <button
@@ -843,7 +843,7 @@ export const Multiplayer: React.FC = () => {
               <button
                 onClick={handleInviteToSession}
                 disabled={inviteSelectedFriends.length === 0}
-                className="flex-1 notion-button-primary hover:from-purple-700 hover:to-pink-700 notion-text py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 notion-button-primary hover:from-gray-700 hover:to-gray-900 notion-text py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Invite ({inviteSelectedFriends.length})
               </button>

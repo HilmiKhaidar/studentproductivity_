@@ -166,7 +166,7 @@ export const StudyPlanner: React.FC = () => {
                 setScheduleForm({ subject: '', day: 1, startTime: '08:00', endTime: '10:00', room: '', instructor: '', color: colors[0], notes: '' });
                 setIsScheduleModalOpen(true);
               }}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+              className="bg-blue-50 dark:bg-blue-900/10 notion-text px-6 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"
             >
               <Plus size={20} />
               Tambah Jadwal
@@ -177,7 +177,7 @@ export const StudyPlanner: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {days.slice(1).map((day, idx) => (
               <div key={idx} className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-                <h3 className="text-lg font-bold text-white mb-4">{day}</h3>
+                <h3 className="text-lg font-bold notion-text mb-4">{day}</h3>
                 <div className="space-y-2">
                   {getScheduleForDay(idx + 1).map((schedule) => (
                     <div
@@ -188,7 +188,7 @@ export const StudyPlanner: React.FC = () => {
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <h4 className="font-bold text-white">{schedule.subject}</h4>
-                          <div className="flex items-center gap-4 mt-2 text-sm text-white/70">
+                          <div className="flex items-center gap-4 mt-2 text-sm notion-text/70">
                             <span className="flex items-center gap-1">
                               <Clock size={14} />
                               {schedule.startTime} - {schedule.endTime}
@@ -201,7 +201,7 @@ export const StudyPlanner: React.FC = () => {
                             )}
                           </div>
                           {schedule.instructor && (
-                            <p className="text-sm text-white/60 mt-1 flex items-center gap-1">
+                            <p className="text-sm notion-text/60 mt-1 flex items-center gap-1">
                               <User size={14} />
                               {schedule.instructor}
                             </p>
@@ -223,7 +223,7 @@ export const StudyPlanner: React.FC = () => {
                               });
                               setIsScheduleModalOpen(true);
                             }}
-                            className="text-white/50 hover:text-white p-1"
+                            className="notion-text/50 hover:notion-text p-1"
                           >
                             <Edit2 size={16} />
                           </button>
@@ -234,7 +234,7 @@ export const StudyPlanner: React.FC = () => {
                                 toast.success('Jadwal berhasil dihapus!');
                               }
                             }}
-                            className="text-white/50 hover:text-red-400 p-1"
+                            className="notion-text/50 hover:text-red-400 p-1"
                           >
                             <Trash2 size={16} />
                           </button>
@@ -243,7 +243,7 @@ export const StudyPlanner: React.FC = () => {
                     </div>
                   ))}
                   {getScheduleForDay(idx + 1).length === 0 && (
-                    <p className="text-white/50 text-sm text-center py-4">Tidak ada jadwal</p>
+                    <p className="notion-text/50 text-sm text-center py-4">Tidak ada jadwal</p>
                   )}
                 </div>
               </div>
@@ -261,7 +261,7 @@ export const StudyPlanner: React.FC = () => {
                 setExamForm({ subject: '', date: '', time: '08:00', duration: 120, room: '', topics: '', studyProgress: 0, notes: '' });
                 setIsExamModalOpen(true);
               }}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all flex items-center gap-2"
+              className="bg-blue-50 dark:bg-blue-900/10 notion-text px-6 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"
             >
               <Plus size={20} />
               Tambah Ujian
@@ -270,8 +270,8 @@ export const StudyPlanner: React.FC = () => {
 
           {/* Upcoming Exams Alert */}
           {upcomingExams.length > 0 && (
-            <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 backdrop-blur-lg rounded-xl p-6 border border-orange-500/30">
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-orange-500/30">
+              <h3 className="text-xl font-bold notion-text mb-4 flex items-center gap-2">
                 <AlertCircle className="text-orange-400" />
                 Ujian Mendatang
               </h3>
@@ -282,8 +282,8 @@ export const StudyPlanner: React.FC = () => {
                     <div key={exam.id} className="bg-white/10 rounded-lg p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h4 className="font-bold text-white text-lg">{exam.subject}</h4>
-                          <div className="flex items-center gap-4 mt-2 text-sm text-white/70">
+                          <h4 className="font-bold notion-text text-lg">{exam.subject}</h4>
+                          <div className="flex items-center gap-4 mt-2 text-sm notion-text/70">
                             <span className="flex items-center gap-1">
                               <CalendarIcon size={14} />
                               {new Date(exam.date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
@@ -294,19 +294,19 @@ export const StudyPlanner: React.FC = () => {
                             </span>
                           </div>
                           {exam.room && (
-                            <p className="text-sm text-white/60 mt-1 flex items-center gap-1">
+                            <p className="text-sm notion-text/60 mt-1 flex items-center gap-1">
                               <MapPin size={14} />
                               {exam.room}
                             </p>
                           )}
                           <div className="mt-3">
                             <div className="flex items-center justify-between text-sm mb-1">
-                              <span className="text-white/70">Progress Belajar</span>
-                              <span className="text-white font-medium">{exam.studyProgress}%</span>
+                              <span className="notion-text/70">Progress Belajar</span>
+                              <span className="notion-text font-medium">{exam.studyProgress}%</span>
                             </div>
                             <div className="w-full bg-white/20 rounded-full h-2">
                               <div
-                                className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all"
+                                className="bg-blue-50 dark:bg-blue-900/10 h-2 rounded-full transition-all"
                                 style={{ width: `${exam.studyProgress}%` }}
                               />
                             </div>
@@ -317,7 +317,7 @@ export const StudyPlanner: React.FC = () => {
                             daysUntil <= 3 ? 'bg-red-500' : daysUntil <= 7 ? 'bg-orange-500' : 'bg-blue-500'
                           }`}>
                             <div className="text-2xl font-bold text-white">{daysUntil}</div>
-                            <div className="text-xs text-white/80">hari lagi</div>
+                            <div className="text-xs notion-text/80">hari lagi</div>
                           </div>
                         </div>
                       </div>
@@ -330,23 +330,23 @@ export const StudyPlanner: React.FC = () => {
 
           {/* All Exams List */}
           <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-            <h3 className="text-xl font-bold text-white mb-4">Semua Ujian</h3>
+            <h3 className="text-xl font-bold notion-text mb-4">Semua Ujian</h3>
             <div className="space-y-3">
               {exams.length === 0 && (
-                <p className="text-white/60 text-center py-8">Belum ada ujian terjadwal</p>
+                <p className="notion-text/60 text-center py-8">Belum ada ujian terjadwal</p>
               )}
               {exams.map((exam) => (
                 <div key={exam.id} className="bg-white/5 rounded-lg p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h4 className="font-bold text-white">{exam.subject}</h4>
-                      <p className="text-sm text-white/70 mt-1">
+                      <p className="text-sm notion-text/70 mt-1">
                         {new Date(exam.date).toLocaleDateString('id-ID')} • {exam.time}
                       </p>
                       {exam.topics.length > 0 && (
                         <div className="flex flex-wrap gap-2 mt-2">
                           {exam.topics.map((topic, idx) => (
-                            <span key={idx} className="px-2 py-1 bg-white/10 rounded text-xs text-white/80">
+                            <span key={idx} className="px-2 py-1 bg-white/10 rounded text-xs notion-text/80">
                               {topic}
                             </span>
                           ))}
@@ -369,7 +369,7 @@ export const StudyPlanner: React.FC = () => {
                           });
                           setIsExamModalOpen(true);
                         }}
-                        className="text-white/50 hover:text-white p-1"
+                        className="notion-text/50 hover:notion-text p-1"
                       >
                         <Edit2 size={16} />
                       </button>
@@ -380,7 +380,7 @@ export const StudyPlanner: React.FC = () => {
                             toast.success('Ujian berhasil dihapus!');
                           }
                         }}
-                        className="text-white/50 hover:text-red-400 p-1"
+                        className="notion-text/50 hover:text-red-400 p-1"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -396,8 +396,8 @@ export const StudyPlanner: React.FC = () => {
       {/* Schedule Modal - Simplified */}
       {isScheduleModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20 max-h-[90vh] overflow-y-auto">
-            <h3 className="text-2xl font-bold text-white mb-6">{editingSchedule ? 'Edit Jadwal' : 'Tambah Jadwal'}</h3>
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-2xl font-bold notion-text mb-6">{editingSchedule ? 'Edit Jadwal' : 'Tambah Jadwal'}</h3>
             <form onSubmit={handleScheduleSubmit} className="space-y-4">
               <input type="text" placeholder="Mata Kuliah" value={scheduleForm.subject} onChange={(e) => setScheduleForm({ ...scheduleForm, subject: e.target.value })} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white" required />
               <select value={scheduleForm.day} onChange={(e) => setScheduleForm({ ...scheduleForm, day: Number(e.target.value) })} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white">
@@ -413,8 +413,8 @@ export const StudyPlanner: React.FC = () => {
                 {colors.map((color) => (<button key={color} type="button" onClick={() => setScheduleForm({ ...scheduleForm, color })} className={`w-8 h-8 rounded-full border-2 ${scheduleForm.color === color ? 'border-white' : 'border-transparent'}`} style={{ backgroundColor: color }} />))}
               </div>
               <div className="flex gap-3">
-                <button type="submit" className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold">Simpan</button>
-                <button type="button" onClick={() => setIsScheduleModalOpen(false)} className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold">Batal</button>
+                <button type="submit" className="flex-1 bg-blue-50 dark:bg-blue-900/10 notion-text py-3 rounded-lg font-semibold">Simpan</button>
+                <button type="button" onClick={() => setIsScheduleModalOpen(false)} className="px-6 bg-white/10 notion-text py-3 rounded-lg font-semibold">Batal</button>
               </div>
             </form>
           </div>
@@ -424,8 +424,8 @@ export const StudyPlanner: React.FC = () => {
       {/* Exam Modal - Simplified */}
       {isExamModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-purple-900/90 to-indigo-900/90 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20 max-h-[90vh] overflow-y-auto">
-            <h3 className="text-2xl font-bold text-white mb-6">{editingExam ? 'Edit Ujian' : 'Tambah Ujian'}</h3>
+          <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 max-w-2xl w-full border border-white/20 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-2xl font-bold notion-text mb-6">{editingExam ? 'Edit Ujian' : 'Tambah Ujian'}</h3>
             <form onSubmit={handleExamSubmit} className="space-y-4">
               <input type="text" placeholder="Mata Kuliah" value={examForm.subject} onChange={(e) => setExamForm({ ...examForm, subject: e.target.value })} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white" required />
               <div className="grid grid-cols-2 gap-4">
@@ -436,12 +436,12 @@ export const StudyPlanner: React.FC = () => {
               <input type="text" placeholder="Ruangan (opsional)" value={examForm.room} onChange={(e) => setExamForm({ ...examForm, room: e.target.value })} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white" />
               <input type="text" placeholder="Topik (pisahkan dengan koma)" value={examForm.topics} onChange={(e) => setExamForm({ ...examForm, topics: e.target.value })} className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white" />
               <div>
-                <label className="block text-white/80 mb-2">Progress Belajar: {examForm.studyProgress}%</label>
+                <label className="block notion-text/80 mb-2">Progress Belajar: {examForm.studyProgress}%</label>
                 <input type="range" min="0" max="100" value={examForm.studyProgress} onChange={(e) => setExamForm({ ...examForm, studyProgress: Number(e.target.value) })} className="w-full" />
               </div>
               <div className="flex gap-3">
-                <button type="submit" className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-lg font-semibold">Simpan</button>
-                <button type="button" onClick={() => setIsExamModalOpen(false)} className="px-6 bg-white/10 text-white py-3 rounded-lg font-semibold">Batal</button>
+                <button type="submit" className="flex-1 bg-blue-50 dark:bg-blue-900/10 notion-text py-3 rounded-lg font-semibold">Simpan</button>
+                <button type="button" onClick={() => setIsExamModalOpen(false)} className="px-6 bg-white/10 notion-text py-3 rounded-lg font-semibold">Batal</button>
               </div>
             </form>
           </div>

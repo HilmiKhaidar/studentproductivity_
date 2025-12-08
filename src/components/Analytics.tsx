@@ -105,7 +105,7 @@ export const Analytics: React.FC = () => {
 
       {/* Monthly Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <p className="notion-text/80 text-sm">Tingkat Penyelesaian</p>
             <Award className="notion-text/80" size={24} />
@@ -113,7 +113,7 @@ export const Analytics: React.FC = () => {
           <p className="text-4xl font-bold notion-text">{monthlyStats.completionRate}%</p>
           <p className="notion-text-secondary text-sm mt-1">30 hari terakhir</p>
         </div>
-        <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <p className="notion-text/80 text-sm">Total Pomodoro</p>
             <Zap className="notion-text/80" size={24} />
@@ -121,7 +121,7 @@ export const Analytics: React.FC = () => {
           <p className="text-4xl font-bold notion-text">{monthlyStats.totalPomodoros}</p>
           <p className="notion-text-secondary text-sm mt-1">Sesi selesai</p>
         </div>
-        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <p className="notion-text/80 text-sm">Rata-rata Tidur</p>
             <TrendingUp className="notion-text/80" size={24} />
@@ -129,7 +129,7 @@ export const Analytics: React.FC = () => {
           <p className="text-4xl font-bold notion-text">{monthlyStats.avgSleep.toFixed(1)}j</p>
           <p className="notion-text-secondary text-sm mt-1">Per malam</p>
         </div>
-        <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-xl p-6 shadow-lg">
+        <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
           <div className="flex items-center justify-between mb-2">
             <p className="notion-text/80 text-sm">Target Aktif</p>
             <Target className="notion-text/80" size={24} />
@@ -140,7 +140,7 @@ export const Analytics: React.FC = () => {
       </div>
 
       {/* Insights */}
-      <div className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20">
+      <div className="bg-blue-50 dark:bg-blue-900/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
         <h3 className="text-lg font-semibold notion-heading mb-4 flex items-center gap-2">
           <TrendingUp size={24} />
           Insights & Rekomendasi
@@ -212,7 +212,7 @@ export const Analytics: React.FC = () => {
           </div>
           <div className="text-center">
             <p className="notion-text-secondary text-sm">Sesi Pomodoro</p>
-            <p className="text-3xl font-bold text-purple-400 mt-1">{monthlyStats.totalPomodoros}</p>
+            <p className="text-3xl font-bold notion-text mt-1">{monthlyStats.totalPomodoros}</p>
           </div>
           <div className="text-center">
             <p className="notion-text-secondary text-sm">Habit Streak</p>

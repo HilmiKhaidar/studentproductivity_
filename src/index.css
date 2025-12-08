@@ -118,7 +118,7 @@ body {
     border-radius: 3px;
     padding: 8px 12px;
     font-size: 14px;
-    color: #37352F;
+    color: #37352F !important;
     transition: all 0.15s ease;
   }
   
@@ -126,6 +126,10 @@ body {
     outline: none;
     border-color: #2383E2;
     box-shadow: 0 0 0 1px #2383E2;
+  }
+  
+  .notion-input::placeholder {
+    color: #9B9A97 !important;
   }
   
   .notion-text {
@@ -154,8 +158,24 @@ body {
     color: #37352F !important;
   }
   
-  p, span, div, label, input, textarea, select, button {
+  p, span, div, label, button {
     color: #37352F;
+  }
+  
+  /* Force input text to be dark */
+  input, textarea, select {
+    color: #37352F !important;
+  }
+  
+  input::placeholder,
+  textarea::placeholder {
+    color: #9B9A97 !important;
+  }
+  
+  /* Ensure option text is visible */
+  option {
+    color: #37352F !important;
+    background: #FFFFFF !important;
   }
   
   .dark .notion-card {
@@ -180,7 +200,22 @@ body {
   .dark .notion-input {
     background: #252525;
     border-color: #3F3F3F;
-    color: #E6E6E6;
+    color: #E6E6E6 !important;
+  }
+  
+  .dark .notion-input::placeholder {
+    color: #6B6B6B !important;
+  }
+  
+  .dark input,
+  .dark textarea,
+  .dark select {
+    color: #E6E6E6 !important;
+  }
+  
+  .dark option {
+    color: #E6E6E6 !important;
+    background: #252525 !important;
   }
   
   .dark .notion-text {

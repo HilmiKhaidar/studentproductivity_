@@ -155,7 +155,7 @@ export const Pomodoro: React.FC = () => {
                 onClick={() => handleTypeChange('work')}
                 className={`flex-1 py-3 rounded-lg font-medium transition-all ${
                   timerType === 'work'
-                    ? 'bg-white text-purple-600 shadow-lg'
+                    ? 'bg-white notion-text shadow-lg'
                     : 'bg-white/10 notion-text hover:bg-white/20'
                 }`}
               >
@@ -166,7 +166,7 @@ export const Pomodoro: React.FC = () => {
                 onClick={() => handleTypeChange('short-break')}
                 className={`flex-1 py-3 rounded-lg font-medium transition-all ${
                   timerType === 'short-break'
-                    ? 'bg-white text-purple-600 shadow-lg'
+                    ? 'bg-white notion-text shadow-lg'
                     : 'bg-white/10 notion-text hover:bg-white/20'
                 }`}
               >
@@ -177,7 +177,7 @@ export const Pomodoro: React.FC = () => {
                 onClick={() => handleTypeChange('long-break')}
                 className={`flex-1 py-3 rounded-lg font-medium transition-all ${
                   timerType === 'long-break'
-                    ? 'bg-white text-purple-600 shadow-lg'
+                    ? 'bg-white notion-text shadow-lg'
                     : 'bg-white/10 notion-text hover:bg-white/20'
                 }`}
               >
@@ -224,7 +224,7 @@ export const Pomodoro: React.FC = () => {
               {!isRunning ? (
                 <button
                   onClick={handleStart}
-                  className="flex-1 bg-white text-purple-600 py-4 rounded-lg font-bold text-lg hover:bg-white/90 transition-colors flex items-center justify-center gap-2 shadow-lg"
+                  className="flex-1 bg-white notion-text py-4 rounded-lg font-bold text-lg hover:bg-white/90 transition-colors flex items-center justify-center gap-2 shadow-lg"
                 >
                   <Play size={24} />
                   Mulai
@@ -232,7 +232,7 @@ export const Pomodoro: React.FC = () => {
               ) : (
                 <button
                   onClick={handlePause}
-                  className="flex-1 bg-white text-purple-600 py-4 rounded-lg font-bold text-lg hover:bg-white/90 transition-colors flex items-center justify-center gap-2 shadow-lg"
+                  className="flex-1 bg-white notion-text py-4 rounded-lg font-bold text-lg hover:bg-white/90 transition-colors flex items-center justify-center gap-2 shadow-lg"
                 >
                   <Pause size={24} />
                   Jeda
@@ -268,7 +268,7 @@ export const Pomodoro: React.FC = () => {
 
         {/* Stats */}
         <div className="space-y-4">
-          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 shadow-lg">
+          <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between mb-2">
               <p className="notion-text/80 text-sm">Sesi Hari Ini</p>
               <BarChart3 className="notion-text/80" size={24} />
@@ -276,7 +276,7 @@ export const Pomodoro: React.FC = () => {
             <p className="text-4xl font-bold notion-text">{todayStats.length}</p>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 shadow-lg">
+          <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between mb-2">
               <p className="notion-text/80 text-sm">Waktu Fokus</p>
               <Zap className="notion-text/80" size={24} />
@@ -284,7 +284,7 @@ export const Pomodoro: React.FC = () => {
             <p className="text-4xl font-bold notion-text">{totalWorkTime}m</p>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl p-6 shadow-lg">
+          <div className="bg-blue-50 dark:bg-blue-900/10 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between mb-2">
               <p className="notion-text/80 text-sm">Streak</p>
               <Zap className="notion-text/80" size={24} />
@@ -323,7 +323,7 @@ export const Pomodoro: React.FC = () => {
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
                       session.type === 'work'
-                        ? 'bg-purple-500 notion-text'
+                        ? 'bg-gray-800 notion-text'
                         : 'bg-blue-500 notion-text'
                     }`}
                   >

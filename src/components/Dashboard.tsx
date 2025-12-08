@@ -139,7 +139,7 @@ export const Dashboard: React.FC = () => {
           subtitle="Sessions today"
         />
         <StatCard
-          icon={<Moon className="text-purple-500" size={20} />}
+          icon={<Moon className="notion-text" size={20} />}
           title="Last Sleep"
           value={stats.lastSleep ? minutesToHours(stats.lastSleep.duration) : '-'}
           subtitle={stats.lastSleep?.quality || 'No data'}
