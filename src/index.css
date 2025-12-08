@@ -8,14 +8,18 @@
   box-sizing: border-box;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica', 'Apple Color Emoji', 'Arial', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica', 'Apple Color Emoji', 'Arial', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #FFFFFF !important;
   min-height: 100vh;
   color: #37352F;
-  transition: background 0.3s ease;
+  transition: background 0.2s ease;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 #root {
@@ -125,20 +129,33 @@ body {
   }
   
   .notion-text {
-    color: #37352F;
+    color: #37352F !important;
     font-size: 14px;
     line-height: 1.5;
   }
   
   .notion-text-secondary {
-    color: #787774;
+    color: #787774 !important;
     font-size: 13px;
   }
   
   .notion-heading {
-    color: #37352F;
+    color: #37352F !important;
     font-weight: 600;
     line-height: 1.2;
+  }
+  
+  /* Force all text to be dark by default */
+  * {
+    color: #37352F;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #37352F !important;
+  }
+  
+  p, span, div, label, input, textarea, select, button {
+    color: #37352F;
   }
   
   .dark .notion-card {

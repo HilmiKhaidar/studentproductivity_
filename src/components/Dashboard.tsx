@@ -92,82 +92,70 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold text-white">Dashboard</h2>
-          <p className="text-white/70 mt-1">{formatDate(new Date())}</p>
-        </div>
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
-          <p className="text-white/70 text-sm">Skor Produktivitas</p>
-          <p className="text-4xl font-bold text-white mt-1">{stats.productivityScore}</p>
-        </div>
+      {/* Page Title - Notion Style */}
+      <div className="space-y-1">
+        <h1 className="text-[40px] font-bold notion-heading leading-tight">Dashboard</h1>
+        <p className="notion-text-secondary text-sm">{formatDate(new Date())}</p>
       </div>
 
-      {/* Motivational Quote */}
-      <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-xl p-6 border border-white/20 relative overflow-hidden">
-        <div className="absolute top-0 right-0 opacity-10">
-          <Sparkles size={120} className="text-white" />
+      {/* Divider */}
+      <div className="border-b border-[#E9E9E7] dark:border-[#373737]"></div>
+
+      {/* Motivational Quote - Notion Callout Style */}
+      <div className="flex gap-3 p-4 bg-blue-50/50 dark:bg-blue-900/10 rounded border border-blue-100 dark:border-blue-900/30">
+        <div className="flex-shrink-0 mt-0.5">
+          <Sparkles className="text-blue-500" size={20} />
         </div>
-        <div className="relative z-10">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Sparkles className="text-yellow-400" size={24} />
-              <h3 className="text-lg font-bold text-white">Quote Hari Ini</h3>
-            </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-2 mb-2">
+            <h3 className="text-sm font-semibold notion-heading">Daily Quote</h3>
             <button
               onClick={refreshQuote}
-              className="text-white/70 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
-              title="Ganti quote"
+              className="notion-text-secondary hover:notion-text transition-colors p-1 hover:bg-black/5 dark:hover:bg-white/5 rounded flex-shrink-0"
+              title="Refresh quote"
             >
-              <RefreshCw size={20} />
+              <RefreshCw size={14} />
             </button>
           </div>
-          <blockquote className="text-white text-xl font-medium italic mb-3">
+          <blockquote className="notion-text text-sm leading-relaxed mb-2">
             "{quote.text}"
           </blockquote>
-          <p className="text-white/70 text-sm">— {quote.author}</p>
-          <span className="inline-block mt-3 px-3 py-1 bg-white/20 rounded-full text-white text-xs font-medium">
-            #{quote.category}
-          </span>
+          <p className="notion-text-secondary text-xs">— {quote.author}</p>
         </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          icon={<CheckCircle2 className="text-green-400" size={24} />}
-          title="Tugas Hari Ini"
+          icon={<CheckCircle2 className="text-green-500" size={20} />}
+          title="Tasks Today"
           value={`${stats.completedToday}/${stats.todayTasks}`}
-          subtitle="Selesai"
-          color="from-green-500 to-emerald-600"
+          subtitle="Completed"
         />
         <StatCard
-          icon={<Clock className="text-blue-400" size={24} />}
+          icon={<Clock className="text-blue-500" size={20} />}
           title="Pomodoro"
           value={stats.todayPomodoros.toString()}
-          subtitle="Sesi hari ini"
-          color="from-blue-500 to-cyan-600"
+          subtitle="Sessions today"
         />
         <StatCard
-          icon={<Moon className="text-purple-400" size={24} />}
-          title="Tidur Terakhir"
+          icon={<Moon className="text-purple-500" size={20} />}
+          title="Last Sleep"
           value={stats.lastSleep ? minutesToHours(stats.lastSleep.duration) : '-'}
-          subtitle={stats.lastSleep?.quality || 'Belum ada data'}
-          color="from-purple-500 to-pink-600"
+          subtitle={stats.lastSleep?.quality || 'No data'}
         />
         <StatCard
-          icon={<Zap className="text-yellow-400" size={24} />}
-          title="Kebiasaan"
+          icon={<Zap className="text-yellow-500" size={20} />}
+          title="Habits"
           value={`${stats.todayHabitsCompleted}/${stats.activeHabits}`}
-          subtitle="Selesai hari ini"
-          color="from-yellow-500 to-orange-600"
+          subtitle="Completed today"
         />
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4">Aktivitas 7 Hari Terakhir</h3>
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4">Last 7 Days Activity</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={weeklyData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
@@ -187,8 +175,8 @@ export const Dashboard: React.FC = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4">Tugas per Kategori</h3>
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4">Tasks by Category</h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
@@ -220,10 +208,10 @@ export const Dashboard: React.FC = () => {
 
       {/* Quick Actions & Upcoming */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <AlertCircle size={20} />
-            Tugas Mendesak
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4 flex items-center gap-2">
+            <AlertCircle size={18} className="text-red-500" />
+            Urgent Tasks
           </h3>
           <div className="space-y-3">
             {tasks
@@ -232,34 +220,37 @@ export const Dashboard: React.FC = () => {
               .map((task) => (
                 <div
                   key={task.id}
-                  className="bg-white/5 rounded-lg p-3 border border-white/10 hover:bg-white/10 transition-colors"
+                  className="flex items-start gap-2 p-2 rounded hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer group"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <p className="text-white font-medium">{task.title}</p>
-                      <p className="text-white/60 text-sm mt-1">{task.category}</p>
-                    </div>
-                    <span
-                      className={`px-2 py-1 rounded text-xs font-medium ${
-                        task.priority === 'urgent' ? 'bg-red-500' : 'bg-orange-500'
-                      } text-white`}
-                    >
-                      {task.priority}
-                    </span>
+                  <div className="flex-shrink-0 mt-0.5">
+                    <div className="w-4 h-4 rounded border border-gray-300 dark:border-gray-600 group-hover:border-gray-400 dark:group-hover:border-gray-500"></div>
                   </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="notion-text text-sm">{task.title}</p>
+                    <p className="notion-text-secondary text-xs mt-0.5">{task.category}</p>
+                  </div>
+                  <span
+                    className={`flex-shrink-0 px-1.5 py-0.5 rounded text-[10px] font-medium ${
+                      task.priority === 'urgent' 
+                        ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
+                        : 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
+                    }`}
+                  >
+                    {task.priority}
+                  </span>
                 </div>
               ))}
             {tasks.filter((t) => !t.completed && (t.priority === 'urgent' || t.priority === 'high'))
               .length === 0 && (
-              <p className="text-white/60 text-center py-4">Tidak ada tugas mendesak 🎉</p>
+              <p className="notion-text-secondary text-center py-8 text-sm">No urgent tasks 🎉</p>
             )}
           </div>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Target size={20} />
-            Target Aktif
+        <div className="notion-card p-6">
+          <h3 className="text-lg font-semibold notion-heading mb-4 flex items-center gap-2">
+            <Target size={18} className="text-blue-500" />
+            Active Goals
           </h3>
           <div className="space-y-3">
             {goals
@@ -268,22 +259,22 @@ export const Dashboard: React.FC = () => {
               .map((goal) => (
                 <div
                   key={goal.id}
-                  className="bg-white/5 rounded-lg p-3 border border-white/10"
+                  className="p-3 rounded hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-pointer"
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <p className="text-white font-medium">{goal.title}</p>
-                    <span className="text-white/70 text-sm">{goal.progress}%</span>
+                    <p className="notion-text text-sm font-medium">{goal.title}</p>
+                    <span className="notion-text-secondary text-xs flex-shrink-0 ml-2">{goal.progress}%</span>
                   </div>
-                  <div className="w-full bg-white/20 rounded-full h-2">
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
                     <div
-                      className="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full transition-all"
+                      className="bg-blue-500 h-1.5 rounded-full transition-all"
                       style={{ width: `${goal.progress}%` }}
                     />
                   </div>
                 </div>
               ))}
             {goals.filter((g) => !g.completed).length === 0 && (
-              <p className="text-white/60 text-center py-4">Belum ada target aktif</p>
+              <p className="notion-text-secondary text-center py-8 text-sm">No active goals</p>
             )}
           </div>
         </div>
@@ -297,19 +288,18 @@ interface StatCardProps {
   title: string;
   value: string;
   subtitle: string;
-  color: string;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ icon, title, value, subtitle, color }) => {
+const StatCard: React.FC<StatCardProps> = ({ icon, title, value, subtitle }) => {
   return (
-    <div className={`bg-gradient-to-br ${color} rounded-xl p-6 shadow-lg`}>
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <p className="text-white/80 text-sm font-medium">{title}</p>
-          <p className="text-3xl font-bold text-white mt-2">{value}</p>
-          <p className="text-white/70 text-sm mt-1">{subtitle}</p>
+    <div className="notion-card p-4 hover:bg-[#F7F6F3] dark:hover:bg-[#252525] transition-colors cursor-pointer">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <p className="notion-text-secondary text-xs font-medium mb-2">{title}</p>
+          <p className="text-2xl font-bold notion-heading mb-1">{value}</p>
+          <p className="notion-text-secondary text-xs">{subtitle}</p>
         </div>
-        <div className="bg-white/20 rounded-lg p-3">{icon}</div>
+        <div className="flex-shrink-0 mt-1">{icon}</div>
       </div>
     </div>
   );

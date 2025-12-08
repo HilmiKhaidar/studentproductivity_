@@ -124,34 +124,36 @@ export const StudyPlanner: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold text-white">📅 Study Planner</h2>
-          <p className="text-white/70 mt-1">Kelola jadwal kuliah dan ujianmu</p>
-        </div>
+      {/* Page Title */}
+      <div className="space-y-1">
+        <h1 className="text-[40px] font-bold notion-heading leading-tight">📅 Study Planner</h1>
+        <p className="notion-text-secondary text-sm">Manage your class schedule and exams</p>
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-4">
+      {/* Divider */}
+      <div className="border-b border-[#E9E9E7] dark:border-[#373737]"></div>
+
+      {/* Tabs - Notion Style */}
+      <div className="flex gap-2 border-b border-[#E9E9E7] dark:border-[#373737]">
         <button
           onClick={() => setActiveTab('schedule')}
-          className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+          className={`px-4 py-2 text-sm font-medium transition-all border-b-2 ${
             activeTab === 'schedule'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'border-[#2383E2] notion-text'
+              : 'border-transparent notion-text-secondary hover:notion-text'
           }`}
         >
-          Jadwal Kuliah
+          Class Schedule
         </button>
         <button
           onClick={() => setActiveTab('exams')}
-          className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+          className={`px-4 py-2 text-sm font-medium transition-all border-b-2 ${
             activeTab === 'exams'
-              ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-              : 'bg-white/10 text-white/70 hover:bg-white/20'
+              ? 'border-[#2383E2] notion-text'
+              : 'border-transparent notion-text-secondary hover:notion-text'
           }`}
         >
-          Ujian & Deadline
+          Exams & Deadlines
         </button>
       </div>
 

@@ -58,29 +58,15 @@ function App() {
   }, [settings.darkMode]);
 
   useEffect(() => {
-    // Apply theme
-    const theme = getThemeById(settings.theme || 'default');
-    
-    // Set CSS custom properties for theme
-    document.documentElement.style.setProperty('--theme-primary', theme.primary);
-    document.documentElement.style.setProperty('--theme-secondary', theme.secondary);
-    document.documentElement.style.setProperty('--theme-text', theme.textColor);
-    document.documentElement.style.setProperty('--theme-card-bg', theme.cardBg);
-    
-    // Apply background
-    document.body.style.setProperty('background', theme.background, 'important');
-    document.body.style.setProperty('background-attachment', 'fixed', 'important');
-    
-    if (theme.backgroundImage) {
-      document.body.style.setProperty('background-image', theme.backgroundImage, 'important');
-    } else {
-      document.body.style.removeProperty('background-image');
-    }
+    // Force white background - Notion style
+    document.body.style.setProperty('background', '#FFFFFF', 'important');
+    document.body.style.removeProperty('background-image');
+    document.body.style.removeProperty('background-attachment');
     
     // Apply font size
-    const fontSizes = { small: '14px', medium: '16px', large: '18px' };
+    const fontSizes = { small: '13px', medium: '14px', large: '16px' };
     document.documentElement.style.fontSize = fontSizes[settings.fontSize || 'medium'];
-  }, [settings.theme, settings.fontSize]);
+  }, [settings.fontSize]);
 
   // Show auth screen if not authenticated
   if (!isAuthenticated) {
