@@ -172,7 +172,7 @@ export const Analytics: React.FC = () => {
                 }}
               />
               <Line type="monotone" dataKey="tugas" stroke="#10b981" strokeWidth={3} dot={{ fill: '#10b981', r: 5 }} />
-              <Line type="monotone" dataKey="pomodoro" stroke="#8b5cf6" strokeWidth={3} dot={{ fill: '#8b5cf6', r: 5 }} />
+              <Line type="monotone" dataKey="pomodoro" stroke="#000000" strokeWidth={3} dot={{ fill: '#000000', r: 5 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -192,7 +192,7 @@ export const Analytics: React.FC = () => {
                   color: 'white',
                 }}
               />
-              <Bar dataKey="value" fill="#3b82f6" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="value" fill="#000000" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

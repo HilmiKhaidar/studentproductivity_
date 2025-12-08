@@ -15,11 +15,11 @@ export const Notes: React.FC = () => {
     content: '',
     category: 'general',
     tags: '',
-    color: '#8b5cf6',
+    color: '#3b82f6',
   });
 
   const categories = ['all', 'general', 'study', 'assignment', 'exam', 'project', 'personal'];
-  const colors = ['#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#ef4444'];
+  const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
   const filteredNotes = useMemo(() => {
     return notes
@@ -66,7 +66,7 @@ export const Notes: React.FC = () => {
 
     setIsModalOpen(false);
     setEditingNote(null);
-    setFormData({ title: '', content: '', category: 'general', tags: '', color: '#8b5cf6' });
+    setFormData({ title: '', content: '', category: 'general', tags: '', color: '#3b82f6' });
   };
 
   const handleEdit = (note: Note) => {
@@ -76,7 +76,7 @@ export const Notes: React.FC = () => {
       content: note.content,
       category: note.category,
       tags: note.tags.join(', '),
-      color: note.color || '#8b5cf6',
+      color: note.color || '#3b82f6',
     });
     setIsModalOpen(true);
   };
@@ -98,7 +98,7 @@ export const Notes: React.FC = () => {
         <button
           onClick={() => {
             setEditingNote(null);
-            setFormData({ title: '', content: '', category: 'general', tags: '', color: '#8b5cf6' });
+            setFormData({ title: '', content: '', category: 'general', tags: '', color: '#3b82f6' });
             setIsModalOpen(true);
           }}
           className="notion-button-primary notion-text px-6 py-3 rounded-lg font-semibold hover:from-gray-700 hover:to-gray-900 transition-all flex items-center gap-2"

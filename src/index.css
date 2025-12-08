@@ -30,11 +30,37 @@ body {
 /* Dark Mode - Notion Style */
 .dark body {
   background: #191919 !important;
-  color: #E6E6E6;
+  color: #FFFFFF !important;
 }
 
 .dark #root {
   background: #191919;
+}
+
+/* Dark Mode Text Colors */
+.dark .notion-text {
+  color: #FFFFFF !important;
+}
+
+.dark .notion-text-secondary {
+  color: #9B9A97 !important;
+}
+
+.dark .notion-heading {
+  color: #FFFFFF !important;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  color: #FFFFFF !important;
+  background: #2F2F2F !important;
+  border-color: #3F3F3F !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #6B6B6B !important;
 }
 
 .dark ::-webkit-scrollbar-track {
